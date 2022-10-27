@@ -9,10 +9,12 @@ module fr.wollfie.sheetmusiclibrary {
     requires org.kordamp.bootstrapfx.core;
     
     requires com.fasterxml.jackson.databind;
+    requires com.google.common;
 
     exports fr.wollfie.sheetmusiclibrary;
     exports fr.wollfie.sheetmusiclibrary.controllers;
     exports fr.wollfie.sheetmusiclibrary.dto;
     opens fr.wollfie.sheetmusiclibrary.dto to com.fasterxml.jackson.databind;
+    opens fr.wollfie.sheetmusiclibrary.io.metadata to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.controllers to javafx.fxml;
 }

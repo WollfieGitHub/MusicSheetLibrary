@@ -1,19 +1,13 @@
 package fr.wollfie.sheetmusiclibrary.io;
 
 
-import fr.wollfie.sheetmusiclibrary.dto.Artist;
-import fr.wollfie.sheetmusiclibrary.dto.Instrument;
-import fr.wollfie.sheetmusiclibrary.dto.MusicGenre;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
-import javafx.scene.paint.Color;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,8 +26,7 @@ final class SheetMusicLibraryTest {
     
     @BeforeAll static void initLibrary() {
         assertDoesNotThrow(() -> {
-            MusicLibrary.setLocation(new File(LIBRARY_PATH));
-            MusicLibrary.initOrLoad();
+            MusicLibrary.setLocationAndInit(new File(LIBRARY_PATH));
         });
     }
     
@@ -53,7 +46,7 @@ final class SheetMusicLibraryTest {
     
     @Test void externalDiskForLocationIsSupported() {
         assertDoesNotThrow(() -> {
-            MusicLibrary.setLocation(new File("L:/"));
+            MusicLibrary.setLocationAndInit(new File("L:/"));
             MusicLibrary.load();
         });
         
