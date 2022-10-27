@@ -4,16 +4,21 @@ import fr.wollfie.sheetmusiclibrary.controllers.MusicLibraryApplication;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
+import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
+
+import java.util.Collections;
 
 public class TopToolbar extends HBox {
     
@@ -22,7 +27,9 @@ public class TopToolbar extends HBox {
     private static final FontIcon maximizeIcon = new FontIcon("far-window-maximize");
     private static final FontIcon closeIcon = new FontIcon("far-window-close");
 
-    private boolean stageMaximized = false;
+    private BooleanProperty stageMaximized = new SimpleBooleanProperty();
+
+    public ReadOnlyBooleanProperty stageMaximizedProperty() { return stageMaximized; }
 
     public TopToolbar(Stage stage) {
         minimizeIcon.setIconColor(ThemeManager.getWhiteColor());
@@ -38,10 +45,8 @@ public class TopToolbar extends HBox {
         base.setAlignment(Pos.CENTER);
         base.setSpacing(5);
         
-        setBackground(new Background(new BackgroundFill(
-                ThemeManager.colorFrom(Theme.Category.Background, Theme.Shade.Dark1),
-                new CornerRadii(0), new Insets(0)
-        )));
+        setStyle("-fx-background-color: " + ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Dark1) + ";" +
+                "-fx-background-radius: 11 11 0 0");
         
         setAlignment(Pos.CENTER_RIGHT);
         setPadding(new Insets(10));
@@ -54,9 +59,9 @@ public class TopToolbar extends HBox {
         });
         
         resizeButton.setOnMouseClicked(unused -> {
-            stageMaximized = !stageMaximized;
-            stage.setMaximized(stageMaximized);
-            resizeButton.setGraphic(stageMaximized ? restoreIcon : maximizeIcon);
+            stageMaximized.set(!stageMaximized.get());
+            stage.setMaximized(stageMaximized.get());
+            resizeButton.setGraphic(stageMaximized.get() ? restoreIcon : maximizeIcon);
         });
         
         closeButton.setOnMouseClicked(unused -> {

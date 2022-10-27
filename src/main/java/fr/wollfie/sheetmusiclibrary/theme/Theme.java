@@ -15,6 +15,7 @@ public record Theme(
     double shadeDark2,
     Color whiteColor
 ) implements Metadata {
+    
     public enum Shade {
         Dark2, Dark1, Default, Light1, Light2
     }
