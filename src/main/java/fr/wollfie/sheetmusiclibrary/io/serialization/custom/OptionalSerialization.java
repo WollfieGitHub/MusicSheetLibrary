@@ -25,7 +25,6 @@ public class OptionalSerialization {
             gen.writeBooleanField("present", value.isPresent());
             gen.writeEndObject();
         }
-        
     }
     
     public static class OptionalDeserializer extends JsonDeserializer<Optional<?>> implements ContextualDeserializer {

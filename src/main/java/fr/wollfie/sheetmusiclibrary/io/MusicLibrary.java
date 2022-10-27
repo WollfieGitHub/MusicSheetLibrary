@@ -1,30 +1,37 @@
 package fr.wollfie.sheetmusiclibrary.io;
 
+import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
+import fr.wollfie.sheetmusiclibrary.io.metadata.RootIndex;
+import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 
 public final class MusicLibrary {
 
+    private static RootIndex rootIndex;
+    private static File rootFileObject;
+    
     /**
      * Sets the location of the music library database, which should be the root of the 
      * filesystem of sheet music which will be loaded
-     * @param rootFile The location to set for the music library
+     * @param rootFileLocation The location to set for the music library
      * @throws IllegalArgumentException if the path doesn't contain the word "sheet_music" to
      * make sure we aren't loading the library into the wrong folder
-     * @throws IOException If there is a problem with the specified rootFile
+     * @throws IOException If there is a problem with the specified rootFileLocation
      */
-    public static void setLocation(File rootFile) throws IllegalArgumentException, IOException {
-        // TODO
-    }
-
-    /**
-     * Init a new music library at the set location or loads the existing one
-     */
-    public static void initOrLoad() throws IOException {
+    public static void setLocationAndInit(File rootFileLocation) throws IllegalArgumentException, IOException {
+        Preconditions.checkArgument(rootFileLocation.exists());
+        Preconditions.checkArgument(rootFileLocation.isDirectory());
         
+        rootFileLocation = new File(rootFileLocation, "music_library_root.json");
+        
+        Logger.infof("Location of the library set to \"%s\"", rootFileLocation.getAbsolutePath());
+        rootFileObject = rootFileLocation;
+        
+        load();
     }
 
     /**
@@ -32,7 +39,12 @@ public final class MusicLibrary {
      * @throws IOException if an error occurred during library load
      */
     public static void load() throws IOException {
-        
+        if (rootFileObject.exists()) {
+            rootIndex = SerializationEngine.loadFrom(rootFileObject, RootIndex.class);
+        } else {
+            rootIndex = RootIndex.initEmpty();
+            SerializationEngine.saveTo(rootFileObject, rootIndex);
+        }
     }
 
     /**
