@@ -2,6 +2,7 @@ package fr.wollfie.sheetmusiclibrary.theme;
 
 import fr.wollfie.sheetmusiclibrary.io.FileSystem;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
+import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
@@ -16,12 +17,12 @@ public class ThemeManager {
     
     private static final ObjectProperty<Theme> theme = new SimpleObjectProperty<>();
     private static final Theme DEFAULT_THEME = new Theme(
+            Color.web("#1d1d1d"),
             new Color(0.11372549, 0.7254902, 0.32941177, 1),
-            new Color(0.07058824, 0.07058824, 0.07058824, 1),
             new Color(237/255.0, 45/255.0, 128/255.0, 1),
             new Color(75/255.0, 209/255.0, 171/255.0, 1),
-            new Color(0.07058824, 0.07058824, 0.07058824, 1),
-            0.7, 0.35, 0.16, 0.05,
+            Color.web("#1d1d1d"),
+            0.7, 0.35, 0.7, 0.35,
             new Color(0.9, 0.9, 0.9, 1)
     );
 
@@ -54,6 +55,10 @@ public class ThemeManager {
         };
         
         return result.deriveColor(0, 1, factor, 1);
+    }
+    
+    public static String hexColorFrom(Category category, Shade shade) {
+        return Utils.toRGBCode(colorFrom(category, shade));
     }
 
     public static Paint getWhiteColor() {
