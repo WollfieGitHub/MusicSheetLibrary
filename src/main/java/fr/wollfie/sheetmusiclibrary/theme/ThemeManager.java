@@ -18,7 +18,7 @@ public class ThemeManager {
     private static final ObjectProperty<Theme> theme = new SimpleObjectProperty<>();
     private static final Theme DEFAULT_THEME = new Theme(
             Color.web("#1d1d1d"),
-            new Color(0.11372549, 0.7254902, 0.32941177, 1),
+            Color.web("#00ff80"),
             new Color(237/255.0, 45/255.0, 128/255.0, 1),
             new Color(75/255.0, 209/255.0, 171/255.0, 1),
             Color.web("#1d1d1d"),
