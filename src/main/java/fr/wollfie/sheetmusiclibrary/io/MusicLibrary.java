@@ -1,18 +1,26 @@
 package fr.wollfie.sheetmusiclibrary.io;
 
 import com.google.common.base.Preconditions;
-import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
+import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
+import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
 import fr.wollfie.sheetmusiclibrary.io.metadata.RootIndex;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
 
 public final class MusicLibrary {
 
     private static RootIndex rootIndex;
     private static File rootFileObject;
+    private static String baseDirectory;
+    
+    private static Map<String, MetadataIndex<?>> indices = new HashMap<>();
     
     /**
      * Sets the location of the music library database, which should be the root of the 
@@ -25,7 +33,8 @@ public final class MusicLibrary {
     public static void setLocationAndInit(File rootFileLocation) throws IllegalArgumentException, IOException {
         Preconditions.checkArgument(rootFileLocation.exists());
         Preconditions.checkArgument(rootFileLocation.isDirectory());
-        
+
+        baseDirectory = rootFileLocation.getAbsolutePath();
         rootFileLocation = new File(rootFileLocation, "music_library_root.json");
         
         Logger.infof("Location of the library set to \"%s\"", rootFileLocation.getAbsolutePath());
@@ -45,6 +54,31 @@ public final class MusicLibrary {
             rootIndex = RootIndex.initEmpty();
             SerializationEngine.saveTo(rootFileObject, rootIndex);
         }
+        createIndices();
+    }
+
+    private static void createIndices() throws IOException {
+
+        List<Class<? extends Metadata>> metadataTypes = List.of(
+                Artist.class,
+                Instrument.class,
+                MusicCategory.class,
+                MusicGenre.class,
+                SheetMusic.class
+        );
+
+        for (Class<? extends Metadata> metadataType: metadataTypes) {
+            File directory = new File(baseDirectory, metadataType.getSimpleName());
+            directory.mkdir();
+            File indexFile = new File(directory, 
+                    metadataType.getSimpleName() + "_index.json");
+            rootIndex = rootIndex.addEntry(metadataType, indexFile);
+            
+            indices.put(metadataType.getSimpleName(), MetadataIndex.createFrom(
+                    rootIndex.loadAll(metadataType),
+                    indexFile
+            ));
+        }
     }
 
     /**
@@ -62,5 +96,14 @@ public final class MusicLibrary {
      */
     public static SheetMusic findByName(String sheetName) throws IllegalArgumentException {
         return null;
+    }
+
+    /**
+     * Insert new metadata into the music library
+     * @param metadata The metadata to insert
+     */
+    public static <M extends Metadata> void insert(M metadata) throws IOException {
+        MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(metadata.getClass().getSimpleName());
+        metadataIndex.add(metadata);
     }
 }

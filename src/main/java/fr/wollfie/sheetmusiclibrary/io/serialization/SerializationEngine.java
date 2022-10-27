@@ -1,15 +1,13 @@
 package fr.wollfie.sheetmusiclibrary.io.serialization;
 
-import com.fasterxml.jackson.core.PrettyPrinter;
-import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
-import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataFile;
 import fr.wollfie.sheetmusiclibrary.io.serialization.custom.ColorSerialization;
 import fr.wollfie.sheetmusiclibrary.io.serialization.custom.OptionalSerialization;
 import javafx.scene.paint.Color;
@@ -17,6 +15,9 @@ import javafx.scene.paint.Color;
 import java.io.File;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,9 +54,30 @@ public class SerializationEngine {
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
     public static <R extends Metadata> R loadFrom(File file, Class<R> outputClass) throws IOException {
+        if (!file.exists()) { return null; }
+        
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(MODULE);
         return mapper.readValue(file, outputClass);
+    }
+
+    /**
+     * Load the given metadataObj objects from the given file in json format
+     * @param file The file to load the object from
+     * @param outputClass The class of the object to load
+     * @return A list of metadata objects
+     * @throws IOException if the specified file is not found or low level IO error occurred
+     */
+    public static <R extends Metadata> List<R> loadAllFrom(File file, Class<R> outputClass) throws IOException {
+        if (!file.exists()) { return Collections.emptyList(); }
+        
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(MODULE);
+        List<R> result = new ArrayList<>();
+        try (JsonParser parser = mapper.createParser(file)) {
+            mapper.readValues(parser, outputClass).readAll(result);
+        }
+        return result;
     }
 
     /**
@@ -67,6 +89,19 @@ public class SerializationEngine {
     public static <R extends Metadata> void saveTo(File file, R metadataObj) throws IOException {
         ObjectWriter mapper = new ObjectMapper().registerModule(MODULE).writer(PRETTY_PRINTER);
         mapper.writeValue(file, metadataObj);
+    }
+
+    /**
+     * Saves the given objects into the specified file
+     * @param file The file to save the object to
+     * @param metadataObj The object to save
+     * @throws IOException if the specified file is not found or low level IO error occurred
+     */
+    public static <R extends Metadata> void saveAllTo(File file, List<R> metadataObj) throws IOException {
+        ObjectWriter mapper = new ObjectMapper().registerModule(MODULE).writer(PRETTY_PRINTER);
+        try (SequenceWriter out = mapper.writeValues(file)) {
+            out.writeAll(metadataObj);
+        }
     }
     
 }

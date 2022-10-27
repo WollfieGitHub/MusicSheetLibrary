@@ -39,7 +39,7 @@ public class Logger {
      * @param formatArgs The args for the format
      */
     public static void infof(String msg, Object... formatArgs) {
-        print(String.format(msg, formatArgs), Level.INFO);
+        print(String.format(msg, formatArgs) + "\n", Level.INFO);
     }
 
     private static void print(String msg, Level level) {
