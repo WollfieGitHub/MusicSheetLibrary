@@ -1,11 +1,15 @@
 package fr.wollfie.sheetmusiclibrary.io.metadata;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.JavaType;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,11 +61,22 @@ public class RootIndex implements Metadata {
      * @param <M> The type of metadata
      */
     public <M extends Metadata> RootIndex addEntry(Class<M> type, File folder) {
-        Preconditions.checkArgument(folder.isDirectory());
+        Preconditions.checkNotNull(folder.getParentFile());
+        Preconditions.checkArgument(folder.getParentFile().isDirectory());
         
         Map<String, String> modifiedPaths = new HashMap<>(this.metadataTypeToPath);
         modifiedPaths.put(type.getSimpleName(), folder.getAbsolutePath());
         
         return new RootIndex(modifiedPaths);
+    }
+
+    /**
+     * Load all metadata objects from files using the mapping registered in the root index
+     * @param type The type of metadata to load
+     * @return A list of all metadata of that type found
+     * @param <M> The type of metadata to load
+     */
+    public <M extends Metadata> List<M> loadAll(Class<M> type) throws IOException {
+        return SerializationEngine.loadAllFrom(new File(getPathFrom(type)), type);
     }
 }

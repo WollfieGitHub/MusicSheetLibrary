@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,10 +47,17 @@ final class SheetMusicLibraryTest {
     
     @Test void externalDiskForLocationIsSupported() {
         assertDoesNotThrow(() -> {
-            MusicLibrary.setLocationAndInit(new File("L:/"));
-            MusicLibrary.load();
+            MusicLibrary.setLocationAndInit(new File("L:/music_library"));
         });
-        
+        initLibrary();
+    }
+    
+    @Test void instrumentInsertionDoesntThrow() throws IOException {
+        assertDoesNotThrow(() -> MusicLibrary.insert(VALID_INSTRUMENT));
+    }
+
+    @Test void artistInsertionDoesntThrow() throws IOException {
+        assertDoesNotThrow(() -> MusicLibrary.insert(VALID_ARTIST));
     }
     
     @Test void validFileNameLoadsValidSheetMusicPdf() {
