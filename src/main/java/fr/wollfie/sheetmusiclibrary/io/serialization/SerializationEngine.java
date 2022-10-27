@@ -53,7 +53,7 @@ public class SerializationEngine {
      * @param outputClass The class of the object to load
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
-    public static <R extends Metadata> R loadFrom(File file, Class<R> outputClass) throws IOException {
+    public static <R extends JsonSerializable> R loadFrom(File file, Class<R> outputClass) throws IOException {
         if (!file.exists()) { return null; }
         
         ObjectMapper mapper = new ObjectMapper();
@@ -68,7 +68,7 @@ public class SerializationEngine {
      * @return A list of metadata objects
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
-    public static <R extends Metadata> List<R> loadAllFrom(File file, Class<R> outputClass) throws IOException {
+    public static <R extends JsonSerializable> List<R> loadAllFrom(File file, Class<R> outputClass) throws IOException {
         if (!file.exists()) { return Collections.emptyList(); }
         
         ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +86,7 @@ public class SerializationEngine {
      * @param metadataObj The object to save
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
-    public static <R extends Metadata> void saveTo(File file, R metadataObj) throws IOException {
+    public static <R extends JsonSerializable> void saveTo(File file, R metadataObj) throws IOException {
         ObjectWriter mapper = new ObjectMapper().registerModule(MODULE).writer(PRETTY_PRINTER);
         mapper.writeValue(file, metadataObj);
     }
@@ -97,7 +97,7 @@ public class SerializationEngine {
      * @param metadataObj The object to save
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
-    public static <R extends Metadata> void saveAllTo(File file, List<R> metadataObj) throws IOException {
+    public static <R extends JsonSerializable> void saveAllTo(File file, List<R> metadataObj) throws IOException {
         ObjectWriter mapper = new ObjectMapper().registerModule(MODULE).writer(PRETTY_PRINTER);
         try (SequenceWriter out = mapper.writeValues(file)) {
             out.writeAll(metadataObj);

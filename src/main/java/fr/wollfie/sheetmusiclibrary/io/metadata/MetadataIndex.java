@@ -3,7 +3,6 @@ package fr.wollfie.sheetmusiclibrary.io.metadata;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
-import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 
 import java.io.File;
 import java.io.IOException;
