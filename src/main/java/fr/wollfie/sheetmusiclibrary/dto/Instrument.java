@@ -1,7 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
 import javafx.scene.paint.Color;
-import org.kordamp.ikonli.javafx.Icon;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public record Instrument(
         String name,
         Color color,
-        Icon icon
+        FontIcon icon
 )  implements Metadata {
     
     @Override

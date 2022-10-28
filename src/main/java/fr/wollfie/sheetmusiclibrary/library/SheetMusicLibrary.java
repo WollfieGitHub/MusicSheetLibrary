@@ -131,6 +131,8 @@ public final class SheetMusicLibrary {
      * @param <M> The type fo the metadata object
      */
     public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
-        return null;
+        return ((MetadataIndex<M>) indices.get(ref.getClass().getName()))
+                .reload()
+                .getFromRef(ref);
     }
 }

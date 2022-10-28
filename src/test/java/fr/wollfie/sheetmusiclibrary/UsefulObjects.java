@@ -5,6 +5,7 @@ import fr.wollfie.sheetmusiclibrary.dto.Instrument;
 import fr.wollfie.sheetmusiclibrary.dto.MusicGenre;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class UsefulObjects {
 
     public static final String LIBRARY_PATH = System.getProperty("user.dir") + "/src/test/resources";
     
-    public static final Instrument VALID_INSTRUMENT_1 = new Instrument("Clavichord", Color.ROSYBROWN, null);
+    public static final Instrument VALID_INSTRUMENT_1 = new Instrument("Clavichord", Color.ROSYBROWN, new FontIcon("fas-window-minimize"));
     public static final Instrument VALID_INSTRUMENT_2 = new Instrument("Cello", Color.ROSYBROWN, null);
 
     public static final MusicGenre VALID_GENRE = new MusicGenre(

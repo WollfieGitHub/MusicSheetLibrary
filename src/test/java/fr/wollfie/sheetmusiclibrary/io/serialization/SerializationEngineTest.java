@@ -43,11 +43,15 @@ final class SerializationEngineTest {
     }
     
     @Test void loadingMetadataWithOptionalPresentReturnValue() throws IOException {
+        assertDoesNotThrow(this::saveArtist);
+        
         Artist artist = loadArtist();
         assertThat(artist.yearOfDeath().get(), is(VALID_ARTIST_1.yearOfDeath().get()));
     }
     
     @Test void loadingMetadataWithColorReturnsColor() throws IOException {
+        SerializationEngine.saveTo(new File(LIBRARY_PATH + "/instrument.json"), VALID_INSTRUMENT_1);
+        
         Instrument instrument = loadInstrument();
         assertThat(instrument.color().getRed(), is(VALID_INSTRUMENT_1.color().getRed()));
     }
