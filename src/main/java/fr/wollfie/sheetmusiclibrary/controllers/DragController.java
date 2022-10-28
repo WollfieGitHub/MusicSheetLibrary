@@ -3,6 +3,9 @@ package fr.wollfie.sheetmusiclibrary.controllers;
 import com.google.common.base.Preconditions;
 import javafx.stage.Stage;
 
+/**
+ * Makes the user able to move the stage with drag & drop
+ */
 public class DragController {
 
     private final Stage stage;

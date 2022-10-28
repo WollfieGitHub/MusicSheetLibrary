@@ -1,4 +1,4 @@
-package fr.wollfie.sheetmusiclibrary.io;
+package fr.wollfie.sheetmusiclibrary.library;
 
 
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 
-final class SheetMusicLibraryTest {
+final class SheetSheetMusicLibraryTest {
     
     
 // //======================================================================================\\
@@ -27,16 +27,16 @@ final class SheetMusicLibraryTest {
     
     @BeforeAll static void initLibrary() {
         assertDoesNotThrow(() -> {
-            MusicLibrary.setLocationAndInit(new File(LIBRARY_PATH));
+            SheetMusicLibrary.setLocationAndInit(new File(LIBRARY_PATH));
         });
     }
     
     @BeforeEach void loadLibrary() {
-        assertDoesNotThrow(MusicLibrary::load);
+        assertDoesNotThrow(SheetMusicLibrary::loadAll);
     }
     
     @AfterEach void saveLibrary() {
-        assertDoesNotThrow(MusicLibrary::save);
+        assertDoesNotThrow(SheetMusicLibrary::save);
     }
     
 // //======================================================================================\\
@@ -47,21 +47,21 @@ final class SheetMusicLibraryTest {
     
     @Test void externalDiskForLocationIsSupported() {
         assertDoesNotThrow(() -> {
-            MusicLibrary.setLocationAndInit(new File("L:/music_library"));
+            SheetMusicLibrary.setLocationAndInit(new File("L:/music_library"));
         });
         initLibrary();
     }
     
     @Test void instrumentInsertionDoesntThrow() throws IOException {
-        assertDoesNotThrow(() -> MusicLibrary.insert(VALID_INSTRUMENT));
+        assertDoesNotThrow(() -> SheetMusicLibrary.insert(VALID_INSTRUMENT_1));
     }
 
     @Test void artistInsertionDoesntThrow() throws IOException {
-        assertDoesNotThrow(() -> MusicLibrary.insert(VALID_ARTIST));
+        assertDoesNotThrow(() -> SheetMusicLibrary.insert(VALID_ARTIST_1));
     }
     
     @Test void validFileNameLoadsValidSheetMusicPdf() {
-        SheetMusic sheetMusic = MusicLibrary.findByName(VALID_SHEET.name());
+        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
         
         assertNotNull(sheetMusic);
         assertThat(sheetMusic.name(), is(VALID_SHEET.name()));
@@ -69,24 +69,22 @@ final class SheetMusicLibraryTest {
     }
     
     @Test void validFileNameLoadsValidSheetMusicMetadata() {
-        SheetMusic sheetMusic = MusicLibrary.findByName(VALID_SHEET.name());
+        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
 
         assertNotNull(sheetMusic);
-        assertNotNull(sheetMusic.artist());
-        assertThat(sheetMusic.artist().lastName(), is(VALID_SHEET.artist().lastName()));
+        assertNotNull(sheetMusic.artistRef());
+        assertThat(sheetMusic.artistRef().getValue().lastName(), is(VALID_SHEET.artistRef().getValue().lastName()));
     }
     
     @Test void validFileNameLoadsValidMusescoreFile() {
-        SheetMusic sheetMusic = MusicLibrary.findByName(VALID_SHEET.name());
+        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
         
         assertNotNull(sheetMusic);
-        assertFalse(sheetMusic.musescoreFile().isEmpty());
-        assertNotNull(sheetMusic.musescoreFile().get());
+        assertNotNull(sheetMusic.musescoreFile());
     }
     
     @Test void invalidFileNameThrows() {
-        assertThrows(IllegalArgumentException.class,
-                () -> { MusicLibrary.findByName(INVALID_SHEET_NAME); });
+        assertThrows(IllegalArgumentException.class, () -> SheetMusicLibrary.findByName(INVALID_SHEET_NAME));
     }
     
 }

@@ -9,6 +9,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 
+/**
+ * A button using the theme set in the ThemeManager.
+ */
 public class ThemedButton extends Button {
 
     private final Theme.Category category;
@@ -16,7 +19,13 @@ public class ThemedButton extends Button {
     
     private State currentState = State.Default;
     private boolean hovering;
-    
+
+    /**
+     * A button using the theme set in the ThemeManager
+     * @param s : The string to display in the button, can be null
+     * @param graphic : The Icon to display in the button, can be null
+     * @param category : The Theme category the button should have
+     */
     public ThemedButton(String s, Node graphic, Theme.Category category) {
         super(s, graphic);
         

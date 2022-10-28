@@ -6,18 +6,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 final class SerializationEngineTest {
     
     private void saveArtist() throws IOException {
-        SerializationEngine.saveTo(new File(LIBRARY_PATH + "/artist.json"), VALID_ARTIST);
+        SerializationEngine.saveTo(new File(LIBRARY_PATH + "/artist.json"), VALID_ARTIST_1);
     }
     
     private Artist loadArtist() throws IOException {
@@ -25,7 +23,7 @@ final class SerializationEngineTest {
     }
     
     private void saveInstrument() throws IOException {
-        SerializationEngine.saveTo(new File(LIBRARY_PATH + "/instrument.json"), VALID_INSTRUMENT);
+        SerializationEngine.saveTo(new File(LIBRARY_PATH + "/instrument.json"), VALID_INSTRUMENT_1);
     }
     
     private Instrument loadInstrument() throws IOException {
@@ -46,11 +44,11 @@ final class SerializationEngineTest {
     
     @Test void loadingMetadataWithOptionalPresentReturnValue() throws IOException {
         Artist artist = loadArtist();
-        assertThat(artist.yearOfDeath().get(), is(VALID_ARTIST.yearOfDeath().get()));
+        assertThat(artist.yearOfDeath().get(), is(VALID_ARTIST_1.yearOfDeath().get()));
     }
     
     @Test void loadingMetadataWithColorReturnsColor() throws IOException {
         Instrument instrument = loadInstrument();
-        assertThat(instrument.color().getRed(), is(VALID_INSTRUMENT.color().getRed()));
+        assertThat(instrument.color().getRed(), is(VALID_INSTRUMENT_1.color().getRed()));
     }
 }

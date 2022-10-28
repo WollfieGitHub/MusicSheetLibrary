@@ -3,6 +3,7 @@ package fr.wollfie.sheetmusiclibrary.io.metadata;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.Map;
  * File for each folder in the library, used to speed up the search process
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class RootIndex implements Metadata {
+public class RootIndex implements JsonSerializable {
 
     private Map<String, String> metadataTypeToPath;
 
