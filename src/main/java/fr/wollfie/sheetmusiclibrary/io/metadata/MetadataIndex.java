@@ -2,6 +2,7 @@ package fr.wollfie.sheetmusiclibrary.io.metadata;
 
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -9,9 +10,7 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Index file containing a bunch of Metadata objects
@@ -23,6 +22,7 @@ public class MetadataIndex<M extends Metadata> {
     public final ObservableList<M> metadata = new SimpleListProperty<>(FXCollections.observableList(
             new ArrayList<>()
     ));
+    private final Map<String, M> metadataById = new HashMap<>();
 
     private MetadataIndex(List<M> metadata, File file) {
         this.metadata.addAll(metadata);
@@ -55,7 +55,9 @@ public class MetadataIndex<M extends Metadata> {
     }
 
     private void reloadIndices() {
-        // TODO
+        metadataById.clear();
+        metadata.parallelStream()
+                .forEach(m -> metadataById.put(m.getUId(), m));
     }
 
     /**
@@ -64,5 +66,20 @@ public class MetadataIndex<M extends Metadata> {
      */
     public void saveAll() throws IOException {
         SerializationEngine.saveAllTo(file, this.metadata);
+    }
+
+    /**
+     * Reload all the objects data from the associate file and returns this object
+     */
+    public MetadataIndex<M> reload() {
+        // TODO
+        
+        reloadIndices();
+        return this;
+    }
+
+    public M getFromRef(MetadataRef<M> ref) {
+        Preconditions.checkArgument(this.metadataById.containsKey(ref.valueUId));
+        return this.metadataById.get(ref.valueUId);
     }
 }
