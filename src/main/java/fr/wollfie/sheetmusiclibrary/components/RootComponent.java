@@ -1,5 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.components;
 
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
@@ -22,8 +23,13 @@ public class RootComponent extends BorderPane {
                 "-fx-border-color: " + "grey" + ";";
         
         String backgroundStyle = ("-fx-background-color: linear-gradient(to top," +
-                ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Dark2) + " 80%, " +
-                ThemeManager.hexColorFrom(Theme.Category.Primary, Theme.Shade.Light1) + ");");
+                ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Dark2) + ", " +
+                ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Dark1) + " 40%, " +
+                ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Default) + " 50%, " +
+                ThemeManager.hexColorFrom(Theme.Category.Primary, Theme.Shade.Dark1) + " 90%, " +
+                ThemeManager.hexColorFrom(Theme.Category.Primary, Theme.Shade.Default) + " 110%);");
+
+        Logger.info(backgroundStyle);
 
         setStyle(backgroundStyle + borderStyle + "-fx-background-radius: 15");
 

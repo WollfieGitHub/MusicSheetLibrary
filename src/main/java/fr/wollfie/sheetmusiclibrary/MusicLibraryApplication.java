@@ -1,17 +1,14 @@
-package fr.wollfie.sheetmusiclibrary.controllers;
+package fr.wollfie.sheetmusiclibrary;
 
-import fr.wollfie.sheetmusiclibrary.DragController;
+import fr.wollfie.sheetmusiclibrary.components.MusicSheetLibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
-import fr.wollfie.sheetmusiclibrary.components.TopToolbar;
+import fr.wollfie.sheetmusiclibrary.controllers.DragController;
+import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -43,7 +40,7 @@ public class MusicLibraryApplication extends Application {
 
         DragController dragController = DragController.createFrom(primaryStage);
 
-        root.setCenter(new ThemedButton("Click me", null, Theme.Category.Accent));
+        root.setCenter(new MusicSheetLibraryDisplay());
         primaryStage.show();
     }
 

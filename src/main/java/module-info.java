@@ -21,4 +21,5 @@ module fr.wollfie.sheetmusiclibrary {
     opens fr.wollfie.sheetmusiclibrary.dto to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.io.metadata to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.controllers to javafx.fxml;
+    opens fr.wollfie.sheetmusiclibrary to javafx.fxml;
 }

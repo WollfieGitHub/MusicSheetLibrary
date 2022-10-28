@@ -6,9 +6,15 @@ import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
 import fr.wollfie.sheetmusiclibrary.io.metadata.RootIndex;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +25,14 @@ public final class MusicLibrary {
     private static File rootFileObject;
     private static String baseDirectory;
     
-    private static Map<String, MetadataIndex<?>> indices = new HashMap<>();
+    private static final ListProperty<SheetMusic> sheetMusics
+            = new SimpleListProperty<>(FXCollections.observableList(Collections.emptyList()));
+
+    public static ReadOnlyListProperty<SheetMusic> sheetMusicsProperty() {
+        return sheetMusics;
+    }
+
+    private static final Map<String, MetadataIndex<?>> indices = new HashMap<>();
     
     /**
      * Sets the location of the music library database, which should be the root of the 
@@ -62,8 +75,7 @@ public final class MusicLibrary {
                 Artist.class,
                 Instrument.class,
                 MusicCategory.class,
-                MusicGenre.class,
-                SheetMusic.class
+                MusicGenre.class
         );
 
         for (Class<? extends Metadata> metadataType: metadataTypes) {

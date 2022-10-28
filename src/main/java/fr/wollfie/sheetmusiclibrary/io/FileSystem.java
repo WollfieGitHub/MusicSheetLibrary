@@ -1,6 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.io;
 
-import fr.wollfie.sheetmusiclibrary.controllers.MusicLibraryApplication;
+import fr.wollfie.sheetmusiclibrary.MusicLibraryApplication;
 
 import java.io.File;
 

@@ -11,7 +11,7 @@ public record SheetMusic(
         Instrument instrument,
         PdfFile pdfFile,
         Optional<MusescoreFile> musescoreFile
-) implements Metadata {
+) {
 
     /** @return the name of the sheet music followed by the name of the artist separated by a "-" */
     public String fullName() {
