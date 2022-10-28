@@ -29,7 +29,7 @@ public class Logger {
      * Prints a message with info level
      * @param msg The message to print
      */
-    public static void info(String msg) {
+    public static void info(Object msg) {
         print(msg, Level.INFO);
     }
 
@@ -42,7 +42,7 @@ public class Logger {
         print(String.format(msg, formatArgs) + "\n", Level.INFO);
     }
 
-    private static void print(String msg, Level level) {
+    private static void print(Object msg, Level level) {
         if (level.ordinal() >= currentLevel.ordinal()) {
             outputStream.print(msg);
         }

@@ -1,24 +1,18 @@
 package fr.wollfie.sheetmusiclibrary.components;
 
-import fr.wollfie.sheetmusiclibrary.controllers.MusicLibraryApplication;
+import fr.wollfie.sheetmusiclibrary.controllers.DangerButton;
+import fr.wollfie.sheetmusiclibrary.MusicLibraryApplication;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
-import fr.wollfie.sheetmusiclibrary.utils.Utils;
-import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
-
-import java.util.Collections;
 
 public class TopToolbar extends HBox {
     
@@ -39,7 +33,7 @@ public class TopToolbar extends HBox {
         
         ThemedButton minimizeButton = new ThemedButton(null, minimizeIcon, Theme.Category.Background);
         ThemedButton resizeButton = new ThemedButton(null, maximizeIcon, Theme.Category.Background);
-        ThemedButton closeButton = new ThemedButton(null, closeIcon, Theme.Category.Background);
+        ThemedButton closeButton = new DangerButton(null, closeIcon);
         
         HBox base = new HBox(minimizeButton, resizeButton, closeButton);
         base.setAlignment(Pos.CENTER);

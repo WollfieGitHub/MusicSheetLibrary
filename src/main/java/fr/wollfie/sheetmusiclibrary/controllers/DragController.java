@@ -1,7 +1,6 @@
-package fr.wollfie.sheetmusiclibrary;
+package fr.wollfie.sheetmusiclibrary.controllers;
 
 import com.google.common.base.Preconditions;
-import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import javafx.stage.Stage;
 
 public class DragController {
