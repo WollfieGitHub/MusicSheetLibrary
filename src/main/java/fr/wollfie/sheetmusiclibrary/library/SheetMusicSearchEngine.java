@@ -41,7 +41,6 @@ public class SheetMusicSearchEngine {
                 .stream()
                 .sorted(Comparator.comparing(ProposalRecord::getScore, Comparator.naturalOrder()))
                 .limit(maxNbItemsDesired)
-                .peek(record -> Logger.debug(record.ref))
                 .map(ProposalRecord::getRef)
                 .toList();
     }
