@@ -1,6 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.theme;
 
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import javafx.scene.paint.Color;
 
 public record Theme(
@@ -14,7 +15,7 @@ public record Theme(
     double shadeDark1,
     double shadeDark2,
     Color whiteColor
-) implements Metadata {
+) implements JsonSerializable {
     
     public enum Shade {
         Dark2, Dark1, Default, Light1, Light2

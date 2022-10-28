@@ -1,7 +1,8 @@
-package fr.wollfie.sheetmusiclibrary.io;
+package fr.wollfie.sheetmusiclibrary.library;
 
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.*;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
 import fr.wollfie.sheetmusiclibrary.io.metadata.RootIndex;
@@ -10,7 +11,6 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class MusicLibrary {
+public final class SheetMusicLibrary {
+    
+    public static final File DEFAULT_LOCATION = new File(System.getProperty("user.home") + File.separator + "SheetMusicLibrary"); 
 
     private static RootIndex rootIndex;
     private static File rootFileObject;
@@ -52,14 +54,14 @@ public final class MusicLibrary {
         Logger.infof("Location of the library set to \"%s\"", rootFileLocation.getAbsolutePath());
         rootFileObject = rootFileLocation;
         
-        load();
+        loadAll();
     }
 
     /**
      * Loads all the sheet music found from the root of the music library
      * @throws IOException if an error occurred during library load
      */
-    public static void load() throws IOException {
+    public static void loadAll() throws IOException {
         if (rootFileObject.exists()) {
             rootIndex = SerializationEngine.loadFrom(rootFileObject, RootIndex.class);
         } else {
@@ -75,7 +77,8 @@ public final class MusicLibrary {
                 Artist.class,
                 Instrument.class,
                 MusicCategory.class,
-                MusicGenre.class
+                MusicGenre.class,
+                SheetMusic.class
         );
 
         for (Class<? extends Metadata> metadataType: metadataTypes) {
@@ -96,7 +99,9 @@ public final class MusicLibrary {
      * Save all the changes until now
      */
     public static void save() throws IOException{
-        
+        for (MetadataIndex<?> index: indices.values()) {
+            index.saveAll();
+        }
     }
 
     /**
@@ -116,5 +121,16 @@ public final class MusicLibrary {
     public static <M extends Metadata> void insert(M metadata) throws IOException {
         MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(metadata.getClass().getSimpleName());
         metadataIndex.add(metadata);
+    }
+
+    /**
+     * Resolves a reference to a Metadata object by finding the object if it is loaded
+     * or loading it otherwise using its Uid
+     * @param ref The reference to resolve, we must return its value
+     * @return The value of the reference, a metadata object instance
+     * @param <M> The type fo the metadata object
+     */
+    public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
+        return null;
     }
 }

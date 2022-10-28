@@ -7,10 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.wollfie.sheetmusiclibrary.dto.Metadata;
-import fr.wollfie.sheetmusiclibrary.io.serialization.custom.ColorSerialization;
-import fr.wollfie.sheetmusiclibrary.io.serialization.custom.OptionalSerialization;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
+import fr.wollfie.sheetmusiclibrary.io.serialization.custom.*;
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
 
@@ -37,6 +38,15 @@ public class SerializationEngine {
                 // Color
                 .addDeserializer(Color.class, new ColorSerialization.ColorDeserializer())
                 .addSerializer(Color.class, new ColorSerialization.ColorSerializer())
+                // FontIcon
+                .addDeserializer(FontIcon.class, new FontIconSerialization.FontIconDeserializer())
+                .addSerializer(FontIcon.class, new FontIconSerialization.FontIconSerializer())
+                // MetadataRef
+                .addDeserializer(MetadataRef.class, new MetadataRefSerialization.MetadataRefDeserializer())
+                .addSerializer(MetadataRef.class, new MetadataRefSerialization.MetadataRefSerializer())
+                // ObservableList
+                .addDeserializer(ObservableList.class, new ObservableListSerialization.ObservableListDeserializer())
+                .addSerializer(ObservableList.class, new ObservableListSerialization.ObservableListSerializer())
         
         ;
 

@@ -4,6 +4,7 @@ import fr.wollfie.sheetmusiclibrary.components.MusicSheetLibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.controllers.DragController;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.application.Application;
@@ -17,16 +18,15 @@ import java.io.IOException;
 
 public class MusicLibraryApplication extends Application {
     
-    public static final String APP_NAME = "Music Sheet Library";
+    public static final String APP_NAME = "Sheet Music Library";
 
     private static Stage primaryStage;
-    
-    
 
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
         ThemeManager.init();
+        Logger.infof("Logger level set to %s", Logger.getCurrentLevel());
         
         BorderPane root = new RootComponent(stage);
         
@@ -42,6 +42,7 @@ public class MusicLibraryApplication extends Application {
 
         root.setCenter(new MusicSheetLibraryDisplay());
         primaryStage.show();
+        Logger.info("Application shown");
     }
 
     public static void main(String[] args) {
