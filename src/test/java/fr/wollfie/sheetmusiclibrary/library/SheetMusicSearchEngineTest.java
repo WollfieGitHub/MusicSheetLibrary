@@ -2,13 +2,17 @@ package fr.wollfie.sheetmusiclibrary.library;
 
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
+import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
+import javafx.scene.paint.Color;
+import org.checkerframework.checker.units.qual.C;
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.number.OrderingComparison.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
@@ -58,5 +62,21 @@ public class SheetMusicSearchEngineTest {
         // No duplicate
         assertThat(instruments.size(), is(2));
         assertThat(instruments.get(0).lastName(), is(VALID_ARTIST_1.lastName()));
+    }
+    
+    @Test void speedTest() {
+        int n = 50_000;
+        double criterion = 1 / 25.0;
+        long timeMs = 0;
+        List<Instrument> instruments = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            instruments.add(new Instrument(UUID.randomUUID().toString(), Color.BROWN, null));
+        }
+        long initialMs = System.currentTimeMillis();
+        SheetMusicSearchEngine.updatePropositionsAccordingTo("coconut", instruments, n+1, 255);
+        timeMs = System.currentTimeMillis() - initialMs;
+        Logger.infof("Execution time : %dms", timeMs);
+        
+        assertThat(timeMs, is(lessThan((long)(n * criterion))));
     }
 }
