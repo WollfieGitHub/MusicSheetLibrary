@@ -1,8 +1,10 @@
 package fr.wollfie.sheetmusiclibrary.io.metadata;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
+import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -10,6 +12,7 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -18,28 +21,29 @@ import java.util.*;
  */
 public class MetadataIndex<M extends Metadata> {
     
+    private final Class<M> metadataClass;
+    
     private final File file;
     public final ObservableList<M> metadata = new SimpleListProperty<>(FXCollections.observableList(
             new ArrayList<>()
     ));
     private final Map<String, M> metadataById = new HashMap<>();
 
-    private MetadataIndex(List<M> metadata, File file) {
-        this.metadata.addAll(metadata);
+    private MetadataIndex(Class<M> metadataClass, File file) {
+        this.metadataClass = metadataClass;
         this.file = file;
         reloadIndices();
     }
 
     /**
      * Creates a new index with already existing metadata using a file
-     * @param metadata The metadata objects to include in the index at init
+     * @param metadataClass The class of the metadata
      * @param file The file to use for serialization of the index
      * @return The newly created index
      * @param <M> The type of metadata the index contains
      */
-    public static <M extends Metadata> MetadataIndex<M> createFrom(List<M> metadata, File file) {
-        Preconditions.checkNotNull(metadata);
-        return new MetadataIndex<>(metadata, file);
+    public static <M extends Metadata> MetadataIndex<M> createFrom(Class<M> metadataClass, File file) {
+        return new MetadataIndex<>(metadataClass, file);
     }
 
     /**
@@ -65,15 +69,19 @@ public class MetadataIndex<M extends Metadata> {
      * @throws IOException if an error occurred
      */
     public void saveAll() throws IOException {
-        SerializationEngine.saveAllTo(file, this.metadata);
+        SerializationEngine.saveAllTo(file, metadata);
     }
 
     /**
      * Reload all the objects data from the associate file and returns this object
      */
     public MetadataIndex<M> reload() {
-        // TODO
-        
+        try {
+            metadata.clear();
+            metadata.addAll(SerializationEngine.loadAllFrom(file, metadataClass));
+            
+        } catch (IOException e) { throw new RuntimeException(e); }
+
         reloadIndices();
         return this;
     }

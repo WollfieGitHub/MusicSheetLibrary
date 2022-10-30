@@ -44,7 +44,17 @@ public class Logger {
     public static void debug(Object msg) {
         print(msg, Level.DEBUG);
     }
-    
+
+    /**
+     * Prints formatted message with debug level
+     * @param msg The message to print
+     * @param formatArgs The args for the format
+     */
+    public static void debugf(String msg, Object... formatArgs) {
+        print(String.format(msg, formatArgs), Level.DEBUG);
+    }
+
+
     /**
      * Prints a message with info level
      * @param msg The message to print

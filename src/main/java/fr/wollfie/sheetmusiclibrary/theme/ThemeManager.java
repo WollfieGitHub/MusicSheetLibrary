@@ -64,4 +64,9 @@ public class ThemeManager {
     public static Paint getWhiteColor() {
         return theme.get().whiteColor();
     }
+
+    public static String getTextColorFrom(Color backgroundColor) {
+        // TODO
+        return Utils.toRGBCode(getTheme().whiteColor());
+    }
 }

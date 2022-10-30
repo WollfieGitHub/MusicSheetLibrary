@@ -2,11 +2,8 @@ package fr.wollfie.sheetmusiclibrary.library;
 
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
-import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import javafx.scene.paint.Color;
-import org.checkerframework.checker.units.qual.C;
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -17,50 +14,43 @@ import static org.hamcrest.CoreMatchers.*;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 
-public class SheetMusicSearchEngineTest {
+public class SearchEngineTest {
     
     @Test void noResultsReturnsWithNoResults() {
-        List<Instrument> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                "coconut", Collections.emptyList(), 255, 255
+        List<Instrument> instruments = SearchEngine.updatePropositionsAccordingTo(
+                "coconut", Collections.emptyList(), 255
         );
         assertThat(instruments.size(), is(0));
     }
     
     @Test void oneResultReturnsWithOneResult() {
-        List<Instrument> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                "coconut", Collections.singletonList(VALID_INSTRUMENT_1), 255, 255
+        List<Instrument> instruments = SearchEngine.updatePropositionsAccordingTo(
+                VALID_INSTRUMENT_1.name(), Collections.singletonList(VALID_INSTRUMENT_1), 255
         );
         assertThat(instruments.size(), is(1));
     }
-
-    @Test void oneResultReturnsWithNoResultIfDistanceRestricted() {
-        List<Instrument> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                "coconut", Collections.singletonList(VALID_INSTRUMENT_1), 255, 2
-        );
-        assertThat(instruments.size(), is(0));
-    }
-
+    
     @Test void oneResultReturnsWithNoResultIfNbItemRestricted() {
-        List<Instrument> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                "coconut", Collections.singletonList(VALID_INSTRUMENT_1), 0, 15
+        List<Instrument> instruments = SearchEngine.updatePropositionsAccordingTo(
+                "coconut", Collections.singletonList(VALID_INSTRUMENT_1), 0
         );
         assertThat(instruments.size(), is(0));
     }
 
     @Test void twoResultsReturnsOrderedBest() {
-        List<Instrument> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                VALID_INSTRUMENT_2.name(), Arrays.asList(VALID_INSTRUMENT_1, VALID_INSTRUMENT_2), 4, 15
+        List<Instrument> instruments = SearchEngine.updatePropositionsAccordingTo(
+                "Cl", Arrays.asList(VALID_INSTRUMENT_1, VALID_INSTRUMENT_2), 4
         );
         assertThat(instruments.size(), is(2));
         assertThat(instruments.get(0).name(), is(VALID_INSTRUMENT_2.name()));
     }
     
     @Test void resultHasNoDuplicateAndIsOrderedForArtists() {
-        List<Artist> instruments = SheetMusicSearchEngine.updatePropositionsAccordingTo(
-                VALID_ARTIST_1.lastName(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4, 255
+        List<Artist> instruments = SearchEngine.updatePropositionsAccordingTo(
+                VALID_ARTIST_1.lastName(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
         );
         // No duplicate
-        assertThat(instruments.size(), is(2));
+        assertThat(instruments.size(), is(1));
         assertThat(instruments.get(0).lastName(), is(VALID_ARTIST_1.lastName()));
     }
     
@@ -73,7 +63,7 @@ public class SheetMusicSearchEngineTest {
             instruments.add(new Instrument(UUID.randomUUID().toString(), Color.BROWN, null));
         }
         long initialMs = System.currentTimeMillis();
-        SheetMusicSearchEngine.updatePropositionsAccordingTo("coconut", instruments, n+1, 255);
+        SearchEngine.updatePropositionsAccordingTo("coconut", instruments, n+1);
         timeMs = System.currentTimeMillis() - initialMs;
         Logger.infof("Execution time : %dms", timeMs);
         

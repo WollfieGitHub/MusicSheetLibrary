@@ -9,6 +9,8 @@ module fr.wollfie.sheetmusiclibrary {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires org.kordamp.ikonli.fontawesome5;
+    requires org.kordamp.ikonli.materialdesign2;
+    requires org.kordamp.ikonli.core;
 
     requires com.fasterxml.jackson.databind;
     requires com.google.common;

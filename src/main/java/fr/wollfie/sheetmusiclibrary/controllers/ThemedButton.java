@@ -2,22 +2,25 @@ package fr.wollfie.sheetmusiclibrary.controllers;
 
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
+import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 /**
  * A button using the theme set in the ThemeManager.
  */
 public class ThemedButton extends Button {
 
-    private final Theme.Category category;
-    protected static final int cornerRadii = 5;
+    protected final Theme.Category category;
+    protected int cornerRadii = 5;
+    protected Color backgroundColor;
     
-    private State currentState = State.Default;
+    protected State currentState = State.Default;
     private boolean hovering;
 
     /**
@@ -31,7 +34,7 @@ public class ThemedButton extends Button {
         
         this.category = category;
         init();
-        onUpdate(currentState);
+        onUpdate();
     }
     
     protected enum State {
@@ -45,39 +48,42 @@ public class ThemedButton extends Button {
         setOnMouseEntered(mouseEvent -> {
             currentState = State.Hovered;
             hovering = true;
-            onUpdate(currentState);
+            onUpdate();
         });
         
         setOnMouseExited(mouseEvent -> {
             currentState = State.Default;
             hovering = false;
-            onUpdate(currentState);
+            onUpdate();
         });
         
         setOnMousePressed(mouseEvent -> {
             currentState = State.Pressed;
-            onUpdate(currentState);
+            onUpdate();
         });
         
         setOnMouseReleased(mouseEvent -> {
             currentState = hovering ? State.Hovered : State.Default;
-            onUpdate(currentState);
+            onUpdate();
         });
     }
     
-    protected void onUpdate(State state) {
-        Theme.Shade shade = switch (state) {
+    protected void onUpdate() {
+        Theme.Shade shade = switch (currentState) {
             case Default -> Theme.Shade.Default;
             case Hovered -> Theme.Shade.Light1;
             case Pressed -> Theme.Shade.Light2;
         };
         
-        setBackground(new Background(new BackgroundFill(
-                ThemeManager.colorFrom(category, shade),
-                new CornerRadii(cornerRadii), new Insets(0)
-        )));
+        backgroundColor = ThemeManager.colorFrom(category, shade);
+        applyStyle();
     }
-    
+
+    protected void applyStyle() {
+        setStyle("-fx-background-color: " + Utils.toRGBCode(backgroundColor) + ";" +
+                "-fx-background-radius: " + cornerRadii);
+    }
+
     protected void onHover() { }
     protected void onClick() { }
     

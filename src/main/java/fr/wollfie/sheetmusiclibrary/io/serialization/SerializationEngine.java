@@ -1,14 +1,15 @@
 package fr.wollfie.sheetmusiclibrary.io.serialization;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SequenceWriter;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.serialization.custom.*;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -16,10 +17,8 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.File;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * https://www.baeldung.com/jackson-object-mapper-tutorial
@@ -47,6 +46,9 @@ public class SerializationEngine {
                 // ObservableList
                 .addDeserializer(ObservableList.class, new ObservableListSerialization.ObservableListDeserializer())
                 .addSerializer(ObservableList.class, new ObservableListSerialization.ObservableListSerializer())
+                // ObservableList
+                .addDeserializer(Tuple.class, new TupleSerialization.TupleDeserializer())
+                .addSerializer(Tuple.class, new TupleSerialization.TupleSerializer())
         
         ;
 
@@ -60,12 +62,26 @@ public class SerializationEngine {
     /**
      * Load the given metadataObj object from the given file in json format
      * @param file The file to load the object from
+     * @param outputReferenceClass The reference of the object to load
+     * @throws IOException if the specified file is not found or low level IO error occurred
+     */
+    public static <R extends JsonSerializable> R loadFrom(File file, TypeReference<R> outputReferenceClass) throws IOException {
+        if (!file.exists()) { return null; }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(MODULE);
+        return mapper.readValue(file, outputReferenceClass);
+    }
+
+    /**
+     * Load the given metadataObj object from the given file in json format
+     * @param file The file to load the object from
      * @param outputClass The class of the object to load
      * @throws IOException if the specified file is not found or low level IO error occurred
      */
     public static <R extends JsonSerializable> R loadFrom(File file, Class<R> outputClass) throws IOException {
         if (!file.exists()) { return null; }
-        
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(MODULE);
         return mapper.readValue(file, outputClass);

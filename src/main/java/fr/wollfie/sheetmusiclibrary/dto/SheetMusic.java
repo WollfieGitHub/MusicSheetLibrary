@@ -2,6 +2,7 @@ package fr.wollfie.sheetmusiclibrary.dto;
 
 import fr.wollfie.sheetmusiclibrary.library.MusescoreFile;
 import fr.wollfie.sheetmusiclibrary.library.PdfFile;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 
 import java.util.List;
 
@@ -16,14 +17,14 @@ import java.util.List;
 public record SheetMusic(
         String name,
         MetadataRef<Artist> artistRef,
-        List<MetadataRef<Instrument>> instrument,
+        List<Tuple<MetadataRef<Instrument>, Clef>> instrument,
         PdfFile pdfFile,
         MusescoreFile musescoreFile
 ) implements Metadata {
 
-    public SheetMusic(String name, Artist artistRef, List<Instrument> instrument, PdfFile pdfFile,
+    public SheetMusic(String name, Artist artistRef, List<Tuple<Instrument, Clef>> instrument, PdfFile pdfFile,
                       MusescoreFile musescoreFile) {
-        this(name, new MetadataRef<>(artistRef), instrument.stream().map(MetadataRef::new).toList(),
+        this(name, new MetadataRef<>(artistRef), Tuple.mapLeft(instrument.stream(), MetadataRef::new).toList(),
                 pdfFile, musescoreFile);
     }
 

@@ -1,11 +1,15 @@
 package fr.wollfie.sheetmusiclibrary.io.serialization;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
+import fr.wollfie.sheetmusiclibrary.dto.Clef;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -40,6 +44,21 @@ final class SerializationEngineTest {
     
     @Test void loadingMetadataWithOptionalDoesntThrow() {
         assertDoesNotThrow(this::loadArtist);
+    }
+    
+    @Test void serializeTupleDoesNotThrow() {
+        Tuple<Instrument, Clef> tuple = new Tuple<>(VALID_INSTRUMENT_2, Clef.BASS);
+        assertDoesNotThrow(() -> SerializationEngine.saveTo(new File(TEST_PATH, "tuple.json"), tuple));
+    }
+    
+    @Test void deserializedTupleIsIdenticalToSerialized() {
+        File file = new File(TEST_PATH, "tuple.json");
+        Tuple<Instrument, Clef> tuple = new Tuple<>(VALID_INSTRUMENT_2, Clef.BASS);
+        assertDoesNotThrow(() -> SerializationEngine.saveTo(file, tuple));
+        
+        AtomicReference<Tuple<Instrument, Clef>> recoveredTuple = new AtomicReference<>();
+        assertDoesNotThrow(() -> recoveredTuple.set(SerializationEngine.loadFrom(file, new TypeReference<>() {})));
+        assertThat(recoveredTuple.get(), is(tuple));
     }
     
     @Test void loadingMetadataWithOptionalPresentReturnValue() throws IOException {

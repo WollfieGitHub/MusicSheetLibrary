@@ -5,8 +5,6 @@ import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
-import fr.wollfie.sheetmusiclibrary.io.metadata.RootIndex;
-import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -21,9 +19,8 @@ import java.util.Map;
 
 public final class SheetMusicLibrary {
     
-    public static final File DEFAULT_LOCATION = new File(System.getProperty("user.home") + File.separator + "SheetMusicLibrary"); 
-
-    private static RootIndex rootIndex;
+    public static final File DEFAULT_LOCATION = new File(System.getProperty("user.home") + File.separator + "SheetMusicLibrary");
+    
     private static File rootFileObject;
     private static String baseDirectory;
     
@@ -45,53 +42,39 @@ public final class SheetMusicLibrary {
      * @throws IOException If there is a problem with the specified rootFileLocation
      */
     public static void setLocationAndInit(File rootFileLocation) throws IllegalArgumentException, IOException {
-        Preconditions.checkArgument(rootFileLocation.exists());
-        Preconditions.checkArgument(rootFileLocation.isDirectory());
+        Preconditions.checkArgument(rootFileLocation.getParentFile().exists());
+        Preconditions.checkArgument(rootFileLocation.getParentFile().isDirectory());
+        
+        rootFileLocation.mkdir();
 
         baseDirectory = rootFileLocation.getAbsolutePath();
-        rootFileLocation = new File(rootFileLocation, "music_library_root.json");
+        rootFileObject = new File(rootFileLocation, "music_library_root.json");
         
         Logger.infof("Location of the library set to \"%s\"", rootFileLocation.getAbsolutePath());
-        rootFileObject = rootFileLocation;
         
         loadAll();
     }
 
     /**
      * Loads all the sheet music found from the root of the music library
-     * @throws IOException if an error occurred during library load
      */
-    public static void loadAll() throws IOException {
-        if (rootFileObject.exists()) {
-            rootIndex = SerializationEngine.loadFrom(rootFileObject, RootIndex.class);
-        } else {
-            rootIndex = RootIndex.initEmpty();
-            SerializationEngine.saveTo(rootFileObject, rootIndex);
-        }
+    public static void loadAll() {
         createIndices();
+        for (MetadataIndex<?> metadataIndex : indices.values()) {
+            metadataIndex.reload();
+        }
     }
 
-    private static void createIndices() throws IOException {
+    private static void createIndices() {
+        
 
-        List<Class<? extends Metadata>> metadataTypes = List.of(
-                Artist.class,
-                Instrument.class,
-                MusicCategory.class,
-                MusicGenre.class,
-                SheetMusic.class
-        );
-
-        for (Class<? extends Metadata> metadataType: metadataTypes) {
-            File directory = new File(baseDirectory, metadataType.getSimpleName());
+        for (MetadataType type : MetadataType.values()) {
+            File directory = new File(baseDirectory, type.displayName);
             directory.mkdir();
-            File indexFile = new File(directory, 
-                    metadataType.getSimpleName() + "_index.json");
-            rootIndex = rootIndex.addEntry(metadataType, indexFile);
+            File indexFile = new File(directory,
+                    type.displayName + "_index.json");
             
-            indices.put(metadataType.getSimpleName(), MetadataIndex.createFrom(
-                    rootIndex.loadAll(metadataType),
-                    indexFile
-            ));
+            indices.put(type.displayName, MetadataIndex.createFrom((Class<? extends Metadata>) type.metadataClass, indexFile));
         }
     }
 
@@ -106,12 +89,33 @@ public final class SheetMusicLibrary {
 
     /**
      * Finds a sheet music in the database by name
-     * @param sheetName The name of the sheet music, corresponding to the {@link SheetMusic} getName() result
+     * @param searchReference A string to search for a metadata of the specified type
+     * @param category The category of metadata to search for
+     * @param nbItems The number of items to return
      * @throws IllegalArgumentException when no sheet music is found with the given name
      * @return The {@link SheetMusic} corresponding to the given name or null if none is found
      */
-    public static SheetMusic findByName(String sheetName) throws IllegalArgumentException {
-        return null;
+    @SuppressWarnings("unchecked")
+    public static <M extends Metadata> List<M> searchFor(String searchReference, MetadataType category,
+                                                         int nbItems)
+            throws IllegalArgumentException {
+        return (List<M>) SearchEngine.updatePropositionsAccordingTo(
+                searchReference,
+                indices.get(category.displayName).metadata.stream().toList(),
+                nbItems
+        );
+    }
+
+    /**
+     * Finds a sheet music in the database by name
+     * @param searchReference A string to search for a metadata of the specified type
+     * @param category The category of metadata to search for
+     * @throws IllegalArgumentException when no sheet music is found with the given name
+     * @return The {@link SheetMusic} corresponding to the given name or null if none is found
+     */
+    public static <M extends Metadata> List<M> searchFor(String searchReference, MetadataType category)
+            throws IllegalArgumentException {
+        return searchFor(searchReference, category, Integer.MAX_VALUE);
     }
 
     /**
@@ -119,7 +123,7 @@ public final class SheetMusicLibrary {
      * @param metadata The metadata to insert
      */
     public static <M extends Metadata> void insert(M metadata) throws IOException {
-        MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(metadata.getClass().getSimpleName());
+        MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(MetadataType.fromClass(metadata.getClass()).displayName);
         metadataIndex.add(metadata);
     }
 
@@ -131,7 +135,7 @@ public final class SheetMusicLibrary {
      * @param <M> The type fo the metadata object
      */
     public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
-        return ((MetadataIndex<M>) indices.get(ref.getClass().getName()))
+        return ((MetadataIndex<M>) indices.get(MetadataType.fromClass(ref.getValue().getClass()).displayName))
                 .reload()
                 .getFromRef(ref);
     }
