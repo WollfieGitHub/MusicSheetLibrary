@@ -1,6 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.library;
 
 
+import fr.wollfie.sheetmusiclibrary.dto.Artist;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +19,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 
-final class SheetSheetMusicLibraryTest {
+final class SheetMusicLibraryTest {
     
     
 // //======================================================================================\\
@@ -52,39 +55,35 @@ final class SheetSheetMusicLibraryTest {
         initLibrary();
     }
     
-    @Test void instrumentInsertionDoesntThrow() throws IOException {
+    @Test void instrumentInsertionDoesntThrow() {
         assertDoesNotThrow(() -> SheetMusicLibrary.insert(VALID_INSTRUMENT_1));
     }
 
-    @Test void artistInsertionDoesntThrow() throws IOException {
+    @Test void artistInsertionDoesntThrow() {
         assertDoesNotThrow(() -> SheetMusicLibrary.insert(VALID_ARTIST_1));
     }
     
-    @Test void validFileNameLoadsValidSheetMusicPdf() {
-        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
+    @Test void validArtistIsFoundInDatabaseWithMinimalSearch() throws IOException {
+        SheetMusicLibrary.insert(VALID_ARTIST_1);
+        SheetMusicLibrary.insert(SAME_ARTIST_2);
+        SheetMusicLibrary.insert(SAME_ARTIST_1);
+        List<Artist> results = SheetMusicLibrary.searchFor("Beethoven", MetadataType.Artist);
         
-        assertNotNull(sheetMusic);
-        assertThat(sheetMusic.name(), is(VALID_SHEET.name()));
-        assertNotNull(sheetMusic.pdfFile(), "Sheet's pdf is not null");
+        assertNotNull(results);
+        assertThat(results.isEmpty(), is(false));
+        assertThat(results.get(0).lastName(), is(VALID_ARTIST_1.lastName()));
     }
     
     @Test void validFileNameLoadsValidSheetMusicMetadata() {
-        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
 
-        assertNotNull(sheetMusic);
-        assertNotNull(sheetMusic.artistRef());
-        assertThat(sheetMusic.artistRef().getValue().lastName(), is(VALID_SHEET.artistRef().getValue().lastName()));
     }
     
     @Test void validFileNameLoadsValidMusescoreFile() {
-        SheetMusic sheetMusic = SheetMusicLibrary.findByName(VALID_SHEET.name());
         
-        assertNotNull(sheetMusic);
-        assertNotNull(sheetMusic.musescoreFile());
     }
     
     @Test void invalidFileNameThrows() {
-        assertThrows(IllegalArgumentException.class, () -> SheetMusicLibrary.findByName(INVALID_SHEET_NAME));
+        
     }
     
 }

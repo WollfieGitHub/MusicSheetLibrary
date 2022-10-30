@@ -15,7 +15,7 @@ public class SubToolbar extends HBox {
         
         // Display the path of the MusicLibrary
         ThemedTextField musicLocationTf =
-                new ThemedTextField(SheetMusicLibrary.DEFAULT_LOCATION.getAbsolutePath(), Theme.Category.Accent);
+                new ThemedTextField(SheetMusicLibrary.DEFAULT_LOCATION.getAbsolutePath(), Theme.Category.Accent, 10);
         musicLocationTf.prefWidthProperty().bind(widthProperty().multiply(0.8));
         musicLocationTf.setDisable(true);
         
