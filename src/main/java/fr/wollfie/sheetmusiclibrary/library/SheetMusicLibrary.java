@@ -5,6 +5,7 @@ import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
+import fr.wollfie.sheetmusiclibrary.io.network.ArtistImageRetriever;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -124,6 +125,11 @@ public final class SheetMusicLibrary {
      */
     public static <M extends Metadata> void insert(M metadata) throws IOException {
         MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(MetadataType.fromClass(metadata.getClass()).displayName);
+        
+        // Fetch an image for an artist before insertion
+        if (metadata instanceof Artist artist && !artist.imageUrl().fetched) {
+            metadata = (M)artist.withImage(LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(artist)));
+        }
         metadataIndex.add(metadata);
     }
 

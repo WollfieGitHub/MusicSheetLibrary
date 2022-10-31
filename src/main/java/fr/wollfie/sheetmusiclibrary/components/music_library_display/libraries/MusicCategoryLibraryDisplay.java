@@ -24,7 +24,7 @@ public class MusicCategoryLibraryDisplay extends MetadataItemDisplay<MusicCatego
             MusicCategory category = feature.getValue();
             FontIcon icon = category.icon();
             icon.setIconColor(category.color());
-            icon.setIconSize(LibraryConstants.FONT_SIZE);
+            icon.setIconSize(FONT_SIZE);
             return new SimpleObjectProperty<>(icon);
         });
 
@@ -32,7 +32,8 @@ public class MusicCategoryLibraryDisplay extends MetadataItemDisplay<MusicCatego
         nameTableColumn.setCellValueFactory(feature -> {
             MusicCategory category = feature.getValue();
             Label label = new Label(category.name());
-            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null));
+            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null) + ";" +
+                    "-fx-font-size: " + FONT_SIZE + ";");
             return new SimpleObjectProperty<>(label);
         });
         

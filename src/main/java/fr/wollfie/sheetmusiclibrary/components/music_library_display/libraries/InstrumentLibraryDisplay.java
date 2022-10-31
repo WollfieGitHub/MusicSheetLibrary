@@ -29,7 +29,7 @@ public class InstrumentLibraryDisplay extends MetadataItemDisplay<Instrument>  {
             Instrument instrument = feature.getValue();
             FontIcon icon = instrument.icon();
             icon.setIconColor(instrument.color());
-            icon.setIconSize(LibraryConstants.FONT_SIZE);
+            icon.setIconSize(FONT_SIZE);
             return new SimpleObjectProperty<>(icon);
         });
 
@@ -37,7 +37,8 @@ public class InstrumentLibraryDisplay extends MetadataItemDisplay<Instrument>  {
         nameTableColumn.setCellValueFactory(feature -> {
             Instrument instrument = feature.getValue();
             Label label = new Label(instrument.name());
-            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null));
+            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null) + ";" +
+                    "-fx-font-size: " + FONT_SIZE + ";");
             return new SimpleObjectProperty<>(label);
         });
         
