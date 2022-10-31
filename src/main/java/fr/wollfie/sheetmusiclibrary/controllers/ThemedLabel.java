@@ -1,10 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.controllers;
 
-import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import org.w3c.dom.Text;
 
 public class ThemedLabel extends Label {
 
@@ -22,6 +20,6 @@ public class ThemedLabel extends Label {
     }
 
     private void init() {
-        setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(backgroundColor));
+        setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(backgroundColor));
     }
 }

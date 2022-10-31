@@ -11,6 +11,7 @@ public class MetadataRef<M extends Metadata> {
     
     private M value;
     public final String valueUId;
+    public final MetadataType type;
 
     /**
      * @implNote Calling this method will resolve the reference and load the object if it
@@ -30,6 +31,7 @@ public class MetadataRef<M extends Metadata> {
      */
     public MetadataRef(M value) {
         Preconditions.checkNotNull(value);
+        this.type = MetadataType.fromClass(value.getClass());
         
         this.value = value;
         this.valueUId = value.getUId();
@@ -39,8 +41,10 @@ public class MetadataRef<M extends Metadata> {
      * Creates a new metadata reference to the metadata object link with the given uid
      * @param valueUId The uid of the object the reference is pointing to
      */
-    public MetadataRef(String valueUId) {
+    public MetadataRef(String valueUId, MetadataType type) {
         Preconditions.checkNotNull(valueUId);
+        Preconditions.checkNotNull(type);
+        this.type = type;
         
         this.value = null;
         this.valueUId = valueUId;

@@ -65,8 +65,12 @@ public class ThemeManager {
         return theme.get().whiteColor();
     }
 
-    public static String getTextColorFrom(Color backgroundColor) {
+    public static String getTextColorHexFrom(Color backgroundColor) {
+        return Utils.toRGBCode(getTextColorFrom(backgroundColor));
+    }
+    
+    public static Color getTextColorFrom(Color backgroundColor) {
         // TODO
-        return Utils.toRGBCode(getTheme().whiteColor());
+        return getTheme().whiteColor();
     }
 }

@@ -1,11 +1,9 @@
 package fr.wollfie.sheetmusiclibrary;
 
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.MusicSheetLibraryDisplay;
+import fr.wollfie.sheetmusiclibrary.components.music_library_display.LibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.controllers.DragController;
-import fr.wollfie.sheetmusiclibrary.dto.Artist;
-import fr.wollfie.sheetmusiclibrary.dto.Instrument;
-import fr.wollfie.sheetmusiclibrary.dto.MusicCategory;
+import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.library.SheetMusicLibrary;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -54,8 +52,9 @@ public class MusicLibraryApplication extends Application {
         SheetMusicLibrary.insert(new Instrument("Drum kit", Color.RED, new FontIcon("mdi2g-guitar-acoustic")));
         SheetMusicLibrary.insert(new Instrument("Double Bass", Color.SADDLEBROWN.darker(), new FontIcon("mdi2v-violin")));
         
+        Artist camilleSaintSaens = new Artist("Camille", "Saint-Saens", 0, Optional.empty());
         SheetMusicLibrary.insert(new Artist("Ludwig van", "Beethoven", 0, Optional.empty()));
-        SheetMusicLibrary.insert(new Artist("Camille", "Saint-Saens", 0, Optional.empty()));
+        SheetMusicLibrary.insert(camilleSaintSaens);
         SheetMusicLibrary.insert(new Artist("Alec", "Benjamin", 0, Optional.empty()));
         SheetMusicLibrary.insert(new Artist("Hanz", "Zimmer", 0, Optional.empty()));
         SheetMusicLibrary.insert(new Artist("Billie", "Eilish", 0, Optional.empty()));
@@ -68,6 +67,12 @@ public class MusicLibraryApplication extends Application {
         SheetMusicLibrary.insert(new MusicCategory("Classical", Color.SADDLEBROWN, new FontIcon("mdi2v-violin")));
         SheetMusicLibrary.insert(new MusicCategory("Popular", Color.SADDLEBROWN, new FontIcon("mdi2v-violin")));
         
+        SheetMusicLibrary.insert(new SheetMusic(
+                "Rondo et Introduction Cappricioso",
+                camilleSaintSaens,
+                Collections.emptyList(), null, null
+        ));
+        
         Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.TRANSPARENT);
         
@@ -77,7 +82,7 @@ public class MusicLibraryApplication extends Application {
 
         DragController dragController = DragController.createFrom(primaryStage);
 
-        root.setCenter(new MusicSheetLibraryDisplay());
+        root.setCenter(new LibraryDisplay());
         primaryStage.show();
         Logger.info("Application shown");
     }

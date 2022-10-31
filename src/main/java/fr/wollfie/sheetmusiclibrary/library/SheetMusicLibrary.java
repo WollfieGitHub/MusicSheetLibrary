@@ -140,9 +140,16 @@ public final class SheetMusicLibrary {
      * @return The value of the reference, a metadata object instance
      * @param <M> The type fo the metadata object
      */
+    @SuppressWarnings("unchecked")
     public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
-        return ((MetadataIndex<M>) indices.get(MetadataType.fromClass(ref.getValue().getClass()).displayName))
-                .reload()
-                .getFromRef(ref);
+        Logger.infof("Type found : %s", ref.type);
+        try {
+            return ((MetadataIndex<M>) indices.get(ref.type.displayName))
+                    .reload()
+                    .getFromRef(ref);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

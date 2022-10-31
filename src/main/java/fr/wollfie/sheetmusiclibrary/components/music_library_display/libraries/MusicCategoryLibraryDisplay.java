@@ -32,7 +32,7 @@ public class MusicCategoryLibraryDisplay extends MetadataItemDisplay<MusicCatego
         nameTableColumn.setCellValueFactory(feature -> {
             MusicCategory category = feature.getValue();
             Label label = new Label(category.name());
-            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null) + ";" +
+            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                     "-fx-font-size: " + FONT_SIZE + ";");
             return new SimpleObjectProperty<>(label);
         });

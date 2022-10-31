@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
 
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ public class MetadataRefSerialization {
         public void serialize(MetadataRef value, JsonGenerator gen, SerializerProvider provider) throws IOException {
             gen.writeStartObject();
             gen.writeObjectField("valueUId", value.valueUId);
+            gen.writeObjectField("type", value.type);
             gen.writeEndObject();
         }
     }
@@ -26,7 +28,10 @@ public class MetadataRefSerialization {
         @Override
         public MetadataRef<?> deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
             JsonNode node = p.getCodec().readTree(p);
-            return new MetadataRef<>(node.get("valueUId").asText());
+            return new MetadataRef<>(
+                    node.get("valueUId").asText(),
+                    p.getCodec().treeToValue(node.get("type"), MetadataType.class)
+            );
         }
     }
 }
