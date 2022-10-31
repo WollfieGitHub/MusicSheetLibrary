@@ -6,12 +6,10 @@ import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public final class ArtistLibraryDisplay extends MetadataItemDisplay<Artist> {
@@ -26,7 +24,7 @@ public final class ArtistLibraryDisplay extends MetadataItemDisplay<Artist> {
         nameTableColumn.setCellValueFactory(feature -> {
             Artist artist = feature.getValue();
             Label label = new Label(artist.fullName());
-            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorFrom(null) + ";" +
+            label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                     "-fx-font-size: " + FONT_SIZE + ";");
             return new SimpleObjectProperty<>(label);
         });
@@ -40,7 +38,6 @@ public final class ArtistLibraryDisplay extends MetadataItemDisplay<Artist> {
                     ? new ImagePattern(artist.imageUrl().getImage())
                     : null;
             circle.setFill(pattern);
-            
             
             return new SimpleObjectProperty<>(pattern);
         });

@@ -4,6 +4,9 @@ import fr.wollfie.sheetmusiclibrary.library.MusescoreFile;
 import fr.wollfie.sheetmusiclibrary.library.PdfFile;
 import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,8 +39,7 @@ public record SheetMusic(
 
     @Override
     public List<String> getSearchableTokenFields() {
-        return null;
-        // TODO
+        return Collections.singletonList(fullName());
     }
 
     @Override

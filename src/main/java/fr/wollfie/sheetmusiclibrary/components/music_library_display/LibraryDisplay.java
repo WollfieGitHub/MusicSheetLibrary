@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Main panel where the sheet music library is displayed
  */
-public class MusicSheetLibraryDisplay extends StackPane {
+public class LibraryDisplay extends StackPane {
 
     private final VBox content;
     private final SearchBar searchBar;
     private final CategorySelectionBar categorySelectionBar;
 
-    public MusicSheetLibraryDisplay() {
+    public LibraryDisplay() {
         content = new VBox();
         setStyle("-fx-background: rgba(0, 0, 0, 0);" +
                 "-fx-background-color: rgba(0, 0, 0, 0);");
@@ -30,8 +30,9 @@ public class MusicSheetLibraryDisplay extends StackPane {
         searchBar = new SearchBar();
 
         List<MetadataItemDisplay<?>> libraryDisplays = Arrays.asList(
-                new InstrumentLibraryDisplay(searchBar),
+                new MusicSheetLibraryDisplay(searchBar),
                 new ArtistLibraryDisplay(searchBar),
+                new InstrumentLibraryDisplay(searchBar),
                 new MusicCategoryLibraryDisplay(searchBar)
         );
 
