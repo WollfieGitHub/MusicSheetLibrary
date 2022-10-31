@@ -1,32 +1,48 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * The author of a Sheet Music 
+ * The author of a Sheet Music
+ *
  * @param firstNameOrNickname First name of the author
- * @param lastName Last name of the author
- * @param yearOfBirth Year of birth of the author
- * @param yearOfDeath Year of death of the author if any 
- * @param musicGenres Music genre(s) the author is associated with
+ * @param lastName            Last name of the author
+ * @param yearOfBirth         Year of birth of the author
+ * @param yearOfDeath         Year of death of the author if any
+ * @param musicGenres         Music genre(s) the author is associated with
+ * @param imageUrl
  */
 public record Artist(
         String firstNameOrNickname,
         Optional<String> lastName,
         int yearOfBirth,
         Optional<Integer> yearOfDeath,
-        List<MetadataRef<MusicGenre>> musicGenres
+        List<MetadataRef<MusicGenre>> musicGenres,
+        LazyImageUrl imageUrl
 ) implements Metadata {
 
     public Artist(String firstName, String lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
-                  MusicGenre... musicGenres) {
-        this(firstName, Optional.ofNullable(lastName), yearOfBirth, yearOfDeath, Arrays.stream(musicGenres).map(MetadataRef::new).toList());
+                  LazyImageUrl imageUrl, MusicGenre... musicGenres) {
+        this(firstName, Optional.ofNullable(lastName), yearOfBirth, yearOfDeath, Arrays.stream(musicGenres).map(MetadataRef::new).toList(), imageUrl);
     }
 
-
+    public Artist withImage(LazyImageUrl image) {
+        return new Artist(
+                this.firstNameOrNickname, this.lastName,
+                this.yearOfBirth, this.yearOfDeath,
+                this.musicGenres,
+                image
+        );
+    } 
+    
+    public Artist(String firstName, String lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
+                  MusicGenre... musicGenres) { 
+        this(firstName, lastName, yearOfBirth, yearOfDeath, LazyImageUrl.empty(), musicGenres);
+    }
     @Override
     public List<String> getSearchableTokenFields() {
         List<String> result = new ArrayList<>(Arrays.asList(firstNameOrNickname, String.valueOf(yearOfBirth), fullName()));

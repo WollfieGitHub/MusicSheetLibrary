@@ -12,13 +12,17 @@ module fr.wollfie.sheetmusiclibrary {
     requires org.kordamp.ikonli.materialdesign2;
     requires org.kordamp.ikonli.core;
 
+    requires org.json;
     requires com.fasterxml.jackson.databind;
     requires com.google.common;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
 
     exports fr.wollfie.sheetmusiclibrary;
     exports fr.wollfie.sheetmusiclibrary.controllers;
     exports fr.wollfie.sheetmusiclibrary.dto;
     exports fr.wollfie.sheetmusiclibrary.theme;
+    exports fr.wollfie.sheetmusiclibrary.io.network;
     
     opens fr.wollfie.sheetmusiclibrary.dto to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.io.metadata to com.fasterxml.jackson.databind;

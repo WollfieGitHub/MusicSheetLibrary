@@ -12,13 +12,15 @@ import javafx.scene.control.TableView;
 import java.util.List;
 
 public abstract class MetadataItemDisplay<M extends Metadata> extends TableView<M> {
+
+    protected static final int FONT_SIZE = 20;
     
     public MetadataItemDisplay(SearchBar searchBar) {
         setItems(initResults(searchBar));
         
         setPlaceholder(new Label(""));
         getStyleClass().add("noheader");
-        setStyle(getStyle() + "-fx-font-size: " + LibraryConstants.FONT_SIZE + ";");
+        setStyle(getStyle() + "-fx-font-size: " + FONT_SIZE + ";");
         
         getColumns().setAll(initColumns());
     }

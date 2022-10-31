@@ -55,6 +55,7 @@ public class MusicLibraryApplication extends Application {
         SheetMusicLibrary.insert(new Instrument("Double Bass", Color.SADDLEBROWN.darker(), new FontIcon("mdi2v-violin")));
         
         SheetMusicLibrary.insert(new Artist("Ludwig van", "Beethoven", 0, Optional.empty()));
+        SheetMusicLibrary.insert(new Artist("Camille", "Saint-Saens", 0, Optional.empty()));
         SheetMusicLibrary.insert(new Artist("Alec", "Benjamin", 0, Optional.empty()));
         SheetMusicLibrary.insert(new Artist("Hanz", "Zimmer", 0, Optional.empty()));
         SheetMusicLibrary.insert(new Artist("Billie", "Eilish", 0, Optional.empty()));
