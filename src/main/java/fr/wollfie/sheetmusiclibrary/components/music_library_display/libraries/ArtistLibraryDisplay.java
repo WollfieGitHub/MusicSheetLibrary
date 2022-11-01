@@ -6,6 +6,7 @@ import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
@@ -29,17 +30,20 @@ public final class ArtistLibraryDisplay extends MetadataItemDisplay<Artist> {
             return new SimpleObjectProperty<>(label);
         });
 
-        TableColumn<Artist, ImagePattern> imageTableColumn = new TableColumn<>("");
+        TableColumn<Artist, ImageView> imageTableColumn = new TableColumn<>("");
         imageTableColumn.setCellValueFactory(feature -> {
             Artist artist = feature.getValue();
-            Circle circle = new Circle(FONT_SIZE*1.5);
             // Need to fetch the image when deserialized (which is not the case now since default constructor is used)
-            ImagePattern pattern = artist.imageUrl().available()
-                    ? new ImagePattern(artist.imageUrl().getImage())
+            ImageView image = artist.imageUrl().available()
+                    ? new ImageView(artist.imageUrl().getImage())
                     : null;
-            circle.setFill(pattern);
+            if (image != null) {
+                image.setPreserveRatio(true);
+                image.setFitWidth(FONT_SIZE*3);
+                image.setStyle("-fx-border-radius: " + 25 + ";");
+            }
             
-            return new SimpleObjectProperty<>(pattern);
+            return new SimpleObjectProperty<>(image);
         });
 
         return Arrays.asList(imageTableColumn, nameTableColumn);

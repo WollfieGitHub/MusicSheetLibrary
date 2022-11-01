@@ -39,7 +39,8 @@ public class UsefulObjects {
     public static final SheetMusic VALID_SHEET = new SheetMusic(
             "Moonlight Sonata",
             VALID_ARTIST_1,
-            List.of(Tuple.of(VALID_INSTRUMENT_1, Clef.BASS)),
+            List.of(Track.with(VALID_INSTRUMENT_1, Clef.BASS)),
+            null,
             null, null
     );
     public static final String INVALID_SHEET_NAME = "Toonmight Sotana";

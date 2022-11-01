@@ -1,5 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +29,10 @@ public record Artist(
 
     public Artist(String firstName, String lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
                   LazyImageUrl imageUrl, MusicGenre... musicGenres) {
-        this(firstName, Optional.ofNullable(lastName), yearOfBirth, yearOfDeath, Arrays.stream(musicGenres).map(MetadataRef::new).toList(), imageUrl);
+        this(firstName, Optional.ofNullable(lastName), 
+                yearOfBirth, yearOfDeath,
+                Arrays.stream(musicGenres).map(MetadataRef::new).toList(),
+                imageUrl);
     }
 
     public Artist withImage(LazyImageUrl image) {
@@ -37,7 +42,7 @@ public record Artist(
                 this.musicGenres,
                 image
         );
-    } 
+    }
     
     public Artist(String firstName, String lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
                   MusicGenre... musicGenres) { 
@@ -45,7 +50,11 @@ public record Artist(
     }
     @Override
     public List<String> getSearchableTokenFields() {
-        List<String> result = new ArrayList<>(Arrays.asList(firstNameOrNickname, String.valueOf(yearOfBirth), fullName()));
+        List<String> result = new ArrayList<>(Arrays.asList(
+                firstNameOrNickname,
+                String.valueOf(yearOfBirth),
+                fullName()
+        ));
         lastName.ifPresent(result::add);
         
         return result;

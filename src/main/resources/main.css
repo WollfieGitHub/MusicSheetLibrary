@@ -8,6 +8,7 @@
 .table-row-cell {
     -fx-text-fill: white;
     -fx-table-cell-border-color: transparent;
+    -fx-table-cell-border-width: 0;
 }
 
 .table-view .column-overlay {
@@ -25,4 +26,10 @@
 
 .vbox {
     -fx-background-color: transparent;
+}
+
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+
 }
