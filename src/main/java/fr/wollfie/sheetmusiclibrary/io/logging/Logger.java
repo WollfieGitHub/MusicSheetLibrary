@@ -4,11 +4,13 @@ import fr.wollfie.sheetmusiclibrary.utils.Constants;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Logger {
-
-    private enum Level {
+    
+    public enum Level {
         SPAM,
         DEBUG,
         INFO,
@@ -111,10 +113,27 @@ public class Logger {
     public static void warning(Object msg) {
         print(msg, Level.WARNING);
     }
-    
+
+    /**
+     * Prints formatted message with warning level
+     * @param msg The message to print
+     * @param formatArgs The args for the format
+     */
+    public static void warningf(String msg, Object... formatArgs) {
+        print(String.format(msg, formatArgs), Level.WARNING);
+    }
+
+    public static void printStackTrace(Level level) {
+        print("Find stack trace below...", level, true);    
+    }
+
     private static int maxLength = 0;
 
     private static void print(Object msg, Level level) {
+        print(msg, level, false);
+    }
+    
+    private static void print(Object msg, Level level, boolean fullStackTrace) {
 
         // Only log when needed
         if (level.ordinal() >= currentLevel.ordinal()) {
@@ -125,6 +144,11 @@ public class Logger {
             int index = 1;
             while (index < elements.length && elements[index].getClassName().equals(Logger.class.getName())) {
                 index++;
+            }
+            
+            String stackTrace = "";
+            if (fullStackTrace) {
+                stackTrace = Arrays.stream(elements).map(e -> e + "\n").collect(Collectors.joining());
             }
             
             String ansiColor = switch (level) {
@@ -140,12 +164,13 @@ public class Logger {
             
             String className = classPath[classPath.length-1];
             
-            String header = String.format("%s[%s%s%s:%s%s%s|%7s]>%s",
+            String header = String.format("%s[%s%s%s:%s%s%s|%7s]>%s%s",
                     ansiColor, Constants.ANSI_RESET,
                     className,
                     ansiColor, Constants.ANSI_RESET,
                     elements[index].getLineNumber(),
-                    ansiColor, level.toString().toUpperCase(Locale.ROOT), Constants.ANSI_RESET
+                    ansiColor, level.toString().toUpperCase(Locale.ROOT), Constants.ANSI_RESET,
+                    (fullStackTrace ? ("\n"+stackTrace) : "")
             );
             // Update the max length of the classPath
             maxLength = Math.max(header.length(), maxLength);

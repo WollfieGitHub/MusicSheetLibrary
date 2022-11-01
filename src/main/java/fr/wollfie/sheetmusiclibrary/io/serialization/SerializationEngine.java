@@ -100,6 +100,7 @@ public class SerializationEngine {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(MODULE);
         List<R> result = new ArrayList<>();
+        
         try (JsonParser parser = mapper.createParser(file)) {
             mapper.readValues(parser, outputClass).readAll(result);
         }

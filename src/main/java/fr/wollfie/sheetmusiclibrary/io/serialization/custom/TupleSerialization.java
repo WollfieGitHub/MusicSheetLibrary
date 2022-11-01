@@ -32,22 +32,21 @@ public class TupleSerialization {
         private JavaType leftType;
         private JavaType rightType;
 
+        public TupleDeserializer() {
+        }
+
+        public TupleDeserializer(JavaType leftType, JavaType rightType) {
+            this.leftType = leftType;
+            this.rightType = rightType;
+        }
+
         @Override
         public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
-            if (property == null) { //  context is generic
-                TupleSerialization.TupleDeserializer parser = new TupleSerialization.TupleDeserializer();
-                parser.leftType = ctxt.getContextualType().containedType(0);
-                parser.rightType = ctxt.getContextualType().containedType(1);
-                return parser;
-            } else {  //  property is generic
-                JavaType wrapperType = property.getType();
-                JavaType leftType = wrapperType.containedType(0);
-                JavaType rightType = wrapperType.containedType(1);
-                TupleSerialization.TupleDeserializer parser = new TupleSerialization.TupleDeserializer();
-                parser.leftType = leftType;
-                parser.rightType = rightType;
-                return parser;
-            }
+            JavaType type = ctxt.getContextualType();
+            return new TupleDeserializer(
+                    type.containedType(0),
+                    type.containedType(1)
+            );
         }
 
         @Override

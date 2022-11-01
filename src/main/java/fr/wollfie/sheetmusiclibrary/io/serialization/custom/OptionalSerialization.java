@@ -32,13 +32,6 @@ public class OptionalSerialization {
         private JavaType valueType;
 
         @Override
-        public Optional<?> deserialize(JsonParser p, DeserializationContext ctx) throws IOException, JacksonException {
-            JsonNode node = p.getCodec().readTree(p);
-            boolean isPresent = node.get("present").asBoolean();
-            return isPresent ? Optional.of(p.getCodec().treeToValue(node.get("value"), valueType.getRawClass())) : Optional.empty();
-        }
-
-        @Override
         public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
             if (property == null) { //  context is generic
                 OptionalDeserializer parser = new OptionalDeserializer();
@@ -51,6 +44,13 @@ public class OptionalSerialization {
                 parser.valueType = valueType;
                 return parser;
             }
+        }
+
+        @Override
+        public Optional<?> deserialize(JsonParser p, DeserializationContext ctx) throws IOException, JacksonException {
+            JsonNode node = p.getCodec().readTree(p);
+            boolean isPresent = node.get("present").asBoolean();
+            return isPresent ? Optional.of(p.getCodec().treeToValue(node.get("value"), valueType.getRawClass())) : Optional.empty();
         }
     }
 }

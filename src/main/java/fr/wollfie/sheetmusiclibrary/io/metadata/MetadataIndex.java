@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 import javafx.beans.property.SimpleListProperty;
@@ -80,7 +81,9 @@ public class MetadataIndex<M extends Metadata> {
             metadata.clear();
             metadata.addAll(SerializationEngine.loadAllFrom(file, metadataClass));
             
-        } catch (IOException e) { throw new RuntimeException(e); }
+        } catch (IOException e) {
+            throw new RuntimeException(e); 
+        }
 
         reloadIndices();
         return this;

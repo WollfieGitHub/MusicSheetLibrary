@@ -125,6 +125,10 @@ public final class SheetMusicLibrary {
      */
     public static <M extends Metadata> void insert(M metadata) throws IOException {
         MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(MetadataType.fromClass(metadata.getClass()).displayName);
+        if (metadataIndex.metadata.contains(metadata)) { 
+            Logger.warningf("You tried to insert \"%s\" but was already present in the library !", metadata);
+            return;
+        }
         
         // Fetch an image for an artist before insertion
         if (metadata instanceof Artist artist && !artist.imageUrl().fetched) {
@@ -142,14 +146,11 @@ public final class SheetMusicLibrary {
      */
     @SuppressWarnings("unchecked")
     public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
-        Logger.infof("Type found : %s", ref.type);
         try {
             return ((MetadataIndex<M>) indices.get(ref.type.displayName))
                     .reload()
                     .getFromRef(ref);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         return null;
     }
 }

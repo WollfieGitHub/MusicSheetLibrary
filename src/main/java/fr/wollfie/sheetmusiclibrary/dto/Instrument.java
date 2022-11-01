@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A musical instrument the Sheet Music contains direction for
- * @param name The name of the instrument
- * @param color The color with which the instrument is associated with 
- * @param icon The icon the instrument is associated with
+ * A musical instruments the Sheet Music contains direction for
+ * @param name The name of the instruments
+ * @param color The color with which the instruments is associated with 
+ * @param icon The icon the instruments is associated with
  */
 public record Instrument(
         String name,

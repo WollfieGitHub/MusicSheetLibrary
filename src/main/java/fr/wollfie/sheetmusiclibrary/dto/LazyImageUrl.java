@@ -1,6 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import javafx.scene.image.Image;
 import org.w3c.dom.ls.LSException;
@@ -11,6 +13,14 @@ public class LazyImageUrl implements JsonSerializable {
     public boolean fetched;
     public boolean found;
     @JsonIgnore private Image image;
+
+    @JsonProperty("imageUrl")
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        if (this.imageUrl != null) {
+            this.image = new Image(imageUrl, true);
+        }
+    }
     
     public LazyImageUrl() {}
     
