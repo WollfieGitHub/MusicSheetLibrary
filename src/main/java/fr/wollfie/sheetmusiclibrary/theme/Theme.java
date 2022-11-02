@@ -22,7 +22,7 @@ public record Theme(
     }
     
     public enum Category {
-        Primary, Accent, Error, Confirm, Background
+        Primary, Accent, Error, Confirm, Background, Transparent
     }
     
 }

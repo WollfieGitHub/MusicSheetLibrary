@@ -44,6 +44,7 @@ public class ThemeManager {
             case Error -> getTheme().errorColor();
             case Confirm -> getTheme().confirmColor();
             case Background -> getTheme().backgroundColor();
+            case Transparent -> new Color(0, 0, 0, 0);
         };
         
         double factor = switch (shade) {
@@ -54,14 +55,15 @@ public class ThemeManager {
             case Light2 -> 1 + getTheme().shadeLight2();
         };
         
-        return result.deriveColor(0, 1, factor, 1);
+        return result.deriveColor(0, 1, factor, 
+                category == Category.Transparent ? 0 : 1);
     }
     
     public static String hexColorFrom(Category category, Shade shade) {
         return Utils.toRGBCode(colorFrom(category, shade));
     }
 
-    public static Paint getWhiteColor() {
+    public static Color getWhiteColor() {
         return theme.get().whiteColor();
     }
 
