@@ -1,5 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.libraries;
 
+import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
 import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -36,7 +37,7 @@ public class InstrumentLibraryDisplay extends MetadataItemDisplay<Instrument>  {
         TableColumn<Instrument, Label> nameTableColumn = new TableColumn<>("");
         nameTableColumn.setCellValueFactory(feature -> {
             Instrument instrument = feature.getValue();
-            Label label = new Label(instrument.name());
+            Label label = new ClickableLabel(instrument.name());
             label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                     "-fx-font-size: " + FONT_SIZE + ";");
             return new SimpleObjectProperty<>(label);

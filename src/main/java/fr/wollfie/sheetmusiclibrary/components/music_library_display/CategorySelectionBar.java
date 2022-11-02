@@ -5,6 +5,7 @@ import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.controllers.ToggleThemedButton;
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -13,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class CategorySelectionBar extends HBox {
     public static MetadataType currentSelectedType;
     
     private final ObjectProperty<MetadataItemDisplay<?>> selectedCategory = new SimpleObjectProperty<>();
+    private final List<ToggleThemedButton> buttons;
 
     public ReadOnlyObjectProperty<MetadataItemDisplay<?>> selectedCategoryProperty() {
         return selectedCategory;
@@ -32,7 +35,7 @@ public class CategorySelectionBar extends HBox {
         setPadding(new Insets(5));
         setSpacing(5);
 
-        List<ToggleThemedButton> buttons = new ArrayList<>();
+        buttons = new ArrayList<>();
 
         for (MetadataItemDisplay<?> type: libraryDisplays) {
             String name = type.getContentType().displayName;
@@ -48,6 +51,7 @@ public class CategorySelectionBar extends HBox {
             getChildren().add(toggleThemedButton);
         }
         this.selectedCategory.set(libraryDisplays.get(0));
+        currentSelectedType = libraryDisplays.get(0).getContentType();
         buttons.get(0).setSelected(true);
     }
 }

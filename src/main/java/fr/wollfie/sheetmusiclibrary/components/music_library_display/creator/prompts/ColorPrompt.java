@@ -44,11 +44,11 @@ public class ColorPrompt extends ValuePrompt<Color>  {
             callback.accept(colorTextFormatter.getValue());
         });
         
-        hBox.getChildren().addAll(hexColorField, button);
         ColorPicker colorPicker = new ColorPicker();
         colorTextFormatter.valueProperty().bindBidirectional(colorPicker.valueProperty());
+        hBox.getChildren().addAll(hexColorField, colorPicker);
         
-        VBox vBox = new VBox(hBox, colorPicker);
+        VBox vBox = new VBox(hBox, button);
         vBox.setAlignment(Pos.CENTER);
         return vBox;
     }

@@ -13,10 +13,7 @@ import javafx.collections.FXCollections;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class SheetMusicLibrary {
     
@@ -135,7 +132,22 @@ public final class SheetMusicLibrary {
             metadata = (M)artist.withImage(LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(artist)));
         }
         metadataIndex.add(metadata);
+        Logger.infof("%s was successfully inserted.", metadata);
     }
+
+    /**
+     * Same as {@link SheetMusicLibrary#insert(Metadata)} but returns false if 
+     * an exception is raised
+     * @param metadata The metadata to insert 
+     * @return False if there was a problem during insertion of the item
+     * @param <M> The type of metadata to insert
+     */
+    public static <M extends Metadata> boolean tryInsert(M metadata) {
+        try {
+            insert(metadata);
+            return true;
+        } catch (IOException e) { return false; }
+    } 
 
     /**
      * Resolves a reference to a Metadata object by finding the object if it is loaded
