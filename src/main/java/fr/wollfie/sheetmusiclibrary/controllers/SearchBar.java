@@ -16,14 +16,15 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class SearchBar extends HBox {
 
     private final StringProperty searchText = new SimpleStringProperty();
+    private final TextField textField;
 
     public ReadOnlyStringProperty searchTextProperty() {
         return searchText;
     }
 
     public SearchBar(int fontSize) {
-        
-        TextField textField = new ThemedTextField("", Theme.Category.Accent, fontSize);
+
+        textField = new ThemedTextField("", Theme.Category.Accent, fontSize);
         
         FontIcon icon = new FontIcon("mdi2m-magnify");
         icon.setIconColor(ThemeManager.getWhiteColor());
@@ -34,5 +35,9 @@ public class SearchBar extends HBox {
 
         searchText.bind(textField.textProperty());
         getChildren().addAll(icon, textField);
+    }
+    
+    public void getFocus() {
+        textField.requestFocus();
     }
 }

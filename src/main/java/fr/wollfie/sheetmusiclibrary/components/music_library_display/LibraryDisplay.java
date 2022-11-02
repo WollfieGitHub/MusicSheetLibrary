@@ -33,7 +33,8 @@ public class LibraryDisplay extends StackPane {
                 new MusicSheetLibraryDisplay(searchBar),
                 new ArtistLibraryDisplay(searchBar),
                 new InstrumentLibraryDisplay(searchBar),
-                new MusicCategoryLibraryDisplay(searchBar)
+                new MusicCategoryLibraryDisplay(searchBar),
+                new MusicGenreLibraryDisplay(searchBar)
         );
 
         categorySelectionBar = new CategorySelectionBar(libraryDisplays);

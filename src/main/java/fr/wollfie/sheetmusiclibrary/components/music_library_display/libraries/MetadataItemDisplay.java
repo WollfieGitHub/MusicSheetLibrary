@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class MetadataItemDisplay<M extends Metadata> extends TableView<M> {
 
-    protected static final int FONT_SIZE = 20;
+    protected static final int FONT_SIZE = 30;
     
     public MetadataItemDisplay(SearchBar searchBar) {
         setItems(initResults(searchBar));

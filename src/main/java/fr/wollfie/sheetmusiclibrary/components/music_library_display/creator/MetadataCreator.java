@@ -49,13 +49,17 @@ public abstract class MetadataCreator<M extends Metadata> extends StackPane {
         node.getFocus();
     }
     
-    protected <T> Consumer<T> onResultFinish() {
+    protected <T> Consumer<T> onResultFinish(Property<T> finalProperty) {
         return finalValue -> {
+            finalProperty.setValue(finalValue);
+            this.onPreFinish();
             this.onMetadataCreated.accept(finalValueToResult().apply(finalValue));
             CreatorDisplayHandler.hideCreator();
         };
     }
-    
+
+    protected abstract void onPreFinish();
+
     protected abstract <T> Function<T, M> finalValueToResult();
 
     public abstract void mounted();

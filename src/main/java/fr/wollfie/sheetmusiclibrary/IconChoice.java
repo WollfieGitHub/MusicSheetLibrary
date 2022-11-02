@@ -1,5 +1,6 @@
 package fr.wollfie.sheetmusiclibrary;
 
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.library.SearchEngine;
@@ -77,8 +78,11 @@ public class IconChoice extends VBox {
                 ).parallelStream().map(ikon -> {
                     FontIcon fontIcon = new FontIcon(ikon);
                     ThemedButton button = new ThemedButton(null, fontIcon, Theme.Category.Primary, fontSize);
+                    
                     button.setOnAction(e -> chosenFontIcon.accept(fontIcon));
-                    button.setOnKeyTyped(e -> { if (e.getCode() == KeyCode.ENTER) {chosenFontIcon.accept(fontIcon);} });
+                    button.setOnKeyTyped(e -> { if (e.getCode() == KeyCode.ENTER) {
+                        chosenFontIcon.accept(new FontIcon(fontIcon.getIconCode()));
+                    } });
                     return button;
                 }).toList()
             );
@@ -88,6 +92,6 @@ public class IconChoice extends VBox {
     }
     
     public void getFocus() {
-        searchBar.requestFocus();
+        searchBar.getFocus();
     }
 }

@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -29,18 +30,27 @@ public class MusicSheetLibraryDisplay extends MetadataItemDisplay<SheetMusic> {
 
     @Override
     protected List<TableColumn<SheetMusic, ?>> initColumns() {
+        int modifiedFontSize = (int)(FONT_SIZE * 2.0 / 3.0);
         TableColumn<SheetMusic, VBox> nameTableColumn = new TableColumn<>("");
         nameTableColumn.setCellValueFactory(feature -> {
             SheetMusic sheetMusic = feature.getValue();
             VBox cell = new VBox();
             Label nameLabel = new Label(sheetMusic.name());
             nameLabel.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
-                    "-fx-font-size: " + (FONT_SIZE) + ";");
-
+                    "-fx-font-size: " + modifiedFontSize + ";");
+            nameLabel.setOnMouseEntered(e -> {
+                nameLabel.setUnderline(true);
+                nameLabel.setCursor(Cursor.HAND);
+            });
+            nameLabel.setOnMouseExited(e -> {
+                nameLabel.setUnderline(false);
+                nameLabel.setCursor(Cursor.DEFAULT);
+            });
+            
             Label artistLabel = new Label(sheetMusic.artistRef().getValue().fullName());
             artistLabel.setStyle("-fx-text-fill: " +
                     Utils.toRGBCode(ThemeManager.getTextColorFrom(null).darker())+ ";" +
-                    "-fx-font-size: " + (FONT_SIZE*0.7) + ";");
+                    "-fx-font-size: " + (modifiedFontSize*0.7) + ";");
 
             cell.getChildren().addAll(nameLabel, artistLabel);
             return new SimpleObjectProperty<>(cell);
@@ -50,7 +60,8 @@ public class MusicSheetLibraryDisplay extends MetadataItemDisplay<SheetMusic> {
         instrumentsColumn.setCellValueFactory(feature -> {
             SheetMusic sheetMusic = feature.getValue();
             TitledPane root = new TitledPane();
-            root.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";");
+            root.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
+                    "-fx-font-size: " + modifiedFontSize + ";");
             root.setText("Instruments");
             root.setExpanded(false);
             
@@ -69,7 +80,7 @@ public class MusicSheetLibraryDisplay extends MetadataItemDisplay<SheetMusic> {
             rootContent.prefHeightProperty().bind(integerBinding.multiply(cellSize).multiply(1.1));
 
 
-            double fontSize = FONT_SIZE*0.85;
+            double fontSize = modifiedFontSize*0.85;
             String style = "-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getTextColorFrom(null))+ ";" +
                     "-fx-font-size: " + (fontSize) + ";";
             
