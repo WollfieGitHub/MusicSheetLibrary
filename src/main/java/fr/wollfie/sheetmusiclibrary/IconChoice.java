@@ -4,9 +4,11 @@ import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.library.SearchEngine;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
+import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.Ikon;
@@ -47,17 +49,20 @@ public class IconChoice extends VBox {
         ALL_ICONS.put('Y', Arrays.asList(MaterialDesignY.values()));
         ALL_ICONS.put('Z', Arrays.asList(MaterialDesignZ.values()));
     }
-    
-    public IconChoice(Consumer<FontIcon> chosenFontIcon, int maxIconChoice) {
+
+    private final SearchBar searchBar;
+
+    public IconChoice(Consumer<FontIcon> chosenFontIcon, int maxIconChoice, int fontSize) {
         setAlignment(Pos.TOP_CENTER);
         setPadding(new Insets(10));
         setSpacing(5);
 
-        SearchBar searchBar = new SearchBar();
+        searchBar = new SearchBar(fontSize);
         FlowPane choicePane = new FlowPane();
         choicePane.setHgap(2);
         choicePane.setVgap(2);
         
+        searchBar.setOnKeyTyped(Utils.onKeyTyped(KeyCode.TAB, () -> choicePane.getChildren().get(0).requestFocus()));
         searchBar.searchTextProperty().addListener(observable -> {
             String searchText = searchBar.searchTextProperty().get();
             if (searchText.length() == 0) { return; }
@@ -71,14 +76,18 @@ public class IconChoice extends VBox {
                         
                 ).parallelStream().map(ikon -> {
                     FontIcon fontIcon = new FontIcon(ikon);
-                    fontIcon.setIconSize(40);
-                    ThemedButton button = new ThemedButton(null, fontIcon, Theme.Category.Primary);
+                    ThemedButton button = new ThemedButton(null, fontIcon, Theme.Category.Primary, fontSize);
                     button.setOnAction(e -> chosenFontIcon.accept(fontIcon));
+                    button.setOnKeyTyped(e -> { if (e.getCode() == KeyCode.ENTER) {chosenFontIcon.accept(fontIcon);} });
                     return button;
                 }).toList()
             );
         });
         
         getChildren().addAll(searchBar, choicePane);
+    }
+    
+    public void getFocus() {
+        searchBar.requestFocus();
     }
 }

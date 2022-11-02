@@ -39,7 +39,8 @@ public class ToggleThemedButton extends ThemedButton {
         setStyle("-fx-text-fill: " + (!isSelected ? "white" : "black") + ";" +
                 "-fx-background-radius: " + cornerRadii + ";" +
                 "-fx-background-color: " + Utils.toRGBCode(backgroundColor) + ";" +
-                "-fx-font-size: 15;");
+                "-fx-font-size: 15;" +
+                (hovering ? "-fx-cursor: hand" : ""));
     }
 
     public void setSelected(boolean selected) {

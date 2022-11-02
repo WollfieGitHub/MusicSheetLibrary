@@ -23,13 +23,14 @@ public class InstrumentCreator extends MetadataCreator<Instrument> {
     private final StringProperty nameProperty = new SimpleStringProperty(null);
     private final ObjectProperty<Color> colorProperty = new SimpleObjectProperty<>(null);
     private final ObjectProperty<FontIcon> iconProperty = new SimpleObjectProperty<>(null);
-    
+    private final TextPrompt textPrompt;
+
     public InstrumentCreator(Consumer<Instrument> onMetadataCreated) {
         super(onMetadataCreated);
 
         ColorPrompt colorPrompt = new ColorPrompt("Icon Color", onResultFinish());
         IconPrompt iconChoice = new IconPrompt("Instrument Icon", onResult(iconProperty, colorPrompt));
-        TextPrompt textPrompt = new TextPrompt("Instrument Name", onResult(nameProperty, iconChoice));
+        textPrompt = new TextPrompt("Instrument Name", onResult(nameProperty, iconChoice));
         
         getChildren().addAll(textPrompt);
     }
@@ -41,6 +42,11 @@ public class InstrumentCreator extends MetadataCreator<Instrument> {
                 (Color) finalValue,
                 this.iconProperty.get()
         );
+    }
+
+    @Override
+    public void mounted() {
+        textPrompt.getFocus();
     }
 
 

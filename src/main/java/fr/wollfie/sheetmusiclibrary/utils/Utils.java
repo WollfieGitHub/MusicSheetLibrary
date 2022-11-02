@@ -1,9 +1,13 @@
 package fr.wollfie.sheetmusiclibrary.utils;
 
 import javafx.beans.InvalidationListener;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -29,4 +33,8 @@ public class Utils {
     public static <T> InvalidationListener onChange(Runnable runnable) {
         return observable -> runnable.run();
     } 
+    
+    public static EventHandler<KeyEvent> onKeyTyped(KeyCode keyCode, Runnable runnable) {
+        return e -> { if (e.getCode() == keyCode) { runnable.run(); } };
+    }
 }
