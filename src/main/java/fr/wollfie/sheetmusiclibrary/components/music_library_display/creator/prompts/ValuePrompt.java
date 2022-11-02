@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 
 public abstract class ValuePrompt<T> extends VBox {
     
-    protected final int fontSize = 30;
+    protected final int fontSize = 10;
     
-    // language=CSSFX
+    // language=CSS-FX
     protected final String baseStyle = "-fx-font-size: " + fontSize + ";" +
             "-fx-font-fill: " + ThemeManager.getTextColorHexFrom(null) + ";";
     
@@ -27,4 +27,6 @@ public abstract class ValuePrompt<T> extends VBox {
     }
     
     protected abstract Node getNode();
+
+    public abstract void getFocus();
 }

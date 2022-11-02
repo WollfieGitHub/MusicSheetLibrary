@@ -10,12 +10,20 @@ import java.util.function.Consumer;
 public class IconPrompt extends ValuePrompt<FontIcon>  {
 
 
+    private IconChoice iconChoice;
+
     public IconPrompt(String prompt, Consumer<FontIcon> callback) {
         super(prompt, callback);
     }
 
     @Override
     protected Node getNode() {
-        return new IconChoice(callback, 10);
+        iconChoice = new IconChoice(callback, 10, 30);
+        return iconChoice;
+    }
+
+    @Override
+    public void getFocus() {
+        iconChoice.getFocus();
     }
 }

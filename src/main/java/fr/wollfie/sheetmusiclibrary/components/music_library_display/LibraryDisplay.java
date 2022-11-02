@@ -27,7 +27,7 @@ public class LibraryDisplay extends StackPane {
         content.setAlignment(Pos.TOP_CENTER);
         content.setPadding(new Insets(5, 20, 5, 20));
 
-        searchBar = new SearchBar();
+        searchBar = new SearchBar(15);
 
         List<MetadataItemDisplay<?>> libraryDisplays = Arrays.asList(
                 new MusicSheetLibraryDisplay(searchBar),

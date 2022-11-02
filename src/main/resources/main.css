@@ -1,3 +1,12 @@
+@font-face {
+    font-family: ABeeZee;
+    src: url("fonts/AbeeZee-Regular.ttf");
+}
+
+* {
+    -fx-font-family: "ABeeZee";
+}
+
 .table-row-cell:odd {
     -fx-background-color: rgba(0, 0, 0, 0);
 }

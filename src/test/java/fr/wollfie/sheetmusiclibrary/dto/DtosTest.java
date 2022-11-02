@@ -50,7 +50,7 @@ public class DtosTest {
 // \\======================================================================================//
     
     @Test void artistHasNameAndYearsAsSearchableString() {
-        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.lastName()), is(true));
+        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.lastName().get()), is(true));
         assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.firstNameOrNickname()), is(true));
         assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(String.valueOf(VALID_ARTIST_1.yearOfBirth())), is(true));
     }

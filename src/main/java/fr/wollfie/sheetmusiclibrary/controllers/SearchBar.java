@@ -21,8 +21,7 @@ public class SearchBar extends HBox {
         return searchText;
     }
 
-    public SearchBar() {
-        final int fontSize = 15;
+    public SearchBar(int fontSize) {
         
         TextField textField = new ThemedTextField("", Theme.Category.Accent, fontSize);
         

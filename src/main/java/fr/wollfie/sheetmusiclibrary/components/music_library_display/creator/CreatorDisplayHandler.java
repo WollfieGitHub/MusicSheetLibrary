@@ -29,6 +29,7 @@ public class CreatorDisplayHandler {
 
     private static void display(MetadataCreator<?> creator) {
         root.getChildren().add(creator);
+        creator.mounted();
     }
 
     public static void hideCreator() {

@@ -21,7 +21,7 @@ public class ThemedButton extends Button {
     protected Color backgroundColor;
     
     protected State currentState = State.Default;
-    private boolean hovering;
+    protected boolean hovering;
     private Node graphic;
     private int fontSize;
 
@@ -99,7 +99,8 @@ public class ThemedButton extends Button {
         setStyle("-fx-background-color: " + Utils.toRGBCode(backgroundColor) + ";" +
                 "-fx-background-radius: " + cornerRadii + "%;" +
                 "-fx-text-fill: " + Utils.toRGBCode(contentColor) + ";" +
-                "-fx-font-size: " + fontSize + ";");
+                "-fx-font-size: " + fontSize + ";" +
+                (hovering ? "-fx-cursor: hand" : ""));
         if (graphic != null) {
             graphic.setStyle(graphic.getStyle() + "-fx-icon-color: " + Utils.toRGBCode(contentColor) + ";" +
                     "-fx-icon-size: " + fontSize + ";");
