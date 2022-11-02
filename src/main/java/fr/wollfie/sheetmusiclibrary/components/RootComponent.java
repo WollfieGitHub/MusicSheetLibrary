@@ -12,15 +12,9 @@ import javafx.stage.Stage;
 public class RootComponent extends BorderPane {
 
     public RootComponent(Stage stage) {
-        VBox toolbar = new VBox();
-        
-        // Initialize two top bars : One with usual "minimize, resize, close",
-        // the other below displaying the path at which is stored the library
         TopToolbar topToolbar = new TopToolbar(stage);
-        SubToolbar subToolbar = new SubToolbar();
         
-        toolbar.getChildren().addAll(topToolbar, subToolbar);
-        setTop(toolbar);
+        setTop(topToolbar);
         
         // Set light thin borders
         String borderStyle = "-fx-border-width: 1;" +

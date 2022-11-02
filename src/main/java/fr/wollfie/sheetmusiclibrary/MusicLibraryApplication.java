@@ -1,7 +1,10 @@
 package fr.wollfie.sheetmusiclibrary;
 
+import fr.wollfie.sheetmusiclibrary.components.LeftToolbar;
+import fr.wollfie.sheetmusiclibrary.components.SubToolbar;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.LibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
+import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.CreatorDisplayHandler;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.libraries.MusicSheetLibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.controllers.DragController;
 import fr.wollfie.sheetmusiclibrary.dto.*;
@@ -13,9 +16,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.http.conn.EofSensorWatcher;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
@@ -40,9 +45,11 @@ public class MusicLibraryApplication extends Application {
 
         StackPane root = new StackPane();
         root.setStyle("-fx-background-color: transparent;");
+        CreatorDisplayHandler.init(root);
         
         BorderPane base = new RootComponent(primaryStage);
-        base.setCenter(new LibraryDisplay());
+        base.setCenter(new VBox(new SubToolbar(), new LibraryDisplay()));
+        base.setLeft(new LeftToolbar());
         base.getStylesheets().addAll(
                 "noheader.css",
                 "main.css",

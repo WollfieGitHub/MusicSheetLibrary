@@ -18,6 +18,8 @@ import java.util.List;
 
 public class CategorySelectionBar extends HBox {
     
+    public static MetadataType currentSelectedType;
+    
     private final ObjectProperty<MetadataItemDisplay<?>> selectedCategory = new SimpleObjectProperty<>();
 
     public ReadOnlyObjectProperty<MetadataItemDisplay<?>> selectedCategoryProperty() {
@@ -38,6 +40,7 @@ public class CategorySelectionBar extends HBox {
             ToggleThemedButton toggleThemedButton = new ToggleThemedButton(name, null, Theme.Category.Primary);
             buttons.add(toggleThemedButton);
             toggleThemedButton.setOnAction(e -> {
+                currentSelectedType = type.getContentType();
                 selectedCategory.set(type);
                 buttons.forEach(button -> button.setSelected(false));
                 toggleThemedButton.setSelected(true);

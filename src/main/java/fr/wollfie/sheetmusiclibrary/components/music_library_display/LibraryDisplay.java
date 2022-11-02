@@ -25,7 +25,7 @@ public class LibraryDisplay extends StackPane {
                 "-fx-background-color: rgba(0, 0, 0, 0);");
 
         content.setAlignment(Pos.TOP_CENTER);
-        content.setPadding(new Insets(5, 20, 5, 100));
+        content.setPadding(new Insets(5, 20, 5, 20));
 
         searchBar = new SearchBar();
 
