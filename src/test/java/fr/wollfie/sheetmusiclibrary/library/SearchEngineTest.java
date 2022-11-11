@@ -3,6 +3,7 @@ package fr.wollfie.sheetmusiclibrary.library;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
+import fr.wollfie.sheetmusiclibrary.utils.LingualString;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class SearchEngineTest {
     
     @Test void oneResultReturnsWithOneResult() {
         List<Instrument> instruments = SearchEngine.updatePropositionsAccordingTo(
-                VALID_INSTRUMENT_1.name(), Collections.singletonList(VALID_INSTRUMENT_1), 255
+                VALID_INSTRUMENT_1.getName().getEnglishTranslation(), Collections.singletonList(VALID_INSTRUMENT_1), 255
         );
         assertThat(instruments.size(), is(1));
     }
@@ -42,16 +43,16 @@ public class SearchEngineTest {
                 "Cl", Arrays.asList(VALID_INSTRUMENT_1, VALID_INSTRUMENT_2), 4
         );
         assertThat(instruments.size(), is(2));
-        assertThat(instruments.get(0).name(), is(VALID_INSTRUMENT_2.name()));
+        assertThat(instruments.get(0).getName(), is(VALID_INSTRUMENT_2.getName()));
     }
     
     @Test void resultHasNoDuplicateAndIsOrderedForArtists() {
         List<Artist> instruments = SearchEngine.updatePropositionsAccordingTo(
-                VALID_ARTIST_1.lastName().get(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
+                VALID_ARTIST_1.getLastName().get(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
         );
         // No duplicate
         assertThat(instruments.size(), is(1));
-        assertThat(instruments.get(0).lastName(), is(VALID_ARTIST_1.lastName()));
+        assertThat(instruments.get(0).getLastName(), is(VALID_ARTIST_1.getLastName()));
     }
     
     @Test void speedTest() {
@@ -60,7 +61,7 @@ public class SearchEngineTest {
         long timeMs = 0;
         List<Instrument> instruments = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            instruments.add(new Instrument(UUID.randomUUID().toString(), Color.BROWN, null));
+            instruments.add(new Instrument(new LingualString(UUID.randomUUID().toString()), Color.BROWN, null));
         }
         long initialMs = System.currentTimeMillis();
         SearchEngine.updatePropositionsAccordingTo("coconut", instruments, n+1);

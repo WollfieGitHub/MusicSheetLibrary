@@ -9,6 +9,8 @@ import org.w3c.dom.ls.LSException;
 
 public class LazyImageUrl implements JsonSerializable {
 
+    private static final int DEFAULT_SIZE = 300;
+    
     public String imageUrl;
     public boolean fetched;
     public boolean found;
@@ -18,7 +20,7 @@ public class LazyImageUrl implements JsonSerializable {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         if (this.imageUrl != null) {
-            this.image = new Image(imageUrl, true);
+            this.loadImage();
         }
     }
     
@@ -35,7 +37,7 @@ public class LazyImageUrl implements JsonSerializable {
         this.imageUrl = imageUrl;
         this.fetched = fetched;
         this.found = found;
-        this.image = imageUrl == null ? null : new Image(imageUrl, true);
+        this.loadImage();
     }
 
     public static LazyImageUrl fromResult(String url) {
@@ -50,6 +52,10 @@ public class LazyImageUrl implements JsonSerializable {
     @JsonIgnore public Image getImage() {
         if (this.available()) { return image; }
         return null;
+    }
+    
+    private void loadImage() {
+        this.image = imageUrl == null ? null : new Image(imageUrl, DEFAULT_SIZE, DEFAULT_SIZE, true, true, false);
     }
 
     @JsonIgnore public boolean available() {

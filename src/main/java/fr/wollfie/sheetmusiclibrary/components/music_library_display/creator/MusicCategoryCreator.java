@@ -1,10 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator;
 
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.ColorPrompt;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.IconPrompt;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.IntegerPrompt;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.TextPrompt;
-import fr.wollfie.sheetmusiclibrary.dto.Instrument;
+import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.FontIconPrompt;
+import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.StringPrompt;
 import fr.wollfie.sheetmusiclibrary.dto.MusicCategory;
 import javafx.beans.property.*;
 import javafx.scene.paint.Color;
@@ -18,16 +16,16 @@ public class MusicCategoryCreator extends MetadataCreator<MusicCategory> {
     private final StringProperty nameProperty = new SimpleStringProperty(null);
     private final ObjectProperty<Color> colorProperty = new SimpleObjectProperty<>(null);
     private final ObjectProperty<FontIcon> iconProperty = new SimpleObjectProperty<>(null);
-    private final TextPrompt textPrompt;
+    private final StringPrompt stringPrompt;
 
     public MusicCategoryCreator(Consumer<MusicCategory> onMetadataCreated) {
         super(onMetadataCreated);
 
         ColorPrompt colorPrompt = new ColorPrompt("Icon Color", onResultFinish(colorProperty));
-        IconPrompt iconChoice = new IconPrompt("Category Icon", onResult(iconProperty, colorPrompt));
-        textPrompt = new TextPrompt("Category Name", onResult(nameProperty, iconChoice));
+        FontIconPrompt iconChoice = new FontIconPrompt("Category Icon", onResult(iconProperty, colorPrompt));
+        stringPrompt = new StringPrompt("Category Name", onResult(nameProperty, iconChoice));
 
-        getChildren().addAll(textPrompt);
+        getChildren().addAll(stringPrompt);
     }
     @Override
     protected void onPreFinish() {
@@ -45,6 +43,6 @@ public class MusicCategoryCreator extends MetadataCreator<MusicCategory> {
 
     @Override
     public void mounted() {
-        textPrompt.getFocus();
+        stringPrompt.getFocus();
     }
 }

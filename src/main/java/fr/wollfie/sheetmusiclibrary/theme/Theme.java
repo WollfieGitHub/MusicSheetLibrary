@@ -1,6 +1,5 @@
 package fr.wollfie.sheetmusiclibrary.theme;
 
-import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import javafx.scene.paint.Color;
 

@@ -5,13 +5,11 @@ import fr.wollfie.sheetmusiclibrary.components.SubToolbar;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.LibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.CreatorDisplayHandler;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.libraries.MusicSheetLibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.controllers.DragController;
-import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
+import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataDropInProgram;
 import fr.wollfie.sheetmusiclibrary.library.SheetMusicLibrary;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
-import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -20,13 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.apache.http.conn.EofSensorWatcher;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
 
 public class MusicLibraryApplication extends Application {
     
@@ -44,22 +37,30 @@ public class MusicLibraryApplication extends Application {
         Logger.infof("Logger level set to %s", Logger.getCurrentLevel());
 
         StackPane root = new StackPane();
-        root.setStyle("-fx-background-color: transparent;");
         CreatorDisplayHandler.init(root);
         
         BorderPane base = new RootComponent(primaryStage);
-        base.setCenter(new VBox(new SubToolbar(), new LibraryDisplay()));
+        VBox centerVBox = new VBox(new SubToolbar());
+        
+        base.setCenter(centerVBox);
         base.setLeft(new LeftToolbar());
         base.getStylesheets().addAll(
                 "noheader.css",
                 "main.css",
                 "scrollbar.css",
-                "titled_pane.css"
+                "titled_pane.css",
+                "checkbox.css"
         );
         root.getChildren().add(base);
         
         Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.TRANSPARENT);
+
+        LibraryDisplay.initIn(centerVBox);
+
+        // Handle the drop of a file into the program
+        scene.setOnDragOver(MetadataDropInProgram.handleDragOver(scene));
+        scene.setOnDragDropped(MetadataDropInProgram.handleDragDropped());
 
         primaryStage.setTitle(APP_NAME);
         primaryStage.setScene(scene);

@@ -2,8 +2,10 @@ package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.pr
 
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
+import fr.wollfie.sheetmusiclibrary.utils.Callback;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -20,7 +22,7 @@ public class ColorPrompt extends ValuePrompt<Color>  {
 
     private TextField hexColorField;
 
-    public ColorPrompt(String prompt, Consumer<Color> callback) {
+    public ColorPrompt(String prompt, Callback<Color> callback) {
         super(prompt, callback);
     }
 
@@ -57,4 +59,11 @@ public class ColorPrompt extends ValuePrompt<Color>  {
     public void getFocus() {
         hexColorField.requestFocus();
     }
+
+    @Override
+    protected BooleanProperty promptDisabledProperty() {
+        return hexColorField.disableProperty();
+    }
+
+
 }
