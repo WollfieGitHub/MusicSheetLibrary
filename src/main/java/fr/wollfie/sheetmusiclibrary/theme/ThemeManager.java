@@ -10,6 +10,7 @@ import javafx.scene.paint.Paint;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import static fr.wollfie.sheetmusiclibrary.theme.Theme.*;
 
@@ -31,9 +32,8 @@ public class ThemeManager {
     
     public static void init() throws IOException {
         Theme recoveredTheme = SerializationEngine.loadFrom(new File(FileSystem.BASE_PATH, "theme.json"), Theme.class);
-        
-        if (recoveredTheme != null) { theme.set(recoveredTheme); }
-        else { theme.set(DEFAULT_THEME); }
+
+        theme.set(Objects.requireNonNullElse(recoveredTheme, DEFAULT_THEME));
     }
     
     public static Color colorFrom(Category category, Shade shade) {

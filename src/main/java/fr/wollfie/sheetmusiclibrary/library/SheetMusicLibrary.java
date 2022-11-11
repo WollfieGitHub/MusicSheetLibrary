@@ -6,10 +6,7 @@ import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
 import fr.wollfie.sheetmusiclibrary.io.network.ArtistImageRetriever;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ReadOnlyListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,12 +18,17 @@ public final class SheetMusicLibrary {
     
     private static File rootFileObject;
     private static String baseDirectory;
-    
-    private static final ListProperty<SheetMusic> sheetMusics
-            = new SimpleListProperty<>(FXCollections.observableList(Collections.emptyList()));
 
-    public static ReadOnlyListProperty<SheetMusic> sheetMusicsProperty() {
-        return sheetMusics;
+    /**
+     * @param mClass The class of a metadata
+     * @return The observable list of all metadata of the specified type in the database
+     * @param <M> The type of metadata
+     */
+    @SuppressWarnings("unchecked")
+    public static <M extends MetadataObject> ObservableList<M> getMetadataListProperty(Class<M> mClass) {
+        MetadataType type = MetadataType.fromClass(mClass);
+        Preconditions.checkArgument(indices.containsKey(type.displayName));
+        return (ObservableList<M>) indices.get(type.displayName).metadata;
     }
 
     private static final Map<String, MetadataIndex<?>> indices = new HashMap<>();
@@ -72,7 +74,7 @@ public final class SheetMusicLibrary {
             File indexFile = new File(directory,
                     type.displayName + "_index.json");
             
-            indices.put(type.displayName, MetadataIndex.createFrom((Class<? extends Metadata>) type.metadataClass, indexFile));
+            indices.put(type.displayName, MetadataIndex.createFrom((Class<? extends MetadataObject>) type.metadataClass, indexFile));
         }
     }
 
@@ -94,8 +96,8 @@ public final class SheetMusicLibrary {
      * @return The {@link SheetMusic} corresponding to the given name or null if none is found
      */
     @SuppressWarnings("unchecked")
-    public static <M extends Metadata> List<M> searchFor(String searchReference, MetadataType category,
-                                                         int nbItems)
+    public static <M extends MetadataObject> List<M> searchFor(String searchReference, MetadataType category,
+                                                               int nbItems)
             throws IllegalArgumentException {
         return (List<M>) SearchEngine.updatePropositionsAccordingTo(
                 searchReference,
@@ -111,7 +113,7 @@ public final class SheetMusicLibrary {
      * @throws IllegalArgumentException when no sheet music is found with the given name
      * @return The {@link SheetMusic} corresponding to the given name or null if none is found
      */
-    public static <M extends Metadata> List<M> searchFor(String searchReference, MetadataType category)
+    public static <M extends MetadataObject> List<M> searchFor(String searchReference, MetadataType category)
             throws IllegalArgumentException {
         return searchFor(searchReference, category, Integer.MAX_VALUE);
     }
@@ -120,7 +122,7 @@ public final class SheetMusicLibrary {
      * Insert new metadata into the music library
      * @param metadata The metadata to insert
      */
-    public static <M extends Metadata> void insert(M metadata) throws IOException {
+    public static <M extends MetadataObject> void insert(M metadata) throws IOException {
         MetadataIndex<M> metadataIndex = (MetadataIndex<M>) indices.get(MetadataType.fromClass(metadata.getClass()).displayName);
         if (metadataIndex.metadata.contains(metadata)) { 
             Logger.warningf("You tried to insert \"%s\" but was already present in the library !", metadata);
@@ -128,7 +130,7 @@ public final class SheetMusicLibrary {
         }
         
         // Fetch an image for an artist before insertion
-        if (metadata instanceof Artist artist && !artist.imageUrl().fetched) {
+        if (metadata instanceof Artist artist && !artist.getImageUrl().fetched) {
             metadata = (M)artist.withImage(LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(artist)));
         }
         metadataIndex.add(metadata);
@@ -136,13 +138,13 @@ public final class SheetMusicLibrary {
     }
 
     /**
-     * Same as {@link SheetMusicLibrary#insert(Metadata)} but returns false if 
+     * Same as {@link SheetMusicLibrary#insert(MetadataObject)} but returns false if 
      * an exception is raised
      * @param metadata The metadata to insert 
      * @return False if there was a problem during insertion of the item
      * @param <M> The type of metadata to insert
      */
-    public static <M extends Metadata> boolean tryInsert(M metadata) {
+    public static <M extends MetadataObject> boolean tryInsert(M metadata) {
         try {
             insert(metadata);
             return true;
@@ -157,11 +159,9 @@ public final class SheetMusicLibrary {
      * @param <M> The type fo the metadata object
      */
     @SuppressWarnings("unchecked")
-    public static <M extends Metadata> M resolve(MetadataRef<M> ref) {
+    public static <M extends MetadataObject> M resolve(MetadataRef<M> ref) {
         try {
-            return ((MetadataIndex<M>) indices.get(ref.type.displayName))
-                    .reload()
-                    .getFromRef(ref);
+            return ((MetadataIndex<M>) indices.get(ref.type.displayName)).getFromRef(ref);
         } catch (Exception e) { e.printStackTrace(); }
         return null;
     }

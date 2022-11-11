@@ -1,6 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.library;
 
-import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
 import fr.wollfie.sheetmusiclibrary.utils.TriFunction;
 
 import java.util.*;
@@ -40,7 +40,7 @@ public class SearchEngine {
     
     /**
      * Given a bunch of available metadata, reduce the list of metadata to match the reference. The fields examined
-     * are the ones returned by the {@link Metadata#getSearchableTokenFields()} method. The Normalized Edit
+     * are the ones returned by the {@link MetadataObject#getSearchableTokenFields()} method. The Normalized Edit
      * Distance metric is used by default
      * @param reference The reference string used to reduce the number of possibilities
      * @param initialProposals The initial proposal of choices that should be reduced
@@ -48,19 +48,19 @@ public class SearchEngine {
      * @return A reduced number of results for the search based on the reference striung
      * @param <M> The type of metadata to search among
      */
-    public static <M extends Metadata> List<M> updatePropositionsAccordingTo(
+    public static <M extends MetadataObject> List<M> updatePropositionsAccordingTo(
             String reference, List<M> initialProposals, int maxNbItemsDesired
     ) {
         return updatePropositionsAccordingTo(
                 reference, initialProposals, 
-                Metadata::getSearchableTokenFields,
+                MetadataObject::getSearchableTokenFields,
                 maxNbItemsDesired, DEFAULT_ALGORITHM
         );
     }
 
     /**
      * Given a bunch of available metadata, reduce the list of metadata to match the reference. The fields examined
-     * are the ones returned by the {@link Metadata#getSearchableTokenFields()} method. The Normalized Edit
+     * are the ones returned by the {@link MetadataObject#getSearchableTokenFields()} method. The Normalized Edit
      * Distance metric is used by default
      * @param reference The reference string used to reduce the number of possibilities
      * @param initialProposals The initial proposal of choices that should be reduced
@@ -81,7 +81,7 @@ public class SearchEngine {
             
     /**
      * Given a bunch of available metadata, reduce the list of metadata to match the reference. The fields examined
-     * are the ones returned by the {@link Metadata#getSearchableTokenFields()} method. The Levenshtein distance is used
+     * are the ones returned by the {@link MetadataObject#getSearchableTokenFields()} method. The Levenshtein distance is used
      * @param reference The reference string used to reduce the number of possibilities
      * @param initialProposals The initial proposal of choices that should be reduced
      * @param tokenExtractor Extract string of interest from an object

@@ -1,9 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator;
 
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.ColorPrompt;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.IconPrompt;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.IntegerPrompt;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.TextPrompt;
+import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.StringPrompt;
 import fr.wollfie.sheetmusiclibrary.dto.MusicGenre;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,7 +18,7 @@ public class MusicGenreCreator extends MetadataCreator<MusicGenre> {
     private final Property<Color> colorProperty = new SimpleObjectProperty<>(null);
     private final Property<Integer> yearBeginProperty = new SimpleObjectProperty<>(null);
     private final Property<Integer> yearEndProperty = new SimpleObjectProperty<>(null);
-    private final TextPrompt textPrompt;
+    private final StringPrompt stringPrompt;
 
     public MusicGenreCreator(Consumer<MusicGenre> onMetadataCreated) {
         super(onMetadataCreated);
@@ -27,9 +26,9 @@ public class MusicGenreCreator extends MetadataCreator<MusicGenre> {
         IntegerPrompt yearEnd = new IntegerPrompt("Year End", onResultFinish(yearEndProperty));
         IntegerPrompt yearBegin = new IntegerPrompt("Year Begin", onResult(yearBeginProperty, yearEnd));
         ColorPrompt colorPrompt = new ColorPrompt("Genre Color", onResult(colorProperty, yearBegin));
-        textPrompt = new TextPrompt("Music Genre Name", onResult(nameProperty, colorPrompt));
+        stringPrompt = new StringPrompt("Music Genre Name", onResult(nameProperty, colorPrompt));
 
-        getChildren().addAll(textPrompt);
+        getChildren().addAll(stringPrompt);
     }
 
     @Override
@@ -49,6 +48,6 @@ public class MusicGenreCreator extends MetadataCreator<MusicGenre> {
 
     @Override
     public void mounted() {
-        textPrompt.getFocus();
+        stringPrompt.getFocus();
     }
 }

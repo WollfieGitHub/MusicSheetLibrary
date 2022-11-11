@@ -5,15 +5,11 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import javafx.scene.image.Image;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.controlsfx.control.cell.ColorGridCell;
 import org.json.*;
 
@@ -38,13 +34,13 @@ public final class ArtistImageRetriever {
                 artistName).replace(" ", "%20");
     }
     
-    public static String fetchFor(Artist artist) throws IOException {
+    public static String fetchFor(Artist artist) {
         HttpGet tokenRetrievalReq = new HttpGet(tokenRetrievalAddress);
         
         String token = "";
         String responseString = "No response";
         try (CloseableHttpResponse response = client.execute(tokenRetrievalReq)) {
-            int responseCode = response.getStatusLine().getStatusCode();
+            int responseCode = response.getCode();
             if (responseCode != HttpURLConnection.HTTP_OK) { throw new IOException("Bad response from Spotify Server !"); }
             
             responseString = EntityUtils.toString(response.getEntity());
@@ -59,7 +55,7 @@ public final class ArtistImageRetriever {
         String imageAddress = null;
         responseString = "No response string found";
         try (CloseableHttpResponse response = client.execute(imageRetrievalReq)) {
-            int responseCode = response.getStatusLine().getStatusCode();
+            int responseCode = response.getCode();
             if (responseCode != HttpURLConnection.HTTP_OK) { throw new IOException("Bad response from Spotify Server !"); }
             responseString = EntityUtils.toString(response.getEntity());
 
@@ -73,8 +69,9 @@ public final class ArtistImageRetriever {
             JSONArray images = item.getJSONArray("images");
             if (images.isEmpty()) { throw new ArtistNotFoundException("Empty images received from Server"); }
 
-            JSONObject imageObj = images.getJSONObject(images.length()-1);
+            JSONObject imageObj = images.getJSONObject(1);
             imageAddress = imageObj.getString("url");
+            Logger.info(imageObj);
         } catch (Exception e) {
             e.printStackTrace();
             Logger.error(responseString);

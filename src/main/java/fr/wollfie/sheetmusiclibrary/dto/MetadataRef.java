@@ -7,7 +7,7 @@ import fr.wollfie.sheetmusiclibrary.library.SheetMusicLibrary;
  * Reference to an existing metadata object, the latter object can be unloaded
  * @param <M> The type of metadata object to store
  */
-public class MetadataRef<M extends Metadata> {
+public class MetadataRef<M extends MetadataObject> {
     
     private M value;
     public final String valueUId;

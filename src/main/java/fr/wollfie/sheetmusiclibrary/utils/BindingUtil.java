@@ -19,7 +19,7 @@ public class BindingUtil {
 
     private static <E, F> Object map(ObservableList<F> mapped, ObservableList<? extends E> source,
                                      Function<? super E, ? extends F> mapper) {
-        final ListContentMapping<E, F> contentMapping = new ListContentMapping<E, F>(mapped, mapper);
+        final ListContentMapping<E, F> contentMapping = new ListContentMapping<>(mapped, mapper);
         mapped.setAll(source.stream().map(mapper).toList());
         source.removeListener(contentMapping);
         source.addListener(contentMapping);
@@ -31,7 +31,7 @@ public class BindingUtil {
         private final Function<? super E, ? extends F> mapper;
 
         public ListContentMapping(List<F> mapped, Function<? super E, ? extends F> mapper) {
-            this.mappedRef = new WeakReference<List<F>>(mapped);
+            this.mappedRef = new WeakReference<>(mapped);
             this.mapper = mapper;
         }
 

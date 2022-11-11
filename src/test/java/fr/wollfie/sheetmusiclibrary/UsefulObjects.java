@@ -1,6 +1,7 @@
 package fr.wollfie.sheetmusiclibrary;
 
 import fr.wollfie.sheetmusiclibrary.dto.*;
+import fr.wollfie.sheetmusiclibrary.utils.LingualString;
 import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,8 +26,8 @@ public class UsefulObjects {
     public static final String LIBRARY_PATH = System.getProperty("user.dir") + "/src/test/resources";
     public static final String TEST_PATH = System.getProperty("user.dir") + "/src/test/resources/tests";
     
-    public static final Instrument VALID_INSTRUMENT_1 = new Instrument("Clavichord", Color.ROSYBROWN, new FontIcon("fas-window-minimize"));
-    public static final Instrument VALID_INSTRUMENT_2 = new Instrument("Cello", Color.ROSYBROWN, null);
+    public static final Instrument VALID_INSTRUMENT_1 = new Instrument(new LingualString("Clavichord"), Color.ROSYBROWN, new FontIcon("fas-window-minimize"));
+    public static final Instrument VALID_INSTRUMENT_2 = new Instrument(new LingualString("Cello"), Color.ROSYBROWN, null);
 
     public static final MusicGenre VALID_GENRE = new MusicGenre(
             "Classique", Optional.of(1750), Optional.of(1830),

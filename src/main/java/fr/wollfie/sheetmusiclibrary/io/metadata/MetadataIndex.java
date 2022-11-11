@@ -1,11 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.io.metadata;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
-import fr.wollfie.sheetmusiclibrary.dto.Metadata;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
-import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
-import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngine;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -13,15 +10,15 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
  * Index file containing a bunch of Metadata objects
  * @param <M> The type of metadata the index contains
  */
-public class MetadataIndex<M extends Metadata> {
+public class MetadataIndex<M extends MetadataObject> {
     
+    private boolean wasLoadedOnce;
     private final Class<M> metadataClass;
     
     private final File file;
@@ -43,7 +40,7 @@ public class MetadataIndex<M extends Metadata> {
      * @return The newly created index
      * @param <M> The type of metadata the index contains
      */
-    public static <M extends Metadata> MetadataIndex<M> createFrom(Class<M> metadataClass, File file) {
+    public static <M extends MetadataObject> MetadataIndex<M> createFrom(Class<M> metadataClass, File file) {
         return new MetadataIndex<>(metadataClass, file);
     }
 
@@ -55,14 +52,14 @@ public class MetadataIndex<M extends Metadata> {
      */
     public void add(M metadata) throws IOException {
         this.metadata.add(metadata);
+        this.metadataById.put(metadata.getUId(), metadata);
         saveAll();
-        reloadIndices();
     }
 
     private void reloadIndices() {
+        wasLoadedOnce = true;
         metadataById.clear();
-        metadata.parallelStream()
-                .forEach(m -> metadataById.put(m.getUId(), m));
+        metadata.parallelStream().forEach(m -> metadataById.put(m.getUId(), m));
     }
 
     /**
@@ -81,15 +78,14 @@ public class MetadataIndex<M extends Metadata> {
             metadata.clear();
             metadata.addAll(SerializationEngine.loadAllFrom(file, metadataClass));
             
-        } catch (IOException e) {
-            throw new RuntimeException(e); 
-        }
+        } catch (IOException e) { throw new RuntimeException(e); }
 
         reloadIndices();
         return this;
     }
 
     public M getFromRef(MetadataRef<M> ref) {
+        if (!wasLoadedOnce) { reloadIndices(); }
         Preconditions.checkArgument(this.metadataById.containsKey(ref.valueUId));
         return this.metadataById.get(ref.valueUId);
     }

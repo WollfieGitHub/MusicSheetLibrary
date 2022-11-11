@@ -1,6 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.controllers;
 
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedTextField;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import javafx.beans.property.ReadOnlyStringProperty;
@@ -15,13 +16,17 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class SearchBar extends HBox {
 
-    private final StringProperty searchText = new SimpleStringProperty();
     private final TextField textField;
+    private static final int DEFAULT_FONT_SIZE = 15;
 
     public ReadOnlyStringProperty searchTextProperty() {
-        return searchText;
+        return textField.textProperty();
     }
 
+    public SearchBar() {
+        this(DEFAULT_FONT_SIZE);
+    }
+    
     public SearchBar(int fontSize) {
 
         textField = new ThemedTextField("", Theme.Category.Accent, fontSize);
@@ -32,8 +37,7 @@ public class SearchBar extends HBox {
         
         setAlignment(Pos.CENTER);
         setPadding(new Insets(5));
-
-        searchText.bind(textField.textProperty());
+        
         getChildren().addAll(icon, textField);
     }
     

@@ -2,6 +2,8 @@ package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.pr
 
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedTextField;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
+import fr.wollfie.sheetmusiclibrary.utils.Callback;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -22,7 +24,7 @@ public class IntegerPrompt extends ValuePrompt<Integer> {
      * @param prompt      The text to display to prompt to explain what should the input be
      * @param callback    The callback function when the result has been retrieved
      */
-    public IntegerPrompt(String prompt, Consumer<Integer> callback) {
+    public IntegerPrompt(String prompt, Callback<Integer> callback) {
         super(prompt, callback);
     }
 
@@ -51,5 +53,10 @@ public class IntegerPrompt extends ValuePrompt<Integer> {
     @Override
     public void getFocus() {
         textField.requestFocus();
+    }
+
+    @Override
+    protected BooleanProperty promptDisabledProperty() {
+        return textField.disableProperty();
     }
 }

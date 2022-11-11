@@ -22,6 +22,21 @@ public class Utils {
                 (int)( color.getOpacity() * 255) );
     }
     
+    public static Color interpolate(Color c1, Color c2) {
+        return new Color(
+                (c1.getRed() + c2.getRed()) / 2.0,
+                (c1.getGreen() + c2.getGreen()) / 2.0,
+                (c1.getBlue() + c2.getBlue()) / 2.0,
+                (c1.getOpacity() + c2.getOpacity()) / 2.0
+        );
+    }
+    
+    public static <T> Callback<T> onlyOnNonNull(Callback<T> callback) {
+        return t -> {
+            if (t != null) { callback.accept(t); }
+        };
+    }
+    
     public static String stringRepeat(int n, String s) {
         return new String(new char[n]).replace("\0", s);
     }
@@ -35,6 +50,12 @@ public class Utils {
     } 
     
     public static EventHandler<KeyEvent> onKeyTyped(KeyCode keyCode, Runnable runnable) {
-        return e -> { if (e.getCode() == keyCode) { runnable.run(); } };
+        return e -> { if (e.getCode() == keyCode) { runnable.run(); e.consume(); } };
+    }
+    
+    public static String sanitized(String s) {
+        return s.replaceAll("[^\\S\\r\\n]", " ")
+                .replaceAll( ",", "")
+                .split("[\\r|\\n]")[0];
     }
 }

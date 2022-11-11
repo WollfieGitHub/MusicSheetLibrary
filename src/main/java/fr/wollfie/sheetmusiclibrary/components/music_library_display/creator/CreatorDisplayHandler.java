@@ -1,12 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator;
 
-import fr.wollfie.sheetmusiclibrary.dto.Metadata;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import java.util.function.Consumer;
 
 public class CreatorDisplayHandler {
 
@@ -17,6 +11,7 @@ public class CreatorDisplayHandler {
     private CreatorDisplayHandler() { }
 
     public static void init(Pane root) {
+        root.setStyle("-fx-background-color: transparent;");
         CreatorDisplayHandler.root = root;
     }
     

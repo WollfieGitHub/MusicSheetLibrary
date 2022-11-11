@@ -2,20 +2,20 @@ package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.pr
 
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedTextField;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
+import fr.wollfie.sheetmusiclibrary.utils.Callback;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 
 import java.util.function.Consumer;
 
-public class TextPrompt extends ValuePrompt<String> {
+public class StringPrompt extends ValuePrompt<String> {
 
 
     private ThemedTextField textField;
 
-    public TextPrompt(String prompt, Consumer<String> callback) {
+    public StringPrompt(String prompt, Callback<String> callback) {
         super(prompt, callback);
     }
 
@@ -35,5 +35,10 @@ public class TextPrompt extends ValuePrompt<String> {
     @Override
     public void getFocus() {
         textField.requestFocus();
+    }
+
+    @Override
+    protected BooleanProperty promptDisabledProperty() {
+        return textField.disableProperty();
     }
 }

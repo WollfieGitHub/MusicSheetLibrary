@@ -1,4 +1,4 @@
-package fr.wollfie.sheetmusiclibrary;
+package fr.wollfie.sheetmusiclibrary.controllers;
 
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
@@ -79,10 +79,7 @@ public class IconChoice extends VBox {
                     FontIcon fontIcon = new FontIcon(ikon);
                     ThemedButton button = new ThemedButton(null, fontIcon, Theme.Category.Primary, fontSize);
                     
-                    button.setOnAction(e -> chosenFontIcon.accept(fontIcon));
-                    button.setOnKeyTyped(e -> { if (e.getCode() == KeyCode.ENTER) {
-                        chosenFontIcon.accept(new FontIcon(fontIcon.getIconCode()));
-                    } });
+                    button.setOnAction(e -> chosenFontIcon.accept(new FontIcon(ikon)));
                     return button;
                 }).toList()
             );

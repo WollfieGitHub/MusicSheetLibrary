@@ -3,7 +3,6 @@ package fr.wollfie.sheetmusiclibrary.library;
 
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
-import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +70,7 @@ final class SheetMusicLibraryTest {
         
         assertNotNull(results);
         assertThat(results.isEmpty(), is(false));
-        assertThat(results.get(0).lastName(), is(VALID_ARTIST_1.lastName()));
+        assertThat(results.get(0).getLastName(), is(VALID_ARTIST_1.getLastName()));
     }
     
     @Test void validFileNameLoadsValidSheetMusicMetadata() {
