@@ -130,9 +130,6 @@ public final class SheetMusicLibrary {
         }
         
         // Fetch an image for an artist before insertion
-        if (metadata instanceof Artist artist && !artist.getImageUrl().fetched) {
-            metadata = (M)artist.withImage(LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(artist)));
-        }
         metadataIndex.add(metadata);
         Logger.infof("%s was successfully inserted.", metadata);
     }

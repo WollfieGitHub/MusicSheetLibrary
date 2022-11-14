@@ -12,17 +12,17 @@ import java.util.function.Function;
 public class ArtistCreator extends MetadataCreator<Artist> {
     
     private final Property<String> firstNameProperty = new SimpleObjectProperty<>(null);
-    private final Property<Optional<String>> lastNameProperty = new SimpleObjectProperty<>(Optional.empty());
+    private final Property<String> lastNameProperty = new SimpleObjectProperty<>(null);
     private final Property<Integer> yearOfBirthProperty = new SimpleObjectProperty<>(null);
-    private final Property<Optional<Integer>> yearOfDeathProperty = new SimpleObjectProperty<>(Optional.empty());
+    private final Property<Integer> yearOfDeathProperty = new SimpleObjectProperty<>(null);
     private final StringPrompt firstNamePrompt;
 
     public ArtistCreator(Consumer<Artist> onMetadataCreated) {
         super(onMetadataCreated);
 
-        OptionalPrompt<Integer> deathPrompt = new OptionalPrompt<Integer>("Year of Death", onResultFinish(yearOfDeathProperty), IntegerPrompt.class);
+        IntegerPrompt deathPrompt = new IntegerPrompt("Year of Death", onResultFinish(yearOfDeathProperty));
         IntegerPrompt birthPrompt = new IntegerPrompt("Year of Birth", onResult(yearOfBirthProperty, deathPrompt));
-        OptionalPrompt<String> lastNamePrompt = new OptionalPrompt<>("Last Name", onResult(lastNameProperty, birthPrompt), StringPrompt.class);
+        StringPrompt lastNamePrompt = new StringPrompt("Last Name", onResult(lastNameProperty, birthPrompt));
         firstNamePrompt = new StringPrompt("First Name/Nickname", onResult(firstNameProperty, lastNamePrompt));
 
         getChildren().addAll(firstNamePrompt);
@@ -38,7 +38,7 @@ public class ArtistCreator extends MetadataCreator<Artist> {
                     firstNameProperty.getValue(),
                     lastNameProperty.getValue(),
                     yearOfBirthProperty.getValue(),
-                    (Optional<Integer>) yofd
+                    (Integer) yofd
             );
             Logger.info(artist);
             return artist;

@@ -1,7 +1,10 @@
 package fr.wollfie.sheetmusiclibrary.components.display_adapters;
 
+import fr.wollfie.sheetmusiclibrary.components.RootComponent;
+import fr.wollfie.sheetmusiclibrary.components.item_pages.ArtistPage;
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
 import fr.wollfie.sheetmusiclibrary.controllers.Card;
+import fr.wollfie.sheetmusiclibrary.controllers.ClickableCard;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -20,15 +23,17 @@ public class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
     
     @Override
     public Node getItemRepresentation(Artist artist) {
-        return new Card(
+        ClickableCard card = new ClickableCard(
                 getArtistPictureComponent(artist),
                 getArtistNameComponent(artist)
         );
+        card.setOnMouseClicked(event -> RootComponent.displayPage(artist));
+        return card;
     }
 
     @Override
     public MetadataPage<Artist> getPageRepresentation(Artist artist) {
-        return null;
+        return new ArtistPage(artist);
     }
 
     private static Node getArtistPictureComponent(Artist artist) {
@@ -51,8 +56,9 @@ public class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
         label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                 "-fx-font-size: " + FontSize.DEFAULT_H2 + ";");
 
+        Integer yod = artist.getYearOfDeath();
         Label datesLabel = new Label(
-                artist.getYearOfBirth() + artist.getYearOfDeath().map(y -> " - " + y).orElse("")
+                artist.getYearOfBirth() + (yod != null ? " - " + yod : "")
         );
 
         datesLabel.setStyle("-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getTextColorFrom(null).darker()) + ";" +

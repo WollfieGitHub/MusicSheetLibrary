@@ -2,7 +2,6 @@ package fr.wollfie.sheetmusiclibrary.components;
 
 import fr.wollfie.sheetmusiclibrary.controllers.DangerButton;
 import fr.wollfie.sheetmusiclibrary.MusicLibraryApplication;
-import fr.wollfie.sheetmusiclibrary.controllers.EditableLabel;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedButton;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;

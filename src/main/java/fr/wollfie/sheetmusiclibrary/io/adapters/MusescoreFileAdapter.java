@@ -24,7 +24,7 @@ import static fr.wollfie.sheetmusiclibrary.io.adapters.XMLFileAdapter.*;
 public class MusescoreFileAdapter {
     
     
-    public static boolean decodeSheetMusic(File file) throws ParserConfigurationException, IOException, SAXException {
+    public static boolean decodeSheetMusic(File file, File source) throws ParserConfigurationException, IOException, SAXException {
         // Step 1. Treat file as zip and unzip file
         // Step 2. Open the file with text and decode the XML 
         // Find attributes for tracks, author and title (Tracks is easy to find and decode)
@@ -110,9 +110,9 @@ public class MusescoreFileAdapter {
 
         if (artist.isEmpty() && composerName != null) {
             String[] composerNames = composerName.split(" ");
-            Optional<String> composerLastName = composerNames.length > 1 
-                    ? Optional.of(composerNames[composerNames.length-1])
-                    : Optional.empty();
+            String composerLastName = composerNames.length > 1 
+                    ? composerNames[composerNames.length-1]
+                    : null;
             
             String composerFirstName = Arrays.stream(composerNames)
                     .limit(composerNames.length-1)
@@ -121,8 +121,7 @@ public class MusescoreFileAdapter {
             artist = Optional.of(new Artist(
                     composerFirstName,
                     composerLastName,
-                    0,
-                    Optional.empty()
+                    0, null
             ));
             SheetMusicLibrary.tryInsert(artist.get());
         }
@@ -135,7 +134,7 @@ public class MusescoreFileAdapter {
                 tracks,
                 null,
                 null,
-                new MusescoreFile(file)
+                new MusescoreFile(source)
         ));
         return true;
     }

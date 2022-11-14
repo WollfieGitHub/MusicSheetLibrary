@@ -17,6 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.regex.Matcher;
@@ -82,13 +83,16 @@ public class MetadataDropInProgram {
                 case "pdf", "PDF" -> PdfFileAdapter.decodeSheetMusic(file);
                 case "mscz", "MSCZ" -> {
                     File unzippedDirectory = ZipFileAdapter.unzipInPlace(file);
-                    FileSystem.getFirstFileWith(
+                    Optional<File> mscx = FileSystem.getFirstFileWith(
                         "mscx",
                         unzippedDirectory
-                    ).ifPresent(mscx -> handleDrop(mscx, observableCompletion));
+                    );
+                    if (mscx.isPresent()) {
+                        observableCompletion.setFromBool(MusescoreFileAdapter.decodeSheetMusic(mscx.get(), file));
+                    }
                     if (!FileSystem.deleteDirectory(unzippedDirectory)) {throw new IOException("Deletion failed"); }
                 }
-                case "mscx", "MSCX" -> observableCompletion.setFromBool(MusescoreFileAdapter.decodeSheetMusic(file));
+                case "mscx", "MSCX" -> observableCompletion.setFromBool(MusescoreFileAdapter.decodeSheetMusic(file, file));
             }
             observableCompletion.setSuccess();
         } catch (SAXException | IOException | ParserConfigurationException e) {

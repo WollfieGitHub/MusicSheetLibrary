@@ -8,5 +8,4 @@ public class PdfFormatException extends IOException {
         super("The specified PDF file is not recognized as a sheet music");
     }
     
-    
 }

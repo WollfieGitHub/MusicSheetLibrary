@@ -2,6 +2,7 @@ package fr.wollfie.sheetmusiclibrary.components.display_adapters;
 
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
 import fr.wollfie.sheetmusiclibrary.controllers.Card;
+import fr.wollfie.sheetmusiclibrary.controllers.ClickableCard;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
 import fr.wollfie.sheetmusiclibrary.dto.MusicCategory;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -14,7 +15,7 @@ public class MusicCategoryDisplayAdapter extends DisplayAdapter<MusicCategory> {
     
     @Override
     public Node getItemRepresentation(MusicCategory category) {
-        return new Card(
+        return new ClickableCard(
                 getIcon(category),
                 getName(category)
         );

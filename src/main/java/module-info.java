@@ -18,7 +18,7 @@ module fr.wollfie.sheetmusiclibrary {
     requires org.apache.httpcomponents.client5.httpclient5;
     requires org.apache.httpcomponents.core5.httpcore5;
     requires org.apache.pdfbox;
-
+    
     exports fr.wollfie.sheetmusiclibrary;
     exports fr.wollfie.sheetmusiclibrary.controllers;
     exports fr.wollfie.sheetmusiclibrary.components;
@@ -36,4 +36,6 @@ module fr.wollfie.sheetmusiclibrary {
     opens fr.wollfie.sheetmusiclibrary.controllers to javafx.fxml;
     opens fr.wollfie.sheetmusiclibrary.dto.files to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.utils to com.fasterxml.jackson.databind;
+    exports fr.wollfie.sheetmusiclibrary.controllers.editable_field;
+    opens fr.wollfie.sheetmusiclibrary.controllers.editable_field to javafx.fxml;
 }

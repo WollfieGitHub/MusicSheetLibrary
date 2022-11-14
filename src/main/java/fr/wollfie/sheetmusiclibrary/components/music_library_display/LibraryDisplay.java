@@ -59,16 +59,10 @@ public class LibraryDisplay extends StackPane {
         getChildren().add(content);
     }
     
-    public static LibraryDisplay initIn(Pane container) {
-        LibraryDisplay display = new LibraryDisplay();
-        container.getChildren().add(display);
-        display.onMounted();
-        return display;
+    public static LibraryDisplay createNew() {
+        return new LibraryDisplay();
     }
     
-    private void onMounted() {
-        getScene().setOnKeyPressed(Utils.onKeyTyped(KeyCode.TAB, categorySelectionBar::selectNext));
-    }
 
     private void updateContentChildren() {
         scrollLibraryWrapper.setContent(categorySelectionBar.selectedCategoryProperty().get());

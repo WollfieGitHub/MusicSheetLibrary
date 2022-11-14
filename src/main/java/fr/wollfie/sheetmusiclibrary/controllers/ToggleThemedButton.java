@@ -1,6 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.controllers;
 
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
+import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;

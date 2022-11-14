@@ -1,5 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.components.display_adapters;
 
+import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
 import fr.wollfie.sheetmusiclibrary.components.item_pages.SheetMusicPage;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
@@ -128,6 +129,7 @@ public class SheetMusicDisplayAdapter extends DisplayAdapter<SheetMusic> {
     private Node getTitleFrom(SheetMusic sheetMusic) {
         VBox cell = new VBox();
         Label nameLabel = new ClickableLabel(sheetMusic.getName());
+        nameLabel.setOnMouseClicked(event -> RootComponent.displayPage(sheetMusic));
         nameLabel.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                 "-fx-font-size: " + FontSize.DEFAULT_H2 + ";");
         cell.getChildren().addAll(nameLabel);

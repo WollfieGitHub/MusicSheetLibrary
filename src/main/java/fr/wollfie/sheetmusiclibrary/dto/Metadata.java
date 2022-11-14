@@ -17,4 +17,5 @@ public interface Metadata extends JsonSerializable {
     @JsonIgnore
     default MetadataType getType() { return MetadataType.fromClass(this.getClass()); }
 
+    
 }
