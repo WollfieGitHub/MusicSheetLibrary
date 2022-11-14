@@ -3,6 +3,7 @@ package fr.wollfie.sheetmusiclibrary.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.wollfie.sheetmusiclibrary.io.network.ArtistImageRetriever;
 
 import java.util.*;
 
@@ -17,12 +18,12 @@ public final class Artist extends MetadataObject {
 // \\======================================================================================//
 
     
-    private final String firstNameOrNickname;
-    private final Optional<String> lastName;
-    private final int yearOfBirth;
-    private final Optional<Integer> yearOfDeath;
+    private String firstNameOrNickname;
+    private String lastName;
+    private int yearOfBirth;
+    private Integer yearOfDeath;
     private final List<MetadataRef<MusicGenre>> musicGenres;
-    private final LazyImageUrl imageUrl;
+    private LazyImageUrl imageUrl;
 
 // //======================================================================================\\
 // ||                                                                                      ||
@@ -40,9 +41,9 @@ public final class Artist extends MetadataObject {
      */
     @JsonCreator
     public Artist(@JsonProperty("firstNameOrNickname") String firstNameOrNickname,
-                  @JsonProperty("lastName") Optional<String> lastName,
+                  @JsonProperty("lastName") String lastName,
                   @JsonProperty("yearOfBirth") int yearOfBirth,
-                  @JsonProperty("yearOfDeath") Optional<Integer> yearOfDeath,
+                  @JsonProperty("yearOfDeath") Integer yearOfDeath,
                   @JsonProperty("musicGenres") List<MetadataRef<MusicGenre>> musicGenres,
                   @JsonProperty("imageUrl") LazyImageUrl imageUrl) {
         this.firstNameOrNickname = firstNameOrNickname;
@@ -59,33 +60,22 @@ public final class Artist extends MetadataObject {
 // ||                                                                                      ||
 // \\======================================================================================//
     
-    public Artist(String firstName, Optional<String> lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
+    public Artist(String firstName, String lastName, int yearOfBirth, Integer yearOfDeath,
                   LazyImageUrl imageUrl, MusicGenre... musicGenres) {
-        this(firstName, lastName,
+        this(firstName, lastName, 
                 yearOfBirth, yearOfDeath,
                 Arrays.stream(musicGenres).map(MetadataRef::new).toList(),
                 imageUrl);
     }
 
-    public Artist withImage(LazyImageUrl image) {
-        return new Artist(
-                this.firstNameOrNickname, this.lastName,
-                this.yearOfBirth, this.yearOfDeath,
-                this.musicGenres,
-                image
-        );
+    public Artist(String firstName, String lastName, int yearOfBirth, Integer yearOfDeath, MusicGenre... musicGenres) {
+        this(firstName, lastName,
+                yearOfBirth, yearOfDeath,
+                Arrays.stream(musicGenres).map(MetadataRef::new).toList(),
+                LazyImageUrl.empty());
+        this.reloadImage();
     }
 
-    public Artist(String firstName, String lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
-                  MusicGenre... musicGenres) {
-        this(firstName, Optional.ofNullable(lastName), yearOfBirth, yearOfDeath, LazyImageUrl.empty(), musicGenres);
-    }
-
-    public Artist(String firstName, Optional<String> lastName, int yearOfBirth, Optional<Integer> yearOfDeath,
-                  MusicGenre... musicGenres) {
-        this(firstName, lastName, yearOfBirth, yearOfDeath, LazyImageUrl.empty(), musicGenres);
-    }
-    
 // //======================================================================================\\
 // ||                                                                                      ||
 // ||                                       GETTERS                                        ||
@@ -99,35 +89,44 @@ public final class Artist extends MetadataObject {
                 String.valueOf(yearOfBirth),
                 fullName()
         ));
-        lastName.ifPresent(result::add);
+        if (lastName != null) { result.add(lastName); }
 
         return result;
     }
 
     @JsonIgnore public String fullName() {
-        return firstNameOrNickname + lastName.map(name -> " " + name).orElse("");
-    }
-    @JsonIgnore public String formattedDates() {
-        return String.format("(%d - %s)", yearOfBirth, yearOfDeath.map(String::valueOf).orElse("   "));
+        return firstNameOrNickname + (lastName != null ? " " + lastName : "");
     }
     
-    public String getFirstNameOrNickname() {
-        return firstNameOrNickname;
+    public String getFirstNameOrNickname() { return firstNameOrNickname; }
+    public void setFirstNameOrNickname(String newNickname) {
+        this.firstNameOrNickname = newNickname;
+        this.reloadImage();
     }
-    public Optional<String> getLastName() {
-        return lastName;
+    
+    public String getLastName() { return lastName; }
+    public void setLastName(String newLastName) {
+        if ("".equals(newLastName)) { this.lastName = null; }
+        else { this.lastName = newLastName; }
     }
+    
     public int getYearOfBirth() {
         return yearOfBirth;
     }
-    public Optional<Integer> getYearOfDeath() {
+    public Integer getYearOfDeath() {
         return yearOfDeath;
     }
     public List<MetadataRef<MusicGenre>> getMusicGenres() {
         return musicGenres;
     }
+    
     public LazyImageUrl getImageUrl() {
         return imageUrl;
+    }
+
+    /** Re-fetch an image for this artist */
+    private void reloadImage() {
+        this.imageUrl = LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(this));
     }
     
     @Override

@@ -22,23 +22,9 @@ public class DtosTest {
                 is(1));
     }
     
-    @Test void musicCategoryHasNameAsEqualMethod() {
-        assertThat(new MusicCategory("Tomato", Color.AQUA, null).equals(
-                new MusicCategory("Tomato", Color.ROSYBROWN, null)
-        ), is(true));
-
-        assertThat(new MusicCategory("Tomato", Color.AQUA, null).equals(
-                new MusicCategory("Tomatoa", Color.AQUA, null)
-        ), is(false));
-
-        assertThat(new MusicCategory("Tomato", Color.AQUA, null).equals(
-                new Instrument(new LingualString("Tomato"), Color.AQUA, null)
-        ), is(false));
-    }
-    
-    @Test void musicCategoryHasNameForUIdMethod() {
+    @Test void musicCategoryHasUniqueUIdForInstancesMethod() {
         assertThat(new MusicCategory("Tomato", Color.AQUA, null).getUId(),
-                is(new MusicCategory("Tomato", Color.ROSYBROWN, null).getUId()));
+                is(not(new MusicCategory("Tomato", Color.ROSYBROWN, null).getUId())));
 
         assertThat(new MusicCategory("Tomatoa", Color.AQUA, null).getUId(), 
                 is(not(new MusicCategory("Tomato", Color.ROSYBROWN, null).getUId())));
@@ -51,7 +37,7 @@ public class DtosTest {
 // \\======================================================================================//
     
     @Test void artistHasNameAndYearsAsSearchableString() {
-        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getLastName().get()), is(true));
+        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getLastName()), is(true));
         assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getFirstNameOrNickname()), is(true));
         assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(String.valueOf(VALID_ARTIST_1.getYearOfBirth())), is(true));
     }

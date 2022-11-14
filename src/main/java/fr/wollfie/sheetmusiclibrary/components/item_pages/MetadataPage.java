@@ -2,7 +2,9 @@ package fr.wollfie.sheetmusiclibrary.components.item_pages;
 
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
+import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public abstract class MetadataPage<M extends Metadata> extends StackPane {
 
@@ -15,12 +17,19 @@ public abstract class MetadataPage<M extends Metadata> extends StackPane {
      */
     public MetadataPage(M item) {
         this.item = item;
-        this.initComponent();
+
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.TOP_CENTER);
+        vBox.setSpacing(20);
+        
+        this.initComponent(vBox);
+        setAlignment(Pos.CENTER);
+        getChildren().setAll(vBox);
     }
 
     /**
      * Decorate this component with needed info, accessing {@link MetadataPage#item} to get 
      * the necessary data
      */
-    protected abstract void initComponent();
+    protected abstract void initComponent(VBox vBox);
 }

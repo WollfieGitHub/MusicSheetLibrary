@@ -14,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignB;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignI;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
@@ -38,6 +39,10 @@ public class LeftToolbar extends VBox {
                 ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
                 () -> {});
         
-        getChildren().setAll(createBtn, importBtn);
+        ClickableFontIcon libraryBtn = new ClickableFontIcon(MaterialDesignB.BOOKSHELF,
+                ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
+                RootComponent::displayLibrary);
+        
+        getChildren().setAll(createBtn, importBtn, libraryBtn);
     }
 }

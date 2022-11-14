@@ -36,27 +36,12 @@ public class MusicLibraryApplication extends Application {
 
         Logger.infof("Logger level set to %s", Logger.getCurrentLevel());
 
-        StackPane root = new StackPane();
-        CreatorDisplayHandler.init(root);
-        
         BorderPane base = new RootComponent(primaryStage);
-        VBox centerVBox = new VBox(new SubToolbar());
-        
-        base.setCenter(centerVBox);
-        base.setLeft(new LeftToolbar());
-        base.getStylesheets().addAll(
-                "noheader.css",
-                "main.css",
-                "scrollbar.css",
-                "titled_pane.css",
-                "checkbox.css"
-        );
-        root.getChildren().add(base);
-        
+        StackPane root = new StackPane(base);
+        CreatorDisplayHandler.init(root);
+
         Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.TRANSPARENT);
-
-        LibraryDisplay.initIn(centerVBox);
 
         // Handle the drop of a file into the program
         scene.setOnDragOver(MetadataDropInProgram.handleDragOver(scene));

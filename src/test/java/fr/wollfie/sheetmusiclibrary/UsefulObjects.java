@@ -33,9 +33,9 @@ public class UsefulObjects {
             "Classique", Optional.of(1750), Optional.of(1830),
             Color.AQUA
     );
-    public static final Artist VALID_ARTIST_1 = new Artist("Ludwig Van", "Beethoven", 1778, Optional.of(1826), VALID_GENRE);
-    public static final Artist SAME_ARTIST_1 = new Artist("Ludwig Van", "Theeloten", 1778, Optional.of(1826), VALID_GENRE);
-    public static final Artist SAME_ARTIST_2 = new Artist("Ludwig Van", "Peebonen", 1778, Optional.of(1826), VALID_GENRE);
+    public static final Artist VALID_ARTIST_1 = new Artist("Ludwig Van", "Beethoven", 1778, 1826, VALID_GENRE);
+    public static final Artist SAME_ARTIST_1 = new Artist("Ludwig Van", "Theeloten", 1778, 1826, VALID_GENRE);
+    public static final Artist SAME_ARTIST_2 = new Artist("Ludwig Van", "Peebonen", 1778, 1826, VALID_GENRE);
     
     public static final SheetMusic VALID_SHEET = new SheetMusic(
             "Moonlight Sonata",

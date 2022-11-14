@@ -48,7 +48,7 @@ public class SearchEngineTest {
     
     @Test void resultHasNoDuplicateAndIsOrderedForArtists() {
         List<Artist> instruments = SearchEngine.updatePropositionsAccordingTo(
-                VALID_ARTIST_1.getLastName().get(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
+                VALID_ARTIST_1.getLastName(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
         );
         // No duplicate
         assertThat(instruments.size(), is(1));

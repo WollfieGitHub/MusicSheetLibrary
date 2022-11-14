@@ -1,8 +1,9 @@
 package fr.wollfie.sheetmusiclibrary.components.item_pages;
 
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableFontIcon;
-import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
-import fr.wollfie.sheetmusiclibrary.controllers.EditableLabel;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableLabel;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableValue;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.FieldEditor;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -29,17 +30,21 @@ public final class SheetMusicPage extends MetadataPage<SheetMusic> {
     }
 
     @Override
-    protected void initComponent() {
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.TOP_CENTER);
+    protected void initComponent(VBox vBox) {
+        
 
-        EditableLabel editableLabel = new EditableLabel(item.getName(), Theme.Category.Accent, FontSize.DEFAULT_H2);
+        EditableValue<String> editableLabel = FieldEditor.synchronize(
+                new EditableLabel(Theme.Category.Accent, FontSize.DEFAULT_H1, false, Pos.CENTER),
+                item::setName, item::getName
+        );
 
         HBox filesHBox = new HBox();
         filesHBox.setAlignment(Pos.CENTER);
 
-        pdfIcon = new ClickableFontIcon(MaterialDesignF.FILE_PDF_OUTLINE, ThemeManager.getWhiteColor(), 10,item.getPdfFile()::open);
-        musescoreIcon = new ClickableFontIcon(MaterialDesignF.FILE_MUSIC_OUTLINE,ThemeManager.getWhiteColor(), 10, item.getMusescoreFile()::open);
+        pdfIcon = new ClickableFontIcon(MaterialDesignF.FILE_PDF_OUTLINE, ThemeManager.getWhiteColor(), FontSize.DEFAULT_BIG_ICON,
+                () -> { if (item.getPdfFile() != null) { item.getPdfFile().open(); } });
+        musescoreIcon = new ClickableFontIcon(MaterialDesignF.FILE_MUSIC_OUTLINE,ThemeManager.getWhiteColor(), FontSize.DEFAULT_BIG_ICON,
+                () -> { if (item.getMusescoreFile() != null) { item.getMusescoreFile().open(); } });
         filesHBox.getChildren().addAll(pdfIcon, musescoreIcon);
         
         vBox.getChildren().addAll(editableLabel, filesHBox);

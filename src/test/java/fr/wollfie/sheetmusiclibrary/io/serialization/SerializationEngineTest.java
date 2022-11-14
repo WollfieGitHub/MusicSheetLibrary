@@ -65,7 +65,7 @@ final class SerializationEngineTest {
         assertDoesNotThrow(this::saveArtist);
         
         Artist artist = loadArtist();
-        assertThat(artist.getYearOfDeath().get(), is(VALID_ARTIST_1.getYearOfDeath().get()));
+        assertThat(artist.getYearOfDeath(), is(VALID_ARTIST_1.getYearOfDeath()));
     }
     
     @Test void loadingMetadataWithColorReturnsColor() throws IOException {

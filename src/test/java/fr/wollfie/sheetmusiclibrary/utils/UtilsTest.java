@@ -12,9 +12,9 @@ import static fr.wollfie.sheetmusiclibrary.UsefulObjects.*;
 public class UtilsTest {
     
     @Test void toRgbCodeReturnsCorrectColor() {
-        assertThat(Utils.toRGBCode(new Color(1, 0, 0, 1)).toLowerCase(), is("#ff0000"));
-        assertThat(Utils.toRGBCode(new Color(0, 1, 0, 1)).toLowerCase(), is("#00ff00"));
-        assertThat(Utils.toRGBCode(new Color(0, 0, 1, 1)).toLowerCase(), is("#0000ff"));
+        assertThat(Utils.toRGBCode(new Color(1, 0, 0, 1)).toLowerCase(), is("#ff0000ff"));
+        assertThat(Utils.toRGBCode(new Color(0, 1, 0, 1)).toLowerCase(), is("#00ff00ff"));
+        assertThat(Utils.toRGBCode(new Color(0, 0, 1, 1)).toLowerCase(), is("#0000ffff"));
     }
     
     @Test void stringRepeatsWorkAsDocumented() {
