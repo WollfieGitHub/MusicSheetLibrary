@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import org.w3c.dom.ls.LSException;
 
@@ -14,7 +17,8 @@ public class LazyImageUrl implements JsonSerializable {
     public String imageUrl;
     public boolean fetched;
     public boolean found;
-    @JsonIgnore private Image image;
+    @JsonIgnore private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
+    public ReadOnlyObjectProperty<Image> imageProperty() {return image; }
 
     @JsonProperty("imageUrl")
     public void setImageUrl(String imageUrl) {
@@ -30,7 +34,7 @@ public class LazyImageUrl implements JsonSerializable {
         this.imageUrl = imageUrl;
         this.fetched = fetched;
         this.found = found;
-        this.image = image;
+        this.image.set(image);
     }
 
     public LazyImageUrl(String imageUrl, boolean fetched, boolean found) {
@@ -40,9 +44,11 @@ public class LazyImageUrl implements JsonSerializable {
         this.loadImage();
     }
 
-    public static LazyImageUrl fromResult(String url) {
-        if (url == null) { return new LazyImageUrl(null, true, false, null); }
-        else { return new LazyImageUrl(url, true, true); }
+    public void setFrom(String url) {
+        this.imageUrl = url;
+        this.fetched = true;
+        this.found = url != null;
+        this.loadImage();
     }
     
     public static LazyImageUrl empty() {
@@ -50,12 +56,17 @@ public class LazyImageUrl implements JsonSerializable {
     }
     
     @JsonIgnore public Image getImage() {
-        if (this.available()) { return image; }
+        if (this.available()) { return image.get(); }
         return null;
     }
     
     private void loadImage() {
-        this.image = imageUrl == null ? null : new Image(imageUrl, DEFAULT_SIZE, DEFAULT_SIZE, true, true, false);
+        this.image.set(
+            imageUrl == null 
+                ? null 
+                : new Image(imageUrl, DEFAULT_SIZE, DEFAULT_SIZE, 
+                    true, true, false)
+        );
     }
 
     @JsonIgnore public boolean available() {

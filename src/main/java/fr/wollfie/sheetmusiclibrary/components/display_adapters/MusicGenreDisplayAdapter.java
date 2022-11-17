@@ -13,7 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class MusicGenreDisplayAdapter extends DisplayAdapter<MusicGenre> {
+public final class MusicGenreDisplayAdapter extends DisplayAdapter<MusicGenre> {
     
     @Override
     public Node getItemRepresentation(MusicGenre genre) {
@@ -45,7 +45,6 @@ public class MusicGenreDisplayAdapter extends DisplayAdapter<MusicGenre> {
                 "-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getTextColorFrom(null).darker()) + ";" +
                 "-fx-font-size: " + FontSize.DEFAULT_H3 + ";"
         );
-
 
         VBox vBox = new VBox(nameLbl, yearLbl);
         vBox.setAlignment(Pos.CENTER_LEFT);

@@ -30,19 +30,9 @@ public class LeftToolbar extends VBox {
                 "-fx-background-color: " + ThemeManager.hexColorFrom(Theme.Category.Background, Theme.Shade.Dark1) + ";" +
                 "-fx-background-radius: 0 0 0 25;"
         );
-
-        ClickableFontIcon createBtn = new ClickableFontIcon(MaterialDesignP.PLUS_CIRCLE_OUTLINE, 
-                ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
-                () -> MetadataCreator.promptCreationFor(CategorySelectionBar.currentSelectedType));
-
-        ClickableFontIcon importBtn = new ClickableFontIcon(MaterialDesignA.APPLICATION_IMPORT,
-                ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
-                () -> {});
         
-        ClickableFontIcon libraryBtn = new ClickableFontIcon(MaterialDesignB.BOOKSHELF,
-                ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
-                RootComponent::displayLibrary);
-        
-        getChildren().setAll(createBtn, importBtn, libraryBtn);
+        RootComponent.currentContentProperty().addListener((l, oldV, newV) -> {
+            getChildren().setAll(newV.getContextControls());
+        });
     }
 }

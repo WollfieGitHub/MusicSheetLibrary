@@ -14,8 +14,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignF;
 
 public class EditableLabel extends EditableValue<String> {
-
-    private final FontIcon PEN_ICON = new FontIcon(MaterialDesignF.FEATHER);
     
     private final ThemedLabel label;
     private final ThemedTextField textField;

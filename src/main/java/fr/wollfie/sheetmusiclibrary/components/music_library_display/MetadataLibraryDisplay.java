@@ -5,8 +5,10 @@ import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
 import fr.wollfie.sheetmusiclibrary.controllers.SearchResults;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.utils.BindingUtil;
 import fr.wollfie.sheetmusiclibrary.utils.Callback;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -22,18 +24,33 @@ public class MetadataLibraryDisplay<M extends MetadataObject> extends StackPane 
     public MetadataLibraryDisplay(SearchBar searchBar, Class<M> metadataType) {
         this(searchBar, metadataType, null);
     }
-    
-    @SuppressWarnings("unchecked")
+
     public MetadataLibraryDisplay(SearchBar searchBar, Class<M> metadataType, Callback<M> onClick) {
         this.type = metadataType;
         this.onClick = onClick;
         this.results = initResults(searchBar);
-        
+        init(onClick);
+    }
+
+    public MetadataLibraryDisplay(ObservableList<M> results, Class<M> metadataType) {
+        this(results, metadataType, null);
+    }
+    
+    public MetadataLibraryDisplay(ObservableList<M> results, Class<M> metadataType, Callback<M> onClick) {
+        this.type = metadataType;
+        this.onClick = onClick;
+        this.results = results;
+
+        init(onClick);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void init(Callback<M> onClick) {
         setMaxWidth(Double.MAX_VALUE);
 
         Pane listContainer = MetadataType.fromClass(this.type).displayAdapter.getListContainer();
-        
-        BindingUtil.mapContent(listContainer.getChildren(), results, metadata -> {
+
+        BindingUtil.mapContent(listContainer.getChildren(), this.results, metadata -> {
             Node node = ((DisplayAdapter<M>)metadata.getType().getAdapter()).getItemRepresentation(metadata);
             
             if (this.onClick != null) { node.setOnMouseClicked(clickEvent -> onClick.accept(metadata)); }
@@ -41,12 +58,17 @@ public class MetadataLibraryDisplay<M extends MetadataObject> extends StackPane 
         });
 
         listContainer.setMaxWidth(Double.MAX_VALUE);
-        
+
         getStyleClass().add("noheader");
-        setStyle(getStyle() + "-fx-font-size: " + FONT_SIZE + ";");
+        setStyle(getStyle() +
+                "-fx-font-size: " + FONT_SIZE + ";" +
+                "-fx-background: rgba(0, 0, 0, 0);" +
+                "-fx-background-color: rgba(0, 0, 0, 0);"
+        );
         getChildren().setAll(listContainer);
+
     }
-    
+
     public void selectFirst() {
         if (onClick == null) { throw new UnsupportedOperationException("No callback configured on selection"); } 
 

@@ -1,7 +1,9 @@
 package fr.wollfie.sheetmusiclibrary.library;
 
 import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
+import fr.wollfie.sheetmusiclibrary.utils.QuadFunction;
 import fr.wollfie.sheetmusiclibrary.utils.TriFunction;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -28,15 +30,36 @@ public class SearchEngine {
         return 1.25;
     };
     
-    private static final double ERROR_TOLERANCE = 0.2;
-    private static final TriFunction<String, String, Double, Boolean> RELEVANCE_FUNCTION = 
+    private static final double DEFAULT_THRESHOLD = 0.2;
+    private static final TriFunction<String, String, Double, Double> NORMALIZE_FUNCTION = 
             (ref, candidate, score) -> {
                 // Discard this tuple
-                if (candidate.length() == 0) { return false; }
+                if (candidate.length() == 0 && ref.length() == 0) { return 0.0; }
                 // Otherwise the correspondence should be more than the ratio typed minus some margin for error
-                double ratioTyped = Math.min(ref.length() / (double)candidate.length(), 1);
-                return score >= ratioTyped-ERROR_TOLERANCE;
+                return score / Math.max(ref.length(), candidate.length());
             };
+
+    /**
+     * Given a bunch of available metadata, reduce the list of metadata to match the reference. The fields examined
+     * are the ones returned by the {@link MetadataObject#getSearchableTokenFields()} method. The Normalized Edit
+     * Distance metric is used by default
+     * @param reference The reference string used to reduce the number of possibilities
+     * @param initialProposals The initial proposal of choices that should be reduced
+     * @param maxNbItemsDesired The max number of items to return using the reduction
+     * @param threshold Each result must resemble the reference at least <{@code threshold}>% to be included
+     *                  according to {@link SearchEngine#NORMALIZE_FUNCTION}
+     * @return A reduced number of results for the search based on the reference string
+     * @param <M> The type of metadata to search among
+     */
+    public static <M extends MetadataObject> List<Tuple<M, Double>> updatePropositionsAccordingTo(
+            String reference, List<M> initialProposals, int maxNbItemsDesired, double threshold
+    ) {
+        return updatePropositionsAccordingTo(
+                reference, initialProposals,
+                MetadataObject::getSearchableTokenFields,
+                maxNbItemsDesired, DEFAULT_ALGORITHM, threshold
+        );
+    }
     
     /**
      * Given a bunch of available metadata, reduce the list of metadata to match the reference. The fields examined
@@ -54,8 +77,8 @@ public class SearchEngine {
         return updatePropositionsAccordingTo(
                 reference, initialProposals, 
                 MetadataObject::getSearchableTokenFields,
-                maxNbItemsDesired, DEFAULT_ALGORITHM
-        );
+                maxNbItemsDesired, DEFAULT_ALGORITHM, DEFAULT_THRESHOLD
+        ).parallelStream().map(Tuple::left).toList();
     }
 
     /**
@@ -75,8 +98,8 @@ public class SearchEngine {
         return updatePropositionsAccordingTo(
                 reference, initialProposals,
                 tokenExtractor,
-                maxNbItemsDesired, DEFAULT_ALGORITHM
-        );
+                maxNbItemsDesired, DEFAULT_ALGORITHM, DEFAULT_THRESHOLD
+        ).parallelStream().map(Tuple::left).toList();
     }
             
     /**
@@ -86,35 +109,40 @@ public class SearchEngine {
      * @param initialProposals The initial proposal of choices that should be reduced
      * @param tokenExtractor Extract string of interest from an object
      * @param maxNbItemsDesired The max number of items to return using the reduction
-     * @return A reduced number of results for the search based on the reference striung
+     * @param algorithm The algorithm used to determine the distance between two words
+     * @param threshold Each result must resemble the reference at least <{@code threshold}>% to be included
+     *                  according to {@link SearchEngine#NORMALIZE_FUNCTION}
+     * @return A reduced number of results for the search based on the reference string
      * @param <M> The type of metadata to search among
      */
-    public static <M> List<M> updatePropositionsAccordingTo(
+    public static <M> List<Tuple<M, Double>> updatePropositionsAccordingTo(
             String reference, List<M> initialProposals,
             Function<M, List<String>> tokenExtractor,
             int maxNbItemsDesired,
-            DistanceAlgorithm algorithm
+            DistanceAlgorithm algorithm,
+            double threshold
     ) {
         
         List<ProposalRecord<M>> records = new ArrayList<>();
         for (M initialProposal : initialProposals) {
             tokenExtractor.apply(initialProposal)
                 .forEach(key -> {
+                    String keyLowered = key.toLowerCase();
                     double score = switch (algorithm) {
-                        case SimpleLevenshtein -> LevenshteinDistance.computeDistance(reference.toLowerCase(), key.toLowerCase());
-                        case NED -> NormalizedEditDistance.computeDistance(reference.toLowerCase(), key.toLowerCase(), DEFAULT_GAMMA_COST);
+                        case SimpleLevenshtein -> LevenshteinDistance.computeDistance(reference.toLowerCase(), keyLowered);
+                        case NED -> NormalizedEditDistance.computeDistance(reference.toLowerCase(), keyLowered, DEFAULT_GAMMA_COST);
                     };
-                    records.add(new ProposalRecord<>(key, score, initialProposal));
+                    records.add(new ProposalRecord<>(key, NORMALIZE_FUNCTION.apply(reference, keyLowered, score), initialProposal));
                 });
         }
 
         return records.stream()
-                .filter(record -> RELEVANCE_FUNCTION.apply(reference, record.key, record.score))
+                .filter(record -> threshold >= record.score)
                 .collect(Collectors.toSet())
                 .stream()
                 .sorted(Comparator.comparing(ProposalRecord::getScore, Comparator.reverseOrder()))
                 .limit(maxNbItemsDesired)
-                .map(ProposalRecord::getRef)
+                .map(Tuple.fromMapping(ProposalRecord::getRef, ProposalRecord::getScore))
                 .toList();
     }
     

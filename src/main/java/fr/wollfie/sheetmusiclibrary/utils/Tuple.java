@@ -19,6 +19,10 @@ public record Tuple<T1, T2>(
         return stream.map(tuple -> new Tuple<>(func.apply(tuple.left), tuple.right));
     }
 
+    public static <T, R1, R2> Function<T, Tuple<R1, R2>> fromMapping(Function<T, R1> leftSupplier, Function<T, R2> rightSupplier) {
+        return t -> Tuple.of(leftSupplier.apply(t), rightSupplier.apply(t));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

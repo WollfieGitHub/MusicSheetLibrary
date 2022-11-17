@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
+public final class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
     
     @Override
     public Node getItemRepresentation(Artist artist) {
