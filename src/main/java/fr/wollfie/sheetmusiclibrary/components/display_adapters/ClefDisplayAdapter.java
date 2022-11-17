@@ -7,7 +7,7 @@ import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import javafx.scene.Node;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class ClefDisplayAdapter extends DisplayAdapter<Clef> {
+public final  class ClefDisplayAdapter extends DisplayAdapter<Clef> {
     
     @Override
     public Node getItemRepresentation(Clef clef) {

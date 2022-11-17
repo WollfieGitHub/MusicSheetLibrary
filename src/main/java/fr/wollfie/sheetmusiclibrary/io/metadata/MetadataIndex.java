@@ -73,7 +73,7 @@ public class MetadataIndex<M extends MetadataObject> {
     /**
      * Reload all the objects data from the associate file and returns this object
      */
-    public MetadataIndex<M> reload() {
+    public void reload() {
         try {
             metadata.clear();
             metadata.addAll(SerializationEngine.loadAllFrom(file, metadataClass));
@@ -81,7 +81,6 @@ public class MetadataIndex<M extends MetadataObject> {
         } catch (IOException e) { throw new RuntimeException(e); }
 
         reloadIndices();
-        return this;
     }
 
     public M getFromRef(MetadataRef<M> ref) {

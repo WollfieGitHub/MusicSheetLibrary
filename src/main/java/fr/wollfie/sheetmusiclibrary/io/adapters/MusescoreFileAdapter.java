@@ -4,6 +4,7 @@ import fr.wollfie.sheetmusiclibrary.dto.*;
 import fr.wollfie.sheetmusiclibrary.dto.files.MusescoreFile;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.library.SheetMusicLibrary;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -103,8 +104,10 @@ public class MusescoreFileAdapter {
                 Logger.infof("%s | %s", instrumentName, clef);
             }
         }
-        Optional<Artist> artist = SheetMusicLibrary.searchFor(composerName, MetadataType.Artist, 1)
+        Optional<Artist> artist = SheetMusicLibrary.searchForMatch(composerName, MetadataType.Artist, 1)
                 .stream()
+                .peek(Logger::debug)
+                .map(Tuple::left)
                 .map(m -> (Artist)m)
                 .findFirst();
 

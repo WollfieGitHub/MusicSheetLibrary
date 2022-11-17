@@ -5,9 +5,13 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignF;
 
 public abstract class EditableValue<T> extends HBox {
 
+    protected final FontIcon PEN_ICON = new FontIcon(MaterialDesignF.FEATHER);
+    
     protected final Property<T> valueProperty = new SimpleObjectProperty<>(null);
     public ReadOnlyProperty<T> valueProperty() { return valueProperty; }
     private boolean valueWasInitialized = false;

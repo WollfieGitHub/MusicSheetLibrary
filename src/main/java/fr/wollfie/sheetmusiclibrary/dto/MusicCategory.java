@@ -1,5 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -16,9 +18,9 @@ public final class MusicCategory extends MetadataObject {
 // ||                                                                                      ||
 // \\======================================================================================//
     
-    private final String name;
-    private final Color color;
-    private final FontIcon icon;
+    private String name;
+    private Color color;
+    private FontIcon icon;
 
 // //======================================================================================\\
 // ||                                                                                      ||
@@ -32,10 +34,10 @@ public final class MusicCategory extends MetadataObject {
      * @param color The color the category is associated with
      * @param icon  The icon displayed for the instrument
      */
-    public MusicCategory(
-            String name,
-            Color color,
-            FontIcon icon
+    @JsonCreator public MusicCategory(
+            @JsonProperty("name") String name,
+            @JsonProperty("color") Color color,
+            @JsonProperty("icon") FontIcon icon
     ) {
         this.name = name;
         this.color = color;
@@ -53,15 +55,19 @@ public final class MusicCategory extends MetadataObject {
         return Collections.singletonList(name);
     }
 
-    public String getName() {
+    @JsonProperty("name") public String getName() {
         return name;
     }
-    public Color getColor() {
+    @JsonProperty("color") public Color getColor() {
         return color;
     }
-    public FontIcon getIcon() {
+    @JsonProperty("icon") public FontIcon getIcon() {
         return icon;
     }
+
+    @JsonProperty("name") public void setName(String name) { this.name = name; }
+    @JsonProperty("color") public void setColor(Color color) { this.color = color; }
+    @JsonProperty("icon") public void setIcon(FontIcon icon) { this.icon = icon; }
 
     @Override
     public String toString() {

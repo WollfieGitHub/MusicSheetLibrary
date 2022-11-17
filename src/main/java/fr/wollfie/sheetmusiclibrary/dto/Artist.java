@@ -126,7 +126,7 @@ public final class Artist extends MetadataObject {
 
     /** Re-fetch an image for this artist */
     private void reloadImage() {
-        this.imageUrl = LazyImageUrl.fromResult(ArtistImageRetriever.fetchFor(this));
+        this.imageUrl.setFrom(ArtistImageRetriever.fetchFor(this));
     }
     
     @Override

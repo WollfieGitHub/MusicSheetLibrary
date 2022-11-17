@@ -6,6 +6,7 @@ import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataIndex;
 import fr.wollfie.sheetmusiclibrary.io.network.ArtistImageRetriever;
+import fr.wollfie.sheetmusiclibrary.utils.Tuple;
 import javafx.collections.ObservableList;
 
 import java.io.File;
@@ -105,6 +106,33 @@ public final class SheetMusicLibrary {
                 nbItems
         );
     }
+    
+    /**
+     * Finds a sheet music in the database by name
+     * @param searchReference A string to search for a metadata of the specified type
+     * @param category The category of metadata to search for
+     * @param nbItems The number of items to return
+     * @throws IllegalArgumentException when no sheet music is found with the given name
+     * @return The {@link SheetMusic} corresponding to the given name or null if none is found
+     */
+    @SuppressWarnings("unchecked")
+    public static <M extends MetadataObject> Optional<Tuple<M, Double>> searchForMatch(String searchReference, MetadataType category,
+                                                                        int nbItems)
+            throws IllegalArgumentException {
+        return Tuple.mapLeft(SearchEngine.updatePropositionsAccordingTo(
+                searchReference,
+                indices.get(category.displayName).metadata.stream().toList(),
+                nbItems, 0.9
+        ).stream(), left -> (M)left).findFirst();
+    }
+    
+    /** @return All sheets music with the specified artist as one of the contributors */
+    public static List<SheetMusic> getAllSheetMusicWith(Artist artist) {
+        return indices.get(MetadataType.SheetMusic.displayName).metadata.parallelStream()
+                .map(metadata -> (SheetMusic)metadata)
+                .filter(sheet -> artist.getUId().equals(sheet.getArtistRef().valueUId))
+                .toList();
+    } 
 
     /**
      * Finds a sheet music in the database by name

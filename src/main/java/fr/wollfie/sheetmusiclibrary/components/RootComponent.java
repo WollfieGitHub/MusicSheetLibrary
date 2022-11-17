@@ -5,9 +5,15 @@ import fr.wollfie.sheetmusiclibrary.components.music_library_display.LibraryDisp
 import fr.wollfie.sheetmusiclibrary.dto.Metadata;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.Collection;
 
 public class RootComponent extends BorderPane {
 
@@ -17,6 +23,11 @@ public class RootComponent extends BorderPane {
     private final LibraryDisplay libraryComponent;
     private final PageDisplayHandler pageComponent;
     
+    private ObjectProperty<CenterSceneContent> currentContent = new SimpleObjectProperty<>();
+    public static ReadOnlyObjectProperty<CenterSceneContent> currentContentProperty() {
+        return instance.currentContent;
+    }
+
     public RootComponent(Stage stage) {
         instance = this;
         
@@ -55,14 +66,16 @@ public class RootComponent extends BorderPane {
     /** Display the library of items in the center pane of the application */
     public static void displayLibrary() { 
         instance.centerContent.getChildren().setAll(instance.libraryComponent);
+        instance.currentContent.set(instance.libraryComponent);
     }
     
     /** Display the page of an item in the center pane of the application */
     public static void displayPage(Metadata item) {
         instance.centerContent.getChildren().setAll(instance.pageComponent);
         instance.pageComponent.displayContentFor(item);
+        instance.currentContent.set(instance.pageComponent);
     }
-    
+
     /** Init the style of the component and adapt it depending on
      *  the {@link fr.wollfie.sheetmusiclibrary.components.TopToolbar#stageMaximizedProperty()} */
     private void initStyle(TopToolbar topToolbar) {

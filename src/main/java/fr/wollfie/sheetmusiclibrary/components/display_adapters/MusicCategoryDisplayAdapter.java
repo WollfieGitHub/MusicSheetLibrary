@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-public class MusicCategoryDisplayAdapter extends DisplayAdapter<MusicCategory> {
+public final class MusicCategoryDisplayAdapter extends DisplayAdapter<MusicCategory> {
     
     @Override
     public Node getItemRepresentation(MusicCategory category) {
