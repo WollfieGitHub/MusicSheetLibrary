@@ -1,6 +1,5 @@
 package fr.wollfie.sheetmusiclibrary.io.adapters;
 
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import org.controlsfx.control.PropertySheet;
@@ -16,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 
 public class XMLFileAdapter {
 
@@ -39,16 +39,7 @@ public class XMLFileAdapter {
 
             return new XMLNode(document.getDocumentElement());
         }
-        
-        public List<XMLNode> getAllChildren() {
-            List<XMLNode> children = new ArrayList<>();
-            NodeList nodeList = node.getChildNodes();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                children.add(new XMLNode(nodeList.item(i)));
-            }
-            return children;
-        }
-        
+
         public Optional<XMLNode> getParentOfValue(String value) {
             Preconditions.checkNotNull(value);
             NodeList nodeList = node.getChildNodes();
@@ -87,11 +78,7 @@ public class XMLFileAdapter {
             }
             return validChildren;
         }
-        
-        private static final List<String> IGNORED_NODES = List.of(
-                "b", "strong"
-        );
-        
+
         public String getValue() {
             return node.getFirstChild().getTextContent();
         }

@@ -11,6 +11,7 @@ import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,8 +29,8 @@ public final class SheetMusicPage extends MetadataPage<SheetMusic> {
      *
      * @param item The item to display as a content
      */
-    public SheetMusicPage(SheetMusic item) {
-        super(item);
+    public SheetMusicPage(SheetMusic item, ObjectProperty<UIMode> uiModeProperty) {
+        super(item, uiModeProperty);
     }
 
     @Override
@@ -57,21 +58,21 @@ public final class SheetMusicPage extends MetadataPage<SheetMusic> {
     @SuppressWarnings("unchecked")
     private HBox buildTitleHBox() {
         EditableValue<String> titleLabel = FieldEditor.synchronize(
-                new EditableLabel(Theme.Category.Accent, FontSize.DEFAULT_H0, false, Pos.BOTTOM_LEFT),
-                item::setName, item::getName
+                new EditableLabel(uiModeProperty, 
+                        Theme.Category.Accent, FontSize.DEFAULT_H0,
+                        false, Pos.BOTTOM_LEFT
+                ), item::setName, item::getName
         );
-
-        Artist artist = item.getArtistRef().getValue();
         
         EditableValue<Artist> editableArtist = FieldEditor.synchronize(
-                new EditableArtist(),
+                new EditableArtist(uiModeProperty),
                 FieldAdapter.<Artist, MetadataRef<Artist>>adapt(item::setArtistRef, MetadataRef::new),
                 FieldAdapter.adapt(item::getArtistRef, MetadataRef::getValue)
         );
         
         HBox titleHBox = new HBox(editableArtist, titleLabel);
         titleHBox.setAlignment(Pos.BOTTOM_LEFT);
-        titleHBox.setPadding(new Insets(0, 20, 0, 20));
+        titleHBox.setPadding(new Insets(20));
         titleHBox.setSpacing(10);
         titleHBox.setStyle(
                 "-fx-border-width: 0 0 1 0;" +

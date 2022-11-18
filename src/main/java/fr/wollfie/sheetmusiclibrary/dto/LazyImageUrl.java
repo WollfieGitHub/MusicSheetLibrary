@@ -2,13 +2,11 @@ package fr.wollfie.sheetmusiclibrary.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import fr.wollfie.sheetmusiclibrary.io.serialization.JsonSerializable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
-import org.w3c.dom.ls.LSException;
 
 public class LazyImageUrl implements JsonSerializable {
 
@@ -37,13 +35,6 @@ public class LazyImageUrl implements JsonSerializable {
         this.image.set(image);
     }
 
-    public LazyImageUrl(String imageUrl, boolean fetched, boolean found) {
-        this.imageUrl = imageUrl;
-        this.fetched = fetched;
-        this.found = found;
-        this.loadImage();
-    }
-
     public void setFrom(String url) {
         this.imageUrl = url;
         this.fetched = true;
@@ -68,8 +59,10 @@ public class LazyImageUrl implements JsonSerializable {
                     true, true, false)
         );
     }
+    
+    @JsonIgnore public boolean wasNotFound() { return fetched && !found; }
 
     @JsonIgnore public boolean available() {
-        return fetched && found;
+        return fetched && found && !image.getValue().isError();
     }
 }

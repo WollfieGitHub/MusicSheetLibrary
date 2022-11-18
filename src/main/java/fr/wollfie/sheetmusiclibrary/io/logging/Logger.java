@@ -9,28 +9,29 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Logger {
-    
+
+
+
     public enum Level {
         SPAM,
         DEBUG,
         INFO,
         WARNING,
         ERROR,
-        FATAL
+        FATAL;
     }
-    
     private static PrintStream outputStream = System.out;
-    private static Level currentLevel = Level.SPAM;
 
+    private static Level currentLevel = Level.SPAM;
     public static Level getCurrentLevel() { return currentLevel; }
 
     public static void setCurrentLevel(Level currentLevel) {
         Logger.currentLevel = currentLevel;
     }
+
     public static void setOutputStream(PrintStream stream) {
         outputStream = stream;
     }
-
     /**
      * Prints a message with spam level
      * @param msg The message to print
@@ -38,7 +39,7 @@ public class Logger {
     public static void spam(Object msg) {
         print(msg, Level.SPAM);
     }
-    
+
     /**
      * Prints a message with debug level
      * @param msg The message to print
@@ -80,6 +81,15 @@ public class Logger {
      */
     public static void error(Exception e) {
         print(e, Level.ERROR);
+    }
+
+    /**
+     * Prints formatted message with error level
+     * @param msg The message to print
+     * @param formatArgs The args for the format
+     */
+    public static void errorf(String msg, Object... formatArgs) {
+        print(String.format(msg, formatArgs), Level.ERROR);
     }
 
     /**

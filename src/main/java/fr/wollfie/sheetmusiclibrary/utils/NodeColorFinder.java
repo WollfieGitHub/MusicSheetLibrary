@@ -40,6 +40,7 @@ public final class NodeColorFinder {
     private static final int SAMPLING = 2;
     
     public static Color getAverageColorOf(Image image) {
+        if (image == null) { return Color.BLACK; }
         PixelReader pr = image.getPixelReader();
         if (pr == null) { return Errors.ERROR_COLOR; }
         

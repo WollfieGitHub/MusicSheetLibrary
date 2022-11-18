@@ -34,7 +34,7 @@ public class IntegerPrompt extends ValuePrompt<Integer> {
         
         TextFormatter<Integer> doubleTextFormatter = new TextFormatter<>(
                 new IntegerStringConverter(),
-                0,
+                null,
                 change -> (change.getControlNewText().matches("-?([1-9][0-9]*)?") ? change : null)
         );
 

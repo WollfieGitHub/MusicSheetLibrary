@@ -1,13 +1,14 @@
 package fr.wollfie.sheetmusiclibrary.components.display_adapters;
 
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
-import fr.wollfie.sheetmusiclibrary.controllers.Card;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableCard;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.UIMode;
 import fr.wollfie.sheetmusiclibrary.dto.MusicGenre;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -24,7 +25,7 @@ public final class MusicGenreDisplayAdapter extends DisplayAdapter<MusicGenre> {
     }
 
     @Override
-    public MetadataPage<MusicGenre> getPageRepresentation(MusicGenre genre) {
+    public MetadataPage<MusicGenre> getPageRepresentation(MusicGenre genre, ObjectProperty<UIMode> uiModeProperty) {
         return null;
     }
 

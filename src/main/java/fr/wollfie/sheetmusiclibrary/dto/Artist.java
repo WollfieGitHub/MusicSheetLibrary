@@ -52,6 +52,10 @@ public final class Artist extends MetadataObject {
         this.yearOfDeath = yearOfDeath;
         this.musicGenres = musicGenres;
         this.imageUrl = imageUrl;
+        
+        // If the image was not found, maybe we had no connection while first searching for it,
+        // retry to request an image for the artist
+        if (this.imageUrl.wasNotFound()) { this.reloadImage(); }
     }
     
 // //======================================================================================\\
