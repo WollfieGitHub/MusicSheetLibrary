@@ -20,7 +20,7 @@ public class StringPrompt extends ValuePrompt<String> {
     }
 
     @Override
-    protected Node getNode() {
+    protected Node getContentNode() {
 
         textField = new ThemedTextField("", Theme.Category.Accent, 50);
         textField.setOnKeyPressed(keyEvent -> {if (keyEvent.getCode() == KeyCode.ENTER) {

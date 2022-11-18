@@ -16,7 +16,7 @@ public class FontIconPrompt extends ValuePrompt<FontIcon>  {
     }
 
     @Override
-    protected Node getNode() {
+    protected Node getContentNode() {
         iconChoice = new IconChoice(callback, 30, 30);
         return iconChoice;
     }

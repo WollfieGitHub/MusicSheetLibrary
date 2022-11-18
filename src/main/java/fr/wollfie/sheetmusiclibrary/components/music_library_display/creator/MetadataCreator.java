@@ -1,6 +1,8 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator;
 
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.ValuePrompt;
+import fr.wollfie.sheetmusiclibrary.components.overlay.Overlay;
+import fr.wollfie.sheetmusiclibrary.components.overlay.OverlayDisplayHandler;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
 import fr.wollfie.sheetmusiclibrary.library.SheetMusicLibrary;
@@ -11,6 +13,7 @@ import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.beans.property.Property;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
@@ -18,24 +21,16 @@ import javafx.scene.layout.StackPane;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class MetadataCreator<M extends MetadataObject> extends StackPane {
+public abstract class MetadataCreator<M extends MetadataObject> extends StackPane implements Overlay {
 
     protected final Consumer<M> onMetadataCreated;
     
     public MetadataCreator(Consumer<M> onMetadataCreated) {
         this.onMetadataCreated = onMetadataCreated;
         
-        String backgroundColor = Utils.toRGBCode(ThemeManager.colorFrom(Theme.Category.Background, Theme.Shade.Dark2)
-                .deriveColor(0, 1, 1, 0.8));
-        
         setAlignment(Pos.CENTER);
-        setPadding(new Insets(100, 100, 100,100));
-        setStyle("-fx-background-color: " + backgroundColor + ";" +
-                "-fx-background-radius: 25;" +
-                "-fx-background-insets: 2");
-        setViewOrder(0);
         requestFocus();
-        setOnKeyPressed(Utils.onKeyTyped(KeyCode.ESCAPE, CreatorDisplayHandler::hideCreator));
+        setOnKeyPressed(Utils.onKeyTyped(KeyCode.ESCAPE, OverlayDisplayHandler::hideOverlay));
     }
 
     public static void promptCreationFor(MetadataType currentSelectedType) {
@@ -46,7 +41,7 @@ public abstract class MetadataCreator<M extends MetadataObject> extends StackPan
             case MusicCategory -> new MusicCategoryCreator(SheetMusicLibrary::tryInsert);
             case SheetMusic -> new SheetMusicCreator(SheetMusicLibrary::tryInsert);
         };
-        CreatorDisplayHandler.promptCreationFor(creator);
+        OverlayDisplayHandler.showOverlay(creator);
     }
 
     protected <T> Callback<T> onResult(Property<T> property, ValuePrompt<?> nextNode) {
@@ -66,7 +61,7 @@ public abstract class MetadataCreator<M extends MetadataObject> extends StackPan
             finalProperty.setValue(finalValue);
             this.onPreFinish();
             this.onMetadataCreated.accept(finalValueToResult().apply(finalValue));
-            CreatorDisplayHandler.hideCreator();
+            OverlayDisplayHandler.hideOverlay();
         };
     }
 
@@ -74,5 +69,6 @@ public abstract class MetadataCreator<M extends MetadataObject> extends StackPan
 
     protected abstract <T> Function<T, M> finalValueToResult();
 
-    public abstract void mounted();
+    @Override
+    public Node getNode() { return this; }
 }

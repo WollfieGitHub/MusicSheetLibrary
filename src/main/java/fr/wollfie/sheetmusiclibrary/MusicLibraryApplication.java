@@ -1,10 +1,7 @@
 package fr.wollfie.sheetmusiclibrary;
 
-import fr.wollfie.sheetmusiclibrary.components.LeftToolbar;
-import fr.wollfie.sheetmusiclibrary.components.SubToolbar;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.LibraryDisplay;
 import fr.wollfie.sheetmusiclibrary.components.RootComponent;
-import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.CreatorDisplayHandler;
+import fr.wollfie.sheetmusiclibrary.components.overlay.OverlayDisplayHandler;
 import fr.wollfie.sheetmusiclibrary.controllers.DragController;
 import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import fr.wollfie.sheetmusiclibrary.io.metadata.MetadataDropInProgram;
@@ -14,7 +11,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -38,7 +34,7 @@ public class MusicLibraryApplication extends Application {
 
         BorderPane base = new RootComponent(primaryStage);
         StackPane root = new StackPane(base);
-        CreatorDisplayHandler.init(root);
+        OverlayDisplayHandler.init(root);
 
         Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.TRANSPARENT);

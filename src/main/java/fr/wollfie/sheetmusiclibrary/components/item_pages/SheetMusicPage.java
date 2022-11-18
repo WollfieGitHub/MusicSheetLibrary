@@ -3,10 +3,9 @@ package fr.wollfie.sheetmusiclibrary.components.item_pages;
 import fr.wollfie.sheetmusiclibrary.components.display_adapters.DisplayAdapter;
 import fr.wollfie.sheetmusiclibrary.components.display_adapters.TrackDisplayAdapter;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableFontIcon;
-import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableLabel;
-import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableValue;
-import fr.wollfie.sheetmusiclibrary.controllers.editable_field.FieldEditor;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.*;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
+import fr.wollfie.sheetmusiclibrary.dto.MetadataRef;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
@@ -64,9 +63,13 @@ public final class SheetMusicPage extends MetadataPage<SheetMusic> {
 
         Artist artist = item.getArtistRef().getValue();
         
-        Node artistNode = ((DisplayAdapter<Artist>)artist.getType().displayAdapter).getItemRepresentation(artist);
-
-        HBox titleHBox = new HBox(artistNode, titleLabel);
+        EditableValue<Artist> editableArtist = FieldEditor.synchronize(
+                new EditableArtist(),
+                FieldAdapter.<Artist, MetadataRef<Artist>>adapt(item::setArtistRef, MetadataRef::new),
+                FieldAdapter.adapt(item::getArtistRef, MetadataRef::getValue)
+        );
+        
+        HBox titleHBox = new HBox(editableArtist, titleLabel);
         titleHBox.setAlignment(Pos.BOTTOM_LEFT);
         titleHBox.setPadding(new Insets(0, 20, 0, 20));
         titleHBox.setSpacing(10);

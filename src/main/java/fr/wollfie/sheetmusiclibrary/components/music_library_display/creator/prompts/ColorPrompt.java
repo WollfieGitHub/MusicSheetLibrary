@@ -27,7 +27,7 @@ public class ColorPrompt extends ValuePrompt<Color>  {
     }
 
     @Override
-    protected Node getNode() {
+    protected Node getContentNode() {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
 

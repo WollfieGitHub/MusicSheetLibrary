@@ -29,7 +29,7 @@ public class IntegerPrompt extends ValuePrompt<Integer> {
     }
 
     @Override
-    protected Node getNode() {
+    protected Node getContentNode() {
         textField = new ThemedTextField("", Theme.Category.Accent, 50);
         
         TextFormatter<Integer> doubleTextFormatter = new TextFormatter<>(
