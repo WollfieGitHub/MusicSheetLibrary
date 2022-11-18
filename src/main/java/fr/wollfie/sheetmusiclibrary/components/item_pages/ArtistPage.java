@@ -5,6 +5,7 @@ import fr.wollfie.sheetmusiclibrary.components.music_library_display.MetadataLib
 import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableLabel;
 import fr.wollfie.sheetmusiclibrary.controllers.editable_field.EditableValue;
 import fr.wollfie.sheetmusiclibrary.controllers.editable_field.FieldEditor;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.UIMode;
 import fr.wollfie.sheetmusiclibrary.dto.Artist;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataType;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
@@ -18,6 +19,7 @@ import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import fr.wollfie.sheetmusiclibrary.utils.NodeColorFinder;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -39,8 +41,8 @@ public class ArtistPage extends MetadataPage<Artist> {
      *
      * @param item The item to display as a content
      */
-    public ArtistPage(Artist item) {
-        super(item);
+    public ArtistPage(Artist item, ObjectProperty<UIMode> uiModeProperty) {
+        super(item, uiModeProperty);
     }
     
 
@@ -68,13 +70,19 @@ public class ArtistPage extends MetadataPage<Artist> {
 
     private HBox getBanner() {
         EditableValue<String> firstNameOrNickname = FieldEditor.synchronize(
-                new EditableLabel(Theme.Category.Accent, FontSize.DEFAULT_H0, Pos.BOTTOM_LEFT),
+                new EditableLabel(
+                        uiModeProperty, 
+                        Theme.Category.Accent, FontSize.DEFAULT_H0,
+                        Pos.BOTTOM_LEFT),
                 item::setFirstNameOrNickname,
                 item::getFirstNameOrNickname
         );
 
         EditableValue<String> lastName = FieldEditor.synchronize(
-                new EditableLabel(Theme.Category.Accent, FontSize.DEFAULT_H0, Pos.BOTTOM_LEFT),
+                new EditableLabel(
+                        uiModeProperty,
+                        Theme.Category.Accent, FontSize.DEFAULT_H0,
+                        Pos.BOTTOM_LEFT),
                 item::setLastName, item::getLastName
         );
 
@@ -82,12 +90,17 @@ public class ArtistPage extends MetadataPage<Artist> {
         names.setAlignment(Pos.BOTTOM_LEFT);
         names.setSpacing(10);
 
-        Image profilePicture = item.getImageUrl().getImage();
-        ImageView profilePictureDisplay = new ImageView(profilePicture);
-        profilePictureDisplay.setFitHeight(FontSize.DEFAULT_H1 * 6);
-        profilePictureDisplay.setPreserveRatio(true);
+        StackPane picWrapper = new StackPane();
 
-        StackPane picWrapper = new StackPane(profilePictureDisplay);
+        Image profilePicture = item.getImageUrl().getImage();
+        if (profilePicture != null) {
+            ImageView profilePictureDisplay = new ImageView(profilePicture);
+            profilePictureDisplay.setFitHeight(FontSize.DEFAULT_H1 * 6);
+            profilePictureDisplay.setPreserveRatio(true);
+            
+            picWrapper = new StackPane(profilePictureDisplay);
+        }
+        
         picWrapper.setPadding(new Insets(5, 5, 5, 20));
         picWrapper.setAlignment(Pos.CENTER);
 

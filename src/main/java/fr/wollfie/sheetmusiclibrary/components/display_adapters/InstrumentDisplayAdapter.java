@@ -1,12 +1,13 @@
 package fr.wollfie.sheetmusiclibrary.components.display_adapters;
 
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
-import fr.wollfie.sheetmusiclibrary.controllers.Card;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableCard;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.UIMode;
 import fr.wollfie.sheetmusiclibrary.dto.Instrument;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -22,7 +23,7 @@ public final class InstrumentDisplayAdapter extends DisplayAdapter<Instrument> {
     }
 
     @Override
-    public MetadataPage<Instrument> getPageRepresentation(Instrument instrument) {
+    public MetadataPage<Instrument> getPageRepresentation(Instrument instrument, ObjectProperty<UIMode> uiModeProperty) {
         return null;
     }
 

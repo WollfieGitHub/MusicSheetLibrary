@@ -27,13 +27,13 @@ public class OverlayDisplayHandler {
         
         container.setPadding(new Insets(100));
         container.setViewOrder(0);
-        
     }
     
     public static void showOverlay(Overlay overlay) {
         if (activeOverlay != null) { throw new UnsupportedOperationException("Cannot display creator when" +
                 " one is already displayed"); }
         activeOverlay = overlay;
+        
         display(overlay);
     }
 

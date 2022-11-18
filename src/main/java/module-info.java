@@ -28,6 +28,8 @@ module fr.wollfie.sheetmusiclibrary {
     exports fr.wollfie.sheetmusiclibrary.library;
     exports fr.wollfie.sheetmusiclibrary.dto.files;
     exports fr.wollfie.sheetmusiclibrary.utils;
+    exports fr.wollfie.sheetmusiclibrary.components.display_adapters;
+    exports fr.wollfie.sheetmusiclibrary.components.item_pages;
 
     opens fr.wollfie.sheetmusiclibrary.dto to com.fasterxml.jackson.databind;
     opens fr.wollfie.sheetmusiclibrary.io.metadata to com.fasterxml.jackson.databind;

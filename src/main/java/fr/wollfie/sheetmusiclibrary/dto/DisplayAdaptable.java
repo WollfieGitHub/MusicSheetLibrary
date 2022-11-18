@@ -5,9 +5,7 @@ import fr.wollfie.sheetmusiclibrary.components.display_adapters.DisplayAdapter;
 import javafx.scene.Node;
 
 public interface DisplayAdaptable {
-    /**
-     * @return the visual representation of the object
-     */
+    /** @return the visual representation of the object */
     @JsonIgnore
-    public DisplayAdapter<?> getAdapter();
+    DisplayAdapter<?> getAdapter();
 }

@@ -4,25 +4,17 @@ import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.components.item_pages.MetadataPage;
 import fr.wollfie.sheetmusiclibrary.components.item_pages.SheetMusicPage;
 import fr.wollfie.sheetmusiclibrary.controllers.ClickableLabel;
+import fr.wollfie.sheetmusiclibrary.controllers.editable_field.UIMode;
 import fr.wollfie.sheetmusiclibrary.dto.SheetMusic;
-import fr.wollfie.sheetmusiclibrary.dto.Track;
-import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 public final class SheetMusicDisplayAdapter extends DisplayAdapter<SheetMusic> {
     
@@ -35,8 +27,8 @@ public final class SheetMusicDisplayAdapter extends DisplayAdapter<SheetMusic> {
     }
 
     @Override
-    public MetadataPage<SheetMusic> getPageRepresentation(SheetMusic sheetMusic) {
-        return new SheetMusicPage(sheetMusic);
+    public MetadataPage<SheetMusic> getPageRepresentation(SheetMusic sheetMusic, ObjectProperty<UIMode> uiModeProperty) {
+        return new SheetMusicPage(sheetMusic, uiModeProperty);
     }
 
     private Node getTracksFrom(SheetMusic sheetMusic) {

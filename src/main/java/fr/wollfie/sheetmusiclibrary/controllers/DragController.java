@@ -20,7 +20,7 @@ public class DragController {
         init();
     }
 
-    public static DragController createFrom(Stage stage) {
+    public static DragController bindTo(Stage stage) {
         Preconditions.checkNotNull(stage.getScene());
         return new DragController(stage);
     }

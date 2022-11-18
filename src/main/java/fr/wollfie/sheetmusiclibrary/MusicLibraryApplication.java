@@ -25,16 +25,17 @@ public class MusicLibraryApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        primaryStage = stage;
+        Logger.infof("Logger level set to %s", Logger.getCurrentLevel());
         
+        primaryStage = stage;
+
         ThemeManager.init();
         SheetMusicLibrary.setLocationAndInit(SheetMusicLibrary.DEFAULT_LOCATION);
-
-        Logger.infof("Logger level set to %s", Logger.getCurrentLevel());
 
         BorderPane base = new RootComponent(primaryStage);
         StackPane root = new StackPane(base);
         OverlayDisplayHandler.init(root);
+        root.setStyle("-fx-background-color: transparent;");
 
         Scene scene = new Scene(root, 1000, 800);
         scene.setFill(Color.TRANSPARENT);
@@ -43,12 +44,14 @@ public class MusicLibraryApplication extends Application {
         scene.setOnDragOver(MetadataDropInProgram.handleDragOver(scene));
         scene.setOnDragDropped(MetadataDropInProgram.handleDragDropped());
 
+        // Configure the window
         primaryStage.setTitle(APP_NAME);
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
-
-        DragController dragController = DragController.createFrom(primaryStage);
+        
+        // Make the window movable
+        DragController.bindTo(primaryStage);
         
         Logger.info("Application shown");
     }
@@ -61,9 +64,7 @@ public class MusicLibraryApplication extends Application {
         primaryStage.hide();
         try {
             cleanupBeforeExit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         System.exit(0);
     }
 

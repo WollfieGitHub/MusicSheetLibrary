@@ -1,5 +1,6 @@
 package fr.wollfie.sheetmusiclibrary.controllers.editable_field;
 
+import fr.wollfie.sheetmusiclibrary.components.RootComponent;
 import fr.wollfie.sheetmusiclibrary.components.display_adapters.DisplayAdapter;
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts.MetadataPrompt;
 import fr.wollfie.sheetmusiclibrary.components.overlay.OverlayDisplayHandler;
@@ -8,26 +9,21 @@ import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
 public class EditableArtist extends EditableValue<Artist> {
-    
+
+    private final MetadataPrompt<Artist> artistMetadataPrompt;
     private Node artistNode = new StackPane();
-    private boolean doDisplayBtn;
 
     @SuppressWarnings("unchecked")
-    public EditableArtist() {
-        // Set icon
-        PEN_ICON.setIconColor(ThemeManager.getWhiteColor());
-        PEN_ICON.setIconSize(FontSize.DEFAULT_H1);
+    public EditableArtist(ObjectProperty<UIMode> uiModeProperty) {
+        super(uiModeProperty);
 
-        // Make appear clickable pen icon to edit
-        setOnMouseEntered(event -> { doDisplayBtn = true; reloadDisplay(); setCursor(Cursor.HAND); });
-        setOnMouseExited(event -> { doDisplayBtn = false; reloadDisplay(); setCursor(Cursor.DEFAULT); });
-
-        MetadataPrompt<Artist> artistMetadataPrompt = new MetadataPrompt<>("Artist", artist -> {
+        artistMetadataPrompt = new MetadataPrompt<>("Artist", artist -> {
             OverlayDisplayHandler.hideOverlay();
             valueProperty.setValue(artist);
         }, Artist.class);
@@ -45,23 +41,31 @@ public class EditableArtist extends EditableValue<Artist> {
             this.artistNode = newV == null ? new StackPane() : newV;
             this.reloadDisplay();
         });
-        
-        PEN_ICON.setOnMouseClicked(e -> OverlayDisplayHandler.showOverlay(artistMetadataPrompt));
 
         reloadDisplay();
     }
 
     
     private void reloadDisplay() {
-
         getChildren().setAll(artistNode);
-        if (doDisplayBtn) { getChildren().add(PEN_ICON); }
+        
         artistNode.requestFocus();
+        artistNode.setOnMouseClicked(event -> {
+            switch (getCurrentMode()) {
+                case EDIT -> OverlayDisplayHandler.showOverlay(artistMetadataPrompt);
+                case READ_ONLY -> RootComponent.displayPage(valueProperty.getValue());
+            }
+        });
     }
     
     @Override
     protected void onInitializedWith(Artist value) {
         valueProperty.setValue(value);
         reloadDisplay();
+    }
+
+    @Override
+    protected void onModeChange(UIMode uiMode) {
+        
     }
 }

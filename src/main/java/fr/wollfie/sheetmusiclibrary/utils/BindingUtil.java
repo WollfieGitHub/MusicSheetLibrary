@@ -1,11 +1,18 @@
 package fr.wollfie.sheetmusiclibrary.utils;
 
+import fr.wollfie.sheetmusiclibrary.io.logging.Logger;
 import javafx.beans.WeakListener;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -88,5 +95,17 @@ public class BindingUtil {
             }
             return false;
         }
+    }
+    
+    public static <T> Pane bindNodeTo(ObjectProperty<T> dependency, Function<T, Node> mapping) {
+        StackPane base = new StackPane();
+        base.setAlignment(Pos.CENTER);
+        
+        dependency.addListener((i, oldV, newV) -> {
+            base.getChildren().setAll(mapping.apply(newV));
+        });
+        // Initialization
+        base.getChildren().setAll(mapping.apply(dependency.get()));
+        return base;
     }
 }
