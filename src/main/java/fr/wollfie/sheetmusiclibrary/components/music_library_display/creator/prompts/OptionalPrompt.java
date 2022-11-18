@@ -30,11 +30,11 @@ public class OptionalPrompt<T> extends WrapperPrompt<T, Optional<T>> {
         super(prompt, callback, innerPromptClass);
 
         innerPrompt.promptDisabledProperty().bind(checkBox.selectedProperty());
-        hBox.getChildren().addAll(checkBox, innerPrompt.getNode(), button);
+        hBox.getChildren().addAll(checkBox, innerPrompt.getContentNode(), button);
     }
     
     @Override
-    protected Node getNode() {
+    protected Node getContentNode() {
         hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         checkBox = new ThemedCheckBox(Theme.Category.Accent);

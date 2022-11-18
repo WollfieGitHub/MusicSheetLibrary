@@ -1,20 +1,11 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts;
 
-import com.google.common.base.Preconditions;
 import fr.wollfie.sheetmusiclibrary.controllers.ThemedLabel;
 import fr.wollfie.sheetmusiclibrary.utils.Callback;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.javafx.Icon;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 public abstract class ValuePrompt<T> extends VBox {
     
@@ -33,11 +24,13 @@ public abstract class ValuePrompt<T> extends VBox {
         setAlignment(Pos.CENTER);
 
         ThemedLabel promptLbl = new ThemedLabel(prompt, 20);
-        getChildren().addAll(promptLbl, getNode());
+        getChildren().addAll(promptLbl, getContentNode());
     }
 
+    
+    
     /** @return the node to mount on the creator component and prompt for a value */
-    protected abstract Node getNode();
+    protected abstract Node getContentNode();
 
     /** Request the focus for the value prompt */
     public abstract void getFocus();

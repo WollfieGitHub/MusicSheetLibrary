@@ -1,6 +1,7 @@
 package fr.wollfie.sheetmusiclibrary.components.music_library_display.creator.prompts;
 
 import fr.wollfie.sheetmusiclibrary.components.music_library_display.MetadataLibraryDisplay;
+import fr.wollfie.sheetmusiclibrary.components.overlay.Overlay;
 import fr.wollfie.sheetmusiclibrary.controllers.SearchBar;
 import fr.wollfie.sheetmusiclibrary.dto.MetadataObject;
 import fr.wollfie.sheetmusiclibrary.utils.Callback;
@@ -10,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
-public class MetadataPrompt<M extends MetadataObject> extends ValuePrompt<M> {
+public class MetadataPrompt<M extends MetadataObject> extends ValuePrompt<M> implements Overlay {
 
     private SearchBar searchBar;
     private VBox vBox;
@@ -31,7 +32,15 @@ public class MetadataPrompt<M extends MetadataObject> extends ValuePrompt<M> {
     }
 
     @Override
-    protected Node getNode() {
+    public void mounted() {
+        // Do nothing
+    }
+
+    @Override
+    public Node getNode() { return this; }
+
+    @Override
+    protected Node getContentNode() {
         vBox = new VBox();
         searchBar = new SearchBar();
         return vBox;
