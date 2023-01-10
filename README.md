@@ -1,6 +1,6 @@
 # Music Sheet Library
 
-<div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+<div style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center;">
     <img src="./Documentation/MusicSheetTabScreenshot.png" width=300 alt="Music Sheet Page Screenshot">
     <img src="./Documentation/ArtistTabScreenshot.png" width=300 alt="Artist Tab Screenshot">
 </div>
