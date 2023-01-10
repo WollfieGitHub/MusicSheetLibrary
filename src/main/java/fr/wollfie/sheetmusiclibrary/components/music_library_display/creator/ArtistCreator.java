@@ -12,7 +12,6 @@ import java.util.function.Function;
 public class ArtistCreator extends MetadataCreator<Artist> {
     
     private final Property<String> firstNameProperty = new SimpleObjectProperty<>(null);
-    private final Property<String> lastNameProperty = new SimpleObjectProperty<>(null);
     private final Property<Integer> yearOfBirthProperty = new SimpleObjectProperty<>(null);
     private final Property<Integer> yearOfDeathProperty = new SimpleObjectProperty<>(null);
     private final StringPrompt firstNamePrompt;
@@ -22,8 +21,7 @@ public class ArtistCreator extends MetadataCreator<Artist> {
 
         IntegerPrompt deathPrompt = new IntegerPrompt("Year of Death", onResultFinish(yearOfDeathProperty));
         IntegerPrompt birthPrompt = new IntegerPrompt("Year of Birth", onResult(yearOfBirthProperty, deathPrompt));
-        StringPrompt lastNamePrompt = new StringPrompt("Last Name", onResult(lastNameProperty, birthPrompt));
-        firstNamePrompt = new StringPrompt("First Name/Nickname", onResult(firstNameProperty, lastNamePrompt));
+        firstNamePrompt = new StringPrompt("Name/Nickname", onResult(firstNameProperty, birthPrompt));
 
         getChildren().addAll(firstNamePrompt);
     }
@@ -36,7 +34,6 @@ public class ArtistCreator extends MetadataCreator<Artist> {
         return yofd -> {
             Artist artist = new Artist(
                     firstNameProperty.getValue(),
-                    lastNameProperty.getValue(),
                     yearOfBirthProperty.getValue(),
                     (Integer) yofd
             );

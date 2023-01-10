@@ -79,7 +79,7 @@ public final class SheetMusic extends MetadataObject {
      * @return the name of the sheet music followed by the name of the artistRef separated by a "-"
      */
     public String fullName() {
-        return name + (artistRef != null ? " - " + artistRef.getValue().getLastName() : "");
+        return name + (artistRef != null ? " - " + artistRef.getValue().getName() : "");
     }
     
     @Override

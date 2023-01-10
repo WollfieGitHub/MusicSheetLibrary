@@ -48,11 +48,11 @@ public class SearchEngineTest {
     
     @Test void resultHasNoDuplicateAndIsOrderedForArtists() {
         List<Artist> instruments = SearchEngine.updatePropositionsAccordingTo(
-                VALID_ARTIST_1.getLastName(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
+                VALID_ARTIST_1.getName(), Arrays.asList(VALID_ARTIST_1, VALID_ARTIST_1, SAME_ARTIST_2), 4
         );
         // No duplicate
         assertThat(instruments.size(), is(1));
-        assertThat(instruments.get(0).getLastName(), is(VALID_ARTIST_1.getLastName()));
+        assertThat(instruments.get(0).getName(), is(VALID_ARTIST_1.getName()));
     }
     
     @Test void speedTest() {

@@ -19,7 +19,7 @@ public class ArtistImageTest extends Application {
         primaryStage.show();
         
         stackPane.getChildren().add(new ImageView(ArtistImageRetriever.fetchFor(
-                new Artist("Ludwig Van", "Beethoven", 199, null)
+                new Artist("Ludwig Van Beethoven", 199, null)
         )));
     }
 

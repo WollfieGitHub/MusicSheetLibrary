@@ -15,8 +15,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignF;
@@ -36,22 +38,33 @@ public final class SheetMusicPage extends MetadataPage<SheetMusic> {
     @Override
     protected void initComponent(VBox vBox) {
         HBox titleHBox = buildTitleHBox();
-        FlowPane metaInfoHBox = buildMetaInfoHBox();
-        HBox filesHBox = buildFilesHBox();
         
-        vBox.getChildren().addAll(titleHBox, metaInfoHBox, filesHBox);
+        Node metaInfoHBox = buildMetaInfoHBox();
+        HBox filesHBox = buildFilesHBox();
+
+        HBox content = new HBox(metaInfoHBox, filesHBox);
+        content.setAlignment(Pos.TOP_LEFT);
+        
+        vBox.getChildren().addAll(titleHBox, content);
     }
 
-    private FlowPane buildMetaInfoHBox() {
-        FlowPane buildInfoHBox = new FlowPane();
-        buildInfoHBox.setPadding(new Insets(0, 20, 0, 20));
-        buildInfoHBox.getChildren().addAll(
+    private Node buildMetaInfoHBox() {
+        VBox content = new VBox();
+
+        ScrollPane buildInfoHBox = new ScrollPane(content);
+        buildInfoHBox.setStyle(
+                "-fx-background-color: transparent;" +
+                "-fx-background: transparent;"
+        );
+        buildInfoHBox.setFitToWidth(true);
+        
+        content.setPadding(new Insets(0, 20, 0, 20));
+        content.getChildren().addAll(
                 item.getTracks().stream()
                         .map(TrackDisplayAdapter::getItemRepresentationGiven)
                         .toList()
         );
-        buildInfoHBox.setHgap(10);
-        buildInfoHBox.setVgap(10);
+        content.setSpacing(10);
         return buildInfoHBox;
     }
 

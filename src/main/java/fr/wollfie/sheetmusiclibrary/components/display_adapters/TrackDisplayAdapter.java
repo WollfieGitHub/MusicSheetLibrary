@@ -5,6 +5,7 @@ import fr.wollfie.sheetmusiclibrary.dto.Instrument;
 import fr.wollfie.sheetmusiclibrary.dto.Track;
 import fr.wollfie.sheetmusiclibrary.theme.Theme;
 import fr.wollfie.sheetmusiclibrary.theme.ThemeManager;
+import fr.wollfie.sheetmusiclibrary.utils.Curve;
 import fr.wollfie.sheetmusiclibrary.utils.FontSize;
 import fr.wollfie.sheetmusiclibrary.utils.Utils;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public final class TrackDisplayAdapter {
@@ -27,34 +29,49 @@ public final class TrackDisplayAdapter {
     public static Node getItemRepresentationGiven(Track track) {
         int fontSize = FontSize.DEFAULT_H2;
         HBox root = new HBox(
-                buildClefNode(track.clef(), fontSize),
-                buildInstrumentNode(track.instrument().getValue(), fontSize)
+                buildInstrumentNode(track.instrument().getValue(), fontSize),
+                buildClefNode(track.clef(), fontSize)
         );
         root.setPadding(new Insets(0, 0, 0, 0));
         root.setAlignment(Pos.CENTER_LEFT);
+        
+        Color instrumentColor = track.instrument().getValue().getColor();
+        root.setStyle(
+                "-fx-border-radius: 25;" +
+                "-fx-background-radius: 25;" +
+                "-fx-background-color: " + Utils.generateGradient(
+                        Utils.BackgroundDirection.TO_RIGHT,
+                        instrumentColor.deriveColor(0, 0.7, 0.4, 1),
+                        ThemeManager.colorFrom(Theme.Category.Background, Theme.Shade.Light1),
+                        Curve.EXPONENTIAL, 50, 0.8f) + ";" +
+                "-fx-border-color: " + Utils.toRGBCode(
+                        instrumentColor.deriveColor(0, 0.4, 0.6, 1)
+                ) + ";" +
+                "-fx-border-width: 1 1 1 1;"
+        );
+        
         return root;
     }
 
     private static Node buildInstrumentNode(Instrument instrument, int fontSize) {
         String style = "-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getWhiteColor())+ ";" +
                 "-fx-font-size: " + (fontSize) + ";";
+        
         HBox content = new HBox();
         content.setAlignment(Pos.CENTER_LEFT);
-        content.setBackground(new Background(new BackgroundFill(
-                ThemeManager.colorFrom(Theme.Category.Background, Theme.Shade.Light1),
-                new CornerRadii(0, 25, 25, 0, false),
-                new Insets(0)
-        )));
-        content.setPadding(new Insets(5));
+        content.setPadding(new Insets(5, 5, 5, 10));
         content.setSpacing(0);
         content.setStyle(style);
 
         FontIcon instrumentIcon = new FontIcon(instrument.getIcon().getIconCode());
         instrumentIcon.setIconSize(fontSize);
-        instrumentIcon.setIconColor(ThemeManager.getWhiteColor());
+        instrumentIcon.setIconColor(instrument.getColor());
 
-        Label instrumentLbl = new Label(instrument.getName().getEnglishTranslation());
-        instrumentLbl.setStyle(style);
+        Label instrumentLbl = new Label(instrument.getName().getEnglishTranslation() + " -");
+        instrumentLbl.setStyle(
+                "-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getWhiteColor()) + ";" +
+                "-fx-font-size: " + fontSize + ";"
+        );
 
         content.getChildren().addAll(instrumentIcon, instrumentLbl);
         content.setSpacing(5);
@@ -63,17 +80,10 @@ public final class TrackDisplayAdapter {
 
     private static Node buildClefNode(Clef clef, int fontSize) {
         String style = "-fx-text-fill: " + Utils.toRGBCode(ThemeManager.getWhiteColor())+ ";" +
-                "-fx-font-size: " + (fontSize) + ";" +
-                "-fx-border-color: " + Utils.toRGBCode(ThemeManager.getWhiteColor()) + ";" +
-                "-fx-border-width: 0 2 0 0;";
+                "-fx-font-size: " + (fontSize) + ";";
         HBox content = new HBox();
         content.setAlignment(Pos.CENTER_LEFT);
-        content.setBackground(new Background(new BackgroundFill(
-                ThemeManager.colorFrom(Theme.Category.Background, Theme.Shade.Light1),
-                new CornerRadii(25, 0, 0, 25, false),
-                new Insets(0)
-        )));
-        content.setPadding(new Insets(5));
+        content.setPadding(new Insets(5, 10, 5, 5));
         content.setSpacing(0);
         content.setStyle(style);
 

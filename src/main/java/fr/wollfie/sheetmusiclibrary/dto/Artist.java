@@ -18,8 +18,7 @@ public final class Artist extends MetadataObject {
 // \\======================================================================================//
 
     
-    private String firstNameOrNickname;
-    private String lastName;
+    private String name;
     private int yearOfBirth;
     private Integer yearOfDeath;
     private final List<MetadataRef<MusicGenre>> musicGenres;
@@ -32,22 +31,19 @@ public final class Artist extends MetadataObject {
 // \\======================================================================================//
     
     /**
-     * @param firstNameOrNickname First name of the author
-     * @param lastName            Last name of the author
+     * @param name name of the author
      * @param yearOfBirth         Year of birth of the author
      * @param yearOfDeath         Year of death of the author if any
      * @param musicGenres         Music genre(s) the author is associated with
      * @param imageUrl            The url of the profile picture of the artist
      */
     @JsonCreator
-    public Artist(@JsonProperty("firstNameOrNickname") String firstNameOrNickname,
-                  @JsonProperty("lastName") String lastName,
+    public Artist(@JsonProperty("firstNameOrNickname") String name,
                   @JsonProperty("yearOfBirth") int yearOfBirth,
                   @JsonProperty("yearOfDeath") Integer yearOfDeath,
                   @JsonProperty("musicGenres") List<MetadataRef<MusicGenre>> musicGenres,
                   @JsonProperty("imageUrl") LazyImageUrl imageUrl) {
-        this.firstNameOrNickname = firstNameOrNickname;
-        this.lastName = lastName;
+        this.name = name;
         this.yearOfBirth = yearOfBirth;
         this.yearOfDeath = yearOfDeath;
         this.musicGenres = musicGenres;
@@ -64,17 +60,15 @@ public final class Artist extends MetadataObject {
 // ||                                                                                      ||
 // \\======================================================================================//
     
-    public Artist(String firstName, String lastName, int yearOfBirth, Integer yearOfDeath,
+    public Artist(String firstName, int yearOfBirth, Integer yearOfDeath,
                   LazyImageUrl imageUrl, MusicGenre... musicGenres) {
-        this(firstName, lastName, 
-                yearOfBirth, yearOfDeath,
+        this(firstName, yearOfBirth, yearOfDeath,
                 Arrays.stream(musicGenres).map(MetadataRef::new).toList(),
                 imageUrl);
     }
 
-    public Artist(String firstName, String lastName, int yearOfBirth, Integer yearOfDeath, MusicGenre... musicGenres) {
-        this(firstName, lastName,
-                yearOfBirth, yearOfDeath,
+    public Artist(String firstName, int yearOfBirth, Integer yearOfDeath, MusicGenre... musicGenres) {
+        this(firstName, yearOfBirth, yearOfDeath,
                 Arrays.stream(musicGenres).map(MetadataRef::new).toList(),
                 LazyImageUrl.empty());
         this.reloadImage();
@@ -89,41 +83,33 @@ public final class Artist extends MetadataObject {
     @Override
     public List<String> getSearchableTokenFields() {
         List<String> result = new ArrayList<>(Arrays.asList(
-                firstNameOrNickname,
-                String.valueOf(yearOfBirth),
-                fullName()
+                name,
+                String.valueOf(yearOfBirth)
         ));
-        if (lastName != null) { result.add(lastName); }
 
         return result;
     }
-
-    @JsonIgnore public String fullName() {
-        return firstNameOrNickname + (lastName != null ? " " + lastName : "");
-    }
     
-    public String getFirstNameOrNickname() { return firstNameOrNickname; }
-    public void setFirstNameOrNickname(String newNickname) {
-        this.firstNameOrNickname = newNickname;
+    public String getName() { return name; }
+    public void setName(String newNickname) {
+        this.name = newNickname;
         this.reloadImage();
     }
-    
-    public String getLastName() { return lastName; }
-    public void setLastName(String newLastName) {
-        if ("".equals(newLastName)) { this.lastName = null; }
-        else { this.lastName = newLastName; }
-    }
-    
+
     public int getYearOfBirth() {
         return yearOfBirth;
     }
+    public void setYearOfBirth(int yearOfBirth) { this.yearOfBirth = yearOfBirth; }
+    
     public Integer getYearOfDeath() {
         return yearOfDeath;
     }
+    public void setYearOfDeath(Integer yearOfDeath) { this.yearOfDeath = yearOfDeath; }
+
     public List<MetadataRef<MusicGenre>> getMusicGenres() {
         return musicGenres;
     }
-    
+
     public LazyImageUrl getImageUrl() {
         return imageUrl;
     }
@@ -132,18 +118,14 @@ public final class Artist extends MetadataObject {
     private void reloadImage() {
         this.imageUrl.setFrom(ArtistImageRetriever.fetchFor(this));
     }
-    
+
     @Override
     public String toString() {
         return "Artist[" +
-                "firstNameOrNickname=" + firstNameOrNickname + ", " +
-                "lastName=" + lastName + ", " +
+                "firstNameOrNickname=" + name + ", " +
                 "yearOfBirth=" + yearOfBirth + ", " +
                 "yearOfDeath=" + yearOfDeath + ", " +
                 "musicGenres=" + musicGenres + ", " +
                 "imageUrl=" + imageUrl + ']';
     }
-    
-    
-
 }
