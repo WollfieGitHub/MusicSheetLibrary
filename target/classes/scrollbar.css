@@ -1,0 +1,41 @@
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button {
+    visibility: hidden;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button .increment-arrow {
+    -fx-shape : " ";
+    -fx-text-fill: transparent;
+    visibility: hidden;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #5d5d5d;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #6d6d6d;
+}
+
+.scroll-bar .decrement-button {
+    visibility: hidden;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button .decrement-arrow {
+    -fx-shape : " ";
+    -fx-text-fill: transparent;
+    visibility: hidden;
+}
+
+.table-view .scroll-bar * {-fx-min-width: 0; -fx-pref-width: 0; -fx-max-width: 0;}

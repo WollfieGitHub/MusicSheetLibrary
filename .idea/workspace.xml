@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="149bdab4-1a69-486d-ad23-95ac0061f35d" name="Changes" comment="Implement UI mode">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/InstrumentPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/controllers/editable_field/EditableInteger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/ArtistDisplayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/ArtistDisplayAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/SheetMusicDisplayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/SheetMusicDisplayAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/TrackDisplayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/display_adapters/TrackDisplayAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/ArtistPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/ArtistPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/PageDisplayHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/PageDisplayHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/SheetMusicPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/item_pages/SheetMusicPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/music_library_display/creator/ArtistCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/components/music_library_display/creator/ArtistCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/dto/Artist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/dto/Artist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/dto/SheetMusic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/dto/SheetMusic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/adapters/MusescoreFileAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/adapters/MusescoreFileAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/network/ArtistImageRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/network/ArtistImageRetriever.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/network/ArtistImageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/io/network/ArtistImageTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/library/SheetMusicLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/library/SheetMusicLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wollfie/sheetmusiclibrary/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/UsefulObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/UsefulObjects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/dto/DtosTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/dto/DtosTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/dto/SheetMusicTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/dto/SheetMusicTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/library/SearchEngineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/library/SearchEngineTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/library/SheetMusicLibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/wollfie/sheetmusiclibrary/library/SheetMusicLibraryTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="0" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="CSS File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2GO5tmXCAFGsyNLwIz5kCoVnn3g" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="fr.wollfie.sheetmusiclibrary.io.adapters" />
+      <recent name="fr.wollfie.sheetmusiclibrary.components.display_adapters" />
+      <recent name="fr.wollfie.sheetmusiclibrary.controllers" />
+      <recent name="fr.wollfie.sheetmusiclibrary.components.music_library_display.search_results" />
+      <recent name="fr.wollfie.sheetmusiclibrary.utils" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\leowo\Dev\SoftwareDevelopment\SheetMusicLibrary\src\main\resources\fonts" />
+      <recent name="C:\Users\leowo\Dev\SoftwareDevelopment\SheetMusicLibrary\src\main\resources" />
+      <recent name="C:\Users\leowo\Dev\SoftwareDevelopment\SheetMusicLibrary\src\main\resources\stylesheets" />
+      <recent name="C:\Users\leowo\Dev\SoftwareDevelopment\SheetMusicLibrary\src" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="fr.wollfie.sheetmusiclibrary.dto" />
+      <recent name="fr.wollfie.sheetmusiclibrary.library" />
+      <recent name="fr.wollfie.sheetmusiclibrary" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MusicLibraryApplication">
+    <configuration name="ArtistImageTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="fr.wollfie.sheetmusiclibrary.io.network.ArtistImageTest" />
+      <module name="SheetMusicLibrary" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.wollfie.sheetmusiclibrary.io.network.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MusicLibraryApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="fr.wollfie.sheetmusiclibrary.MusicLibraryApplication" />
+      <module name="SheetMusicLibrary" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.wollfie.sheetmusiclibrary.controllers.editable_field.FieldEditor" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All" type="JUnit" factoryName="JUnit">
+      <module name="SheetMusicLibrary" />
+      <option name="PACKAGE_NAME" value="fr.wollfie.sheetmusiclibrary" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SerializationEngineTest.deserializedTupleIsIdenticalToSerialized" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SheetMusicLibrary" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.wollfie.sheetmusiclibrary.io.serialization.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.wollfie.sheetmusiclibrary.io.serialization" />
+      <option name="MAIN_CLASS_NAME" value="fr.wollfie.sheetmusiclibrary.io.serialization.SerializationEngineTest" />
+      <option name="METHOD_NAME" value="deserializedTupleIsIdenticalToSerialized" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UtilsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SheetMusicLibrary" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.wollfie.sheetmusiclibrary.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.wollfie.sheetmusiclibrary.utils" />
+      <option name="MAIN_CLASS_NAME" value="fr.wollfie.sheetmusiclibrary.utils.UtilsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ArtistImageTest" />
+      <item itemvalue="Application.MusicLibraryApplication" />
+      <item itemvalue="JUnit.All" />
+      <item itemvalue="JUnit.SerializationEngineTest.deserializedTupleIsIdenticalToSerialized" />
+      <item itemvalue="JUnit.UtilsTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MusicLibraryApplication" />
+        <item itemvalue="JUnit.SerializationEngineTest.deserializedTupleIsIdenticalToSerialized" />
+        <item itemvalue="Application.ArtistImageTest" />
+        <item itemvalue="JUnit.UtilsTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="149bdab4-1a69-486d-ad23-95ac0061f35d" name="Changes" comment="" />
+      <created>1666247010227</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666247010227</updated>
+      <workItem from="1666247011622" duration="318000" />
+      <workItem from="1666318018411" duration="2705000" />
+      <workItem from="1666370617771" duration="962000" />
+      <workItem from="1666773760801" duration="3543000" />
+      <workItem from="1666838068963" duration="8829000" />
+      <workItem from="1666853538864" duration="16344000" />
+      <workItem from="1666892881466" duration="2798000" />
+      <workItem from="1666925524405" duration="21292000" />
+      <workItem from="1666968849821" duration="3632000" />
+      <workItem from="1667024957564" duration="4277000" />
+      <workItem from="1667031317557" duration="4030000" />
+      <workItem from="1667051203426" duration="8405000" />
+      <workItem from="1667111117650" duration="12153000" />
+      <workItem from="1667132933828" duration="5194000" />
+      <workItem from="1667197931567" duration="2929000" />
+      <workItem from="1667203014596" duration="2218000" />
+      <workItem from="1667207191793" duration="9508000" />
+      <workItem from="1667233028416" duration="452000" />
+      <workItem from="1667233860171" duration="505000" />
+      <workItem from="1667283049285" duration="2824000" />
+      <workItem from="1667289818945" duration="18000" />
+      <workItem from="1667297671918" duration="862000" />
+      <workItem from="1667300041312" duration="5049000" />
+      <workItem from="1667373661433" duration="2563000" />
+      <workItem from="1667378469564" duration="133000" />
+      <workItem from="1667378612319" duration="4438000" />
+      <workItem from="1667409372469" duration="5404000" />
+      <workItem from="1667489721150" duration="1949000" />
+      <workItem from="1667538322610" duration="5777000" />
+      <workItem from="1667550213412" duration="799000" />
+      <workItem from="1667812201563" duration="1530000" />
+      <workItem from="1667821248497" duration="5438000" />
+      <workItem from="1667838524505" duration="3407000" />
+      <workItem from="1667893517852" duration="4279000" />
+      <workItem from="1667913107069" duration="11711000" />
+      <workItem from="1667964184019" duration="9040000" />
+      <workItem from="1667985542014" duration="3545000" />
+      <workItem from="1667997136105" duration="5000" />
+      <workItem from="1668000593414" duration="7553000" />
+      <workItem from="1668063860813" duration="3067000" />
+      <workItem from="1668069849432" duration="471000" />
+      <workItem from="1668075598971" duration="5444000" />
+      <workItem from="1668090292768" duration="4716000" />
+      <workItem from="1668140042200" duration="1606000" />
+      <workItem from="1668183752023" duration="2661000" />
+      <workItem from="1668247953741" duration="2328000" />
+      <workItem from="1668264732720" duration="7516000" />
+      <workItem from="1668323000524" duration="1127000" />
+      <workItem from="1668351343562" duration="194000" />
+      <workItem from="1668403422551" duration="15626000" />
+      <workItem from="1668509490094" duration="4618000" />
+      <workItem from="1668665899927" duration="5417000" />
+      <workItem from="1668682510805" duration="632000" />
+      <workItem from="1668696161938" duration="1199000" />
+      <workItem from="1668753670042" duration="2810000" />
+      <workItem from="1668768720410" duration="3791000" />
+      <workItem from="1668780760388" duration="5546000" />
+      <workItem from="1668966076880" duration="1842000" />
+      <workItem from="1669027607047" duration="14000" />
+      <workItem from="1669028940095" duration="628000" />
+      <workItem from="1669092745399" duration="3033000" />
+      <workItem from="1669121877992" duration="149000" />
+      <workItem from="1669825645830" duration="1116000" />
+      <workItem from="1670236373025" duration="17000" />
+      <workItem from="1670911192129" duration="626000" />
+      <workItem from="1671208528668" duration="526000" />
+      <workItem from="1673376551750" duration="308000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <created>1666846469495</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1666846469495</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Start implementation of indexing&#10;&#10;RootFile is done">
+      <created>1666855625320</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666855625320</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Progress on indexing and file system management">
+      <created>1666872827227</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666872827227</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Start implementation of Theme and basic window interactions&#10;&#10;Basic window interactions include :&#10;- Minimize&#10;- Maximize/Restore&#10;- Close">
+      <created>1666878562929</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666878562929</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Upgrade visual design">
+      <created>1666895425879</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1666895425879</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Modify default theme's accent color">
+      <created>1666895676235</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666895676235</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Upgrade colors">
+      <created>1666928554509</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1666928554509</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Create search engine for fields metadata related to music sheets. Add comments">
+      <created>1666956825971</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1666956825971</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Add speed test">
+      <created>1666958433086</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1666958433086</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Start implementation of SheetMusicLibrary#resolve">
+      <created>1666978603966</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1666978603966</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Develop search functionality and styling. Add clefs metadata">
+      <created>1667139243877</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1667139243878</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add image for artists automatically fetched from spotify API">
+      <created>1667205216145</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1667205216145</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Begin to implement Sheet Music display support">
+      <created>1667208836293</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1667208836293</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Begin implementation of MetadataCreator">
+      <created>1667307884632</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1667307884632</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Add &quot;Add New&quot; button">
+      <created>1667376130814</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1667376130814</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Instrument Creation is Working">
+      <created>1667382053365</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1667382053365</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Format creator">
+      <created>1667384110658</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1667384110658</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Add Music Genre, Music Category creators. Add dates for Artists">
+      <created>1667414774114</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1667414774114</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Create metadata, support for drag and drop mscz, mscx, pdf">
+      <created>1668143931976</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1668143931976</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Begin working on artist page">
+      <created>1668412772271</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1668412772271</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Begin working on SheetMusic Pages">
+      <created>1668682540208</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1668682540208</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Finish EditableArtist">
+      <created>1668757409402</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1668757409402</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Implement UI mode">
+      <created>1668784871640</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1668784871640</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit" />
+    <MESSAGE value="Start implementation of indexing&#10;&#10;RootFile is done" />
+    <MESSAGE value="Progress on indexing and file system management" />
+    <MESSAGE value="Start implementation of Theme and basic window interactions&#10;&#10;Basic window interactions include :&#10;- Minimize&#10;- Maximize/Restore&#10;- Close" />
+    <MESSAGE value="Upgrade visual design" />
+    <MESSAGE value="Modify default theme's accent color" />
+    <MESSAGE value="Upgrade colors" />
+    <MESSAGE value="Create search engine for fields metadata related to music sheets. Add comments" />
+    <MESSAGE value="Add speed test" />
+    <MESSAGE value="Start implementation of SheetMusicLibrary#resolve" />
+    <MESSAGE value="Develop search functionality and styling. Add clefs metadata" />
+    <MESSAGE value="Add image for artists automatically fetched from spotify API" />
+    <MESSAGE value="Begin to implement Sheet Music display support" />
+    <MESSAGE value="Begin implementation of MetadataCreator" />
+    <MESSAGE value="Add &quot;Add New&quot; button" />
+    <MESSAGE value="Instrument Creation is Working" />
+    <MESSAGE value="Format creator" />
+    <MESSAGE value="Add Music Genre, Music Category creators. Add dates for Artists" />
+    <MESSAGE value="Create metadata, support for drag and drop mscz, mscx, pdf" />
+    <MESSAGE value="Begin working on artist page" />
+    <MESSAGE value="Begin working on SheetMusic Pages" />
+    <MESSAGE value="Finish EditableArtist" />
+    <MESSAGE value="Implement UI mode" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement UI mode" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.fasterxml.jackson.databind.type.TypeBindings" memberName="_types" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((TypeBindings)((SimpleType)type)._bindings)._types" custom="com.fasterxml.jackson.databind.type.TypeBindings,com.fasterxml.jackson.databind.type.SimpleType" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SheetMusicLibrary$SerializationEngineTest.ic" NAME="SerializationEngineTest Coverage Results" MODIFIED="1666845532975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>fr.wollfie.sheetmusiclibrary.io.serialization.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/SheetMusicLibrary$MusicLibraryApplication.ic" NAME="MusicLibraryApplication Coverage Results" MODIFIED="1666840540086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>fr.wollfie.sheetmusiclibrary.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/SheetMusicLibrary$All.ic" NAME="All Coverage Results" MODIFIED="1666969648182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

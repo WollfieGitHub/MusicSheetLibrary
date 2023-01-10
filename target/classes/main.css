@@ -1,0 +1,44 @@
+@font-face {
+    font-family: ABeeZee;
+    src: url("fonts/AbeeZee-Regular.ttf");
+}
+
+* {
+    -fx-font-family: "ABeeZee";
+}
+
+.table-row-cell:odd {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+.table-row-cell:even {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.table-row-cell {
+    -fx-text-fill: white;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-cell-border-width: 0;
+}
+
+.table-view .column-overlay {
+    visibility: hidden;
+}
+
+.table-view .scroll-bar:vertical > .increment-button,
+.table-view .scroll-bar:vertical > .decrement-button {
+    -fx-padding: 1;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.vbox {
+    -fx-background-color: transparent;
+}
+
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+
+}

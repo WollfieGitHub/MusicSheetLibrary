@@ -1,0 +1,24 @@
+{
+    "firstNameOrNickname" : "Ludwig Van",
+    "lastName" : {
+        "value" : "Beethoven",
+        "present" : true
+    },
+    "yearOfBirth" : 1778,
+    "yearOfDeath" : {
+        "value" : 1826,
+        "present" : true
+    },
+    "musicGenres" : [
+        {
+            "valueUId" : "c643d2b1-d550-41ca-8afc-e9e31c200ae9",
+            "type" : "MusicGenre"
+        }
+    ],
+    "imageUrl" : {
+        "fetched" : false,
+        "found" : false,
+        "imageUrl" : ""
+    },
+    "UId" : "cfc8dabf-68f5-4e91-9a12-3fe5c043396e"
+}

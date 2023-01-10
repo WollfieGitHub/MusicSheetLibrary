@@ -1,0 +1,11 @@
+
+.titled-pane .title {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+.titled-pane .content {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 5;
+    -fx-border-width: 0 0 0 2;
+}
