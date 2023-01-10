@@ -55,23 +55,55 @@ public class Utils {
      * @param samples The number of samples to take
      * @return A linear gradient string
      */
-    public static String generateGradient(String direction, Color c1, Color c2, Curve curve, int samples) {
+    public static String generateGradient(BackgroundDirection direction, Color c1, Color c2, Curve curve, int samples) {
+        return generateGradient(direction, c1, c2, curve, samples, 1.0f);
+    }
+    
+    /**
+     * Generate a css linear-gradient instruction with
+     * @param direction The direction of the gradient e.g. <code language="CSS">to top</code>
+     * @param c1 Starting color
+     * @param c2 End color
+     * @param curve The curve to follow while applying the gradient
+     * @param samples The number of samples to take
+     * @param stopRatio The ratio of the total space at which the background should stop,
+     *                  the background will be interpolated until here
+     * @return A linear gradient string
+     */
+    public static String generateGradient(BackgroundDirection direction, Color c1, Color c2, Curve curve, int samples, float stopRatio) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("linear-gradient(%s, ", direction));
+        stringBuilder.append(String.format("linear-gradient(%s, ", direction.cssIdentifier));
 
         double position, ratio;
         String positionPercent, resultingColor;
         for (int i = 0; i < samples; i++) {
             position = i / (double)samples;
-            positionPercent = (position*100) + "%";
+            positionPercent = (position*100*stopRatio) + "%";
             
             ratio = curve.apply(position);
             resultingColor = toRGBCode(interpolate(c1, c2, ratio));
             stringBuilder.append(String.format("%s %s,", resultingColor, positionPercent));
         }
-        stringBuilder.append(String.format("%s %s)", toRGBCode(c2), "100%"));
+        positionPercent = (100*stopRatio) + "%";
+        stringBuilder.append(String.format("%s %s)", toRGBCode(c2), positionPercent));
         
         return stringBuilder.toString();
+    }
+    
+    public enum BackgroundDirection {
+        TO_TOP("to top"),
+        TO_RIGHT("to right"),
+        TO_BOT("to bottom"),
+        TO_LEFT("to left"),
+        ;
+        
+        private final String cssIdentifier;
+
+        BackgroundDirection(String cssIdentifier) {
+            this.cssIdentifier = cssIdentifier;
+        }
+
+        public String getCssIdentifier() { return cssIdentifier; }
     }
     
 // //======================================================================================\\

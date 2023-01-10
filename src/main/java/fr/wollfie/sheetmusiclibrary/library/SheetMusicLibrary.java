@@ -17,7 +17,6 @@ public final class SheetMusicLibrary {
     
     public static final File DEFAULT_LOCATION = new File(System.getProperty("user.home") + File.separator + "SheetMusicLibrary");
     
-    private static File rootFileObject;
     private static String baseDirectory;
 
     /**
@@ -49,7 +48,6 @@ public final class SheetMusicLibrary {
         rootFileLocation.mkdir();
 
         baseDirectory = rootFileLocation.getAbsolutePath();
-        rootFileObject = new File(rootFileLocation, "music_library_root.json");
         
         Logger.infof("Location of the library set to \"%s\"", rootFileLocation.getAbsolutePath());
         
@@ -72,8 +70,7 @@ public final class SheetMusicLibrary {
         for (MetadataType type : MetadataType.values()) {
             File directory = new File(baseDirectory, type.displayName);
             directory.mkdir();
-            File indexFile = new File(directory,
-                    type.displayName + "_index.json");
+            File indexFile = new File(directory, type.displayName + "_index.json");
             
             indices.put(type.displayName, MetadataIndex.createFrom((Class<? extends MetadataObject>) type.metadataClass, indexFile));
         }

@@ -112,20 +112,7 @@ public class MusescoreFileAdapter {
                 .findFirst();
 
         if (artist.isEmpty() && composerName != null) {
-            String[] composerNames = composerName.split(" ");
-            String composerLastName = composerNames.length > 1 
-                    ? composerNames[composerNames.length-1]
-                    : null;
-            
-            String composerFirstName = Arrays.stream(composerNames)
-                    .limit(composerNames.length-1)
-                    .collect(Collectors.joining(" "));
-            
-            artist = Optional.of(new Artist(
-                    composerFirstName,
-                    composerLastName,
-                    0, null
-            ));
+            artist = Optional.of(new Artist(composerName, 0, null));
             SheetMusicLibrary.tryInsert(artist.get());
         }
 

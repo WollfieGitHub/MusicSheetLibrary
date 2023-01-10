@@ -62,7 +62,7 @@ public final class SheetMusicDisplayAdapter extends DisplayAdapter<SheetMusic> {
         cell.getChildren().addAll(nameLabel);
 
         if (sheetMusic.isArtistKnown()) {
-            Label artistLabel = new ClickableLabel(sheetMusic.getArtistRef().getValue().fullName());
+            Label artistLabel = new ClickableLabel(sheetMusic.getArtistRef().getValue().getName());
             artistLabel.setStyle("-fx-text-fill: " +
                     Utils.toRGBCode(ThemeManager.getTextColorFrom(null).darker())+ ";" +
                     "-fx-font-size: " + FontSize.DEFAULT_H3 + ";");

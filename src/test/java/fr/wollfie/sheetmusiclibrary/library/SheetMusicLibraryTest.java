@@ -70,7 +70,7 @@ final class SheetMusicLibraryTest {
         
         assertNotNull(results);
         assertThat(results.isEmpty(), is(false));
-        assertThat(results.get(0).getLastName(), is(VALID_ARTIST_1.getLastName()));
+        assertThat(results.get(0).getName(), is(VALID_ARTIST_1.getName()));
     }
     
     @Test void validFileNameLoadsValidSheetMusicMetadata() {

@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignB;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignG;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 
 import java.util.Arrays;
@@ -58,12 +59,12 @@ public class PageDisplayHandler extends StackPane implements CenterSceneContent 
     private FontIcon getUIModeIcon(UIMode mode) {
         return switch (mode) {
             case EDIT -> new ClickableFontIcon(
-                    MaterialDesignP.PENCIL,
+                    MaterialDesignG.GLASSES,
                     ThemeManager.getWhiteColor(),FontSize.DEFAULT_MEDIUM_ICON,
                     this::nextUIMode
             );
             case READ_ONLY -> new ClickableFontIcon(
-                    MaterialDesignB.BOOK,
+                    MaterialDesignP.PENCIL,
                     ThemeManager.getWhiteColor(), FontSize.DEFAULT_MEDIUM_ICON,
                     this::nextUIMode
             );

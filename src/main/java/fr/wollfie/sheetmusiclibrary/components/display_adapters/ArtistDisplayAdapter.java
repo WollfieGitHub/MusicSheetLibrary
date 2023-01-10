@@ -47,7 +47,6 @@ public final class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
                 ? artist.getImageUrl().getImage()
                 : null;
         Circle circle = new Circle(radius);
-        Logger.debug(image);
         if (image != null && !image.isError()) { circle.setFill(new ImagePattern(image)); }
         // Drop a shadow
         circle.setEffect(new DropShadow(10, 0, 0, ThemeManager.colorFrom(
@@ -58,7 +57,7 @@ public final class ArtistDisplayAdapter extends DisplayAdapter<Artist> {
 
     /** Generates a name label for the artist and its dates (birth & death) */
     private static Node getArtistNameComponent(Artist artist) {
-        Label label = new Label(artist.fullName());
+        Label label = new Label(artist.getName());
         label.setStyle("-fx-text-fill: " + ThemeManager.getTextColorHexFrom(null) + ";" +
                 "-fx-font-size: " + FontSize.DEFAULT_H2 + ";");
 

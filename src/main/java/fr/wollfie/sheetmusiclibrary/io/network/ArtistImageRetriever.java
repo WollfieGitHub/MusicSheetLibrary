@@ -50,7 +50,7 @@ public final class ArtistImageRetriever {
             Logger.error(responseString);
         }
         
-        HttpGet imageRetrievalReq = new HttpGet(imageRetrievalAddress(artist.fullName()));
+        HttpGet imageRetrievalReq = new HttpGet(imageRetrievalAddress(artist.getName()));
         imageRetrievalReq.addHeader("Authorization", "Bearer " + token);
         String imageAddress = null;
         responseString = "No response string found";

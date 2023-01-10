@@ -1,6 +1,5 @@
 package fr.wollfie.sheetmusiclibrary.dto;
 
-import fr.wollfie.sheetmusiclibrary.utils.LingualString;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +36,7 @@ public class DtosTest {
 // \\======================================================================================//
     
     @Test void artistHasNameAndYearsAsSearchableString() {
-        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getLastName()), is(true));
-        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getFirstNameOrNickname()), is(true));
+        assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(VALID_ARTIST_1.getName()), is(true));
         assertThat(VALID_ARTIST_1.getSearchableTokenFields().contains(String.valueOf(VALID_ARTIST_1.getYearOfBirth())), is(true));
     }
 }
